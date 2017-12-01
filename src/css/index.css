@@ -1,0 +1,30 @@
+body, html, #body, #main-frame {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: none;
+}
+
+#main-frame {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.frame {
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+#map-frame, #city-frame {
+    width: 70%;
+    height: 50%;
+}
+
+#work-frame {
+    height: 100%;
+    width: 30%;
+}
+
