@@ -1,0 +1,26 @@
+{
+    "helsinki": {
+        "name": "Helsinki"
+    },
+    "london": {
+        "name": "London"
+    },
+    "paris": {
+        "name": "Paris"
+    },
+    "berlin": {
+        "name": "Berlin"
+    },
+    "moscow": {
+        "name": "Moscow"
+    },
+    "athens": {
+        "name": "Athens"
+    },
+    "madrid": {
+        "name": "Madrid"
+    },
+    "tokyo": {
+        "name": "Tokyo"
+    }
+}

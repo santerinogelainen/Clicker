@@ -1,11 +1,18 @@
 import { Outlet, Company } from "./company";
 
+export interface CityProps {
+    name: string;
+}
+
 export class City {
 
+    id: string;
+    name: string;
     outlets: Array<Outlet>;
 
-    constructor() {
-
+    constructor(id: string, props: CityProps) {
+        this.id = id;
+        this.name = props.name;
     }
 
     /**
@@ -18,7 +25,7 @@ export class City {
     }
 
     /**
-     * adds a new outlet to the city
+     * adds a new outlet to the city if it doesn't exist yet
      * @param company companies' props
      * @returns outlet added or not
      */

@@ -1,10 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as $ from "jquery";
-
-import {MainFrame} from "./components/frames/mainframe";
+import {Game} from "./components/game";
 
 ReactDOM.render(
-    <MainFrame/>,
+    <Game/>,
     $("#body")[0]
 );

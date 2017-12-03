@@ -1,8 +1,8 @@
 module.exports = {
-    entry: "./src/index.tsx",
+    entry: ["./src/index.tsx", "./src/sass/index.scss"],
     output: {
         filename: "bundle.js",
-        path: __dirname + "/dist/"
+        path: __dirname + "/js/"
     },
 
     devtool: "source-map",
@@ -12,6 +12,28 @@ module.exports = {
     module: {
         rules: [
             { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+            { test: /\.scss$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].css',
+                            outputPath: '../css/'
+                        }
+                    },
+                    {
+                        loader: 'extract-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    }
+                ]},
             { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
         ]
     },
