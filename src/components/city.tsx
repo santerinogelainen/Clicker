@@ -1,6 +1,6 @@
 import { Outlet, Company } from "./company";
 
-export interface CityProps {
+interface CityProps {
     name: string;
 }
 
@@ -9,6 +9,7 @@ export class City {
     id: string;
     name: string;
     outlets: Array<Outlet>;
+    isselected: boolean;
 
     constructor(id: string, props: CityProps) {
         this.id = id;

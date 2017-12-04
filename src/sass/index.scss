@@ -37,6 +37,7 @@ body, html, #body, #main-frame {
 
 #city-info-frame {
     width: 40%;
+    position: relative;
     float: left;
 }
 
@@ -50,15 +51,19 @@ body, html, #body, #main-frame {
 */
 
 $selected-city-height: 40px;
+$select-color: white;
+$select-secondary-color: #f2f2f2;
 
 .selected-city > .icon {
     font-size: 10px;
 }
 
 .selected-city {
-    padding: 0 5px 0 5px;
-    height: 40px;
-    line-height: 40px;
+    padding-right: 5px;
+    padding-left: 5px;
+    background-color: $select-color;
+    height: $selected-city-height;
+    line-height: $selected-city-height;
     font-size: 20px;
     font-weight: 700;
     display: flex;
@@ -66,13 +71,16 @@ $selected-city-height: 40px;
 }
 
 .selected-city:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: $select-secondary-color;
     cursor: pointer;
 }
 
 .select-options {
-    cursor: pointer;
+    top: 0;
     width: 100%;
+    background-color: $select-color;
+    cursor: pointer;
+    position: absolute;
     max-height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -80,12 +88,12 @@ $selected-city-height: 40px;
 
 .select-option {
     padding: 1px 5px 1px 5px;
-    max-width: 100%;
+    width: 100%;
     text-overflow: ellipsis;
 }
 
 .select-option:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: $select-secondary-color;
 }
 
 .selected-city > .name {

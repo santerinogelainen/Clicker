@@ -1,8 +1,9 @@
 import {Company} from "./company";
 import * as React from "react";
 import {Map} from "./map";
-import {Frame} from "./frame";
-import {WorkFrame} from "./workframe";
+import {MapFrame} from "./frames/mapframe";
+import {Frame} from "./frames/frame";
+import {WorkFrame} from "./frames/workframe";
 
 export class Game extends React.Component {
 
@@ -11,7 +12,7 @@ export class Game extends React.Component {
     
     constructor(props: any) {
         super(props);
-        this.map = new Map(null);
+        this.map = new Map();
     }
 
     public newCompany(company: Company){
@@ -22,7 +23,7 @@ export class Game extends React.Component {
         return (
             <Frame frameId="main">
                 <WorkFrame/>
-                {this.map.render()}
+                <MapFrame map={this.map}/>
             </Frame>
         );
     }
