@@ -111,7 +111,7 @@ module.exports = $;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(4);
-module.exports = __webpack_require__(18);
+module.exports = __webpack_require__(17);
 
 
 /***/ }),
@@ -155,7 +155,7 @@ var React = __webpack_require__(0);
 var map_1 = __webpack_require__(7);
 var mapframe_1 = __webpack_require__(11);
 var frame_1 = __webpack_require__(1);
-var workframe_1 = __webpack_require__(17);
+var workframe_1 = __webpack_require__(16);
 var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
     function Game(props) {
@@ -193,8 +193,30 @@ var Map = /** @class */ (function () {
         this.initCities();
         // sort cities
         this.cities.sort(function (a, b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0; });
-        this.selected = this.cities[0];
+        this.setSelected(0);
     }
+    Map.prototype.setSelected = function (x) {
+        if (typeof x == "number") {
+            this.selected = this.cities[x];
+        }
+        else {
+            var city = this.findCityById(x);
+            this.selected = city;
+        }
+    };
+    /**
+     * Searches and returns a city by it's id
+     * @param id id of the city
+     * @returns city found or null if not found
+     */
+    Map.prototype.findCityById = function (id) {
+        for (var i = 0; i < this.cities.length; i++) {
+            if (this.cities[i].id == id) {
+                return this.cities[i];
+            }
+        }
+        return null;
+    };
     /**
      * Adds a city to the map
      * @param city the city to add
@@ -297,7 +319,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var selectedcityframe_1 = __webpack_require__(12);
-var mapcanvasframe_1 = __webpack_require__(16);
+var mapcanvasframe_1 = __webpack_require__(15);
 var frame_1 = __webpack_require__(1);
 var MapFrame = /** @class */ (function (_super) {
     __extends(MapFrame, _super);
@@ -401,29 +423,53 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var cityoption_1 = __webpack_require__(15);
-var CitySelectProps = /** @class */ (function () {
-    function CitySelectProps() {
-    }
-    return CitySelectProps;
-}());
-exports.CitySelectProps = CitySelectProps;
 var CitySelect = /** @class */ (function (_super) {
     __extends(CitySelect, _super);
     function CitySelect() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.selectOption = function (e) {
+            var id = $(e.target).attr("data-id");
+            _this.props.map.setSelected(id);
+            $(".select-option").show();
+            _this.forceUpdate();
+            _this.hideOptions();
+        };
+        _this.enterInput = function (e) {
+            if (e.keyCode == 13) {
+                e.target = $(".select-option:visible")[0];
+                _this.selectOption(e);
+            }
+        };
+        _this.searchInput = function (e) {
+            $(".select-option").hide();
+            $(".select-option").filter(function () {
+                var reg = new RegExp("" + $(".select-search").val(), "i");
+                return reg.test($(this).text());
+            }).show();
+        };
+        return _this;
     }
+    CitySelect.prototype.showOptions = function () {
+        $(".select-options").show();
+        $(".select-search").focus();
+    };
+    CitySelect.prototype.hideOptions = function () {
+        $(".select-options").hide();
+        $(".select-search").val("");
+    };
     CitySelect.prototype.render = function () {
         var _this = this;
         var options = new Array();
-        this.props.map.cities.forEach(function (city) {
-            options.push(React.createElement(cityoption_1.CityOption, { key: city.id, city: city, map: _this.props.map }));
+        this.props.map.cities.forEach(function (city, index) {
+            options.push(React.createElement("div", { key: index, className: "select-option", "data-id": city.id, onClick: function (e) { return _this.selectOption(e); } }, city.name));
         });
         return (React.createElement("div", { className: "city-select" },
-            React.createElement("div", { className: "selected-city" },
+            React.createElement("div", { className: "selected-city", onClick: this.showOptions, "data-id": this.props.map.selected.id },
                 React.createElement("span", { className: "name" }, this.props.map.selected.name),
                 React.createElement("span", { className: "icon" }, "\u25BC")),
-            React.createElement("div", { className: "select-options" }, options)));
+            React.createElement("div", { className: "select-options" },
+                React.createElement("input", { type: "text", className: "select-search", placeholder: "Search", onInput: function (e) { return _this.searchInput(e); }, onKeyDown: function (e) { return _this.enterInput(e); } }),
+                options)));
     };
     return CitySelect;
 }(React.Component));
@@ -432,44 +478,6 @@ exports.CitySelect = CitySelect;
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var $ = __webpack_require__(2);
-var CityOption = /** @class */ (function (_super) {
-    __extends(CityOption, _super);
-    function CityOption() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    CityOption.prototype.handleClick = function (e) {
-        this.props.map.selected = this.props.city;
-        console.log(this.props.map.selected);
-        $(e.target).parent().hide();
-    };
-    CityOption.prototype.render = function () {
-        var _this = this;
-        return React.createElement("div", { className: "select-option", onClick: function (e) { return _this.handleClick(e); } }, this.props.city.name);
-    };
-    return CityOption;
-}(React.Component));
-exports.CityOption = CityOption;
-
-
-/***/ }),
-/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -501,7 +509,7 @@ exports.MapCanvasFrame = MapCanvasFrame;
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -533,7 +541,7 @@ exports.WorkFrame = WorkFrame;
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";

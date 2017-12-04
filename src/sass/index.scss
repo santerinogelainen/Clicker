@@ -53,18 +53,19 @@ body, html, #body, #main-frame {
 $selected-city-height: 40px;
 $select-color: white;
 $select-secondary-color: #f2f2f2;
+$selected-city-font-size: 20px;
+$selected-city-padding: 0 5px 0 5px;
 
 .selected-city > .icon {
     font-size: 10px;
 }
 
 .selected-city {
-    padding-right: 5px;
-    padding-left: 5px;
+    padding: $selected-city-padding;
     background-color: $select-color;
     height: $selected-city-height;
     line-height: $selected-city-height;
-    font-size: 20px;
+    font-size: $selected-city-font-size;
     font-weight: 700;
     display: flex;
     justify-content: space-between;
@@ -75,14 +76,23 @@ $select-secondary-color: #f2f2f2;
     cursor: pointer;
 }
 
+.select-search {
+    height: $selected-city-height;
+    width: 100%;
+    font-size: $selected-city-font-size;
+    padding: $selected-city-padding;
+    border: none;
+}
+
 .select-options {
     top: 0;
+    display: none;
     width: 100%;
     background-color: $select-color;
     cursor: pointer;
     position: absolute;
     max-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
