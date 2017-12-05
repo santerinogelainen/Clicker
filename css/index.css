@@ -114,7 +114,20 @@ body, html, #body, #main-frame {
 * WORK FRAME
 */
 #total-frame {
-  height: 200px; }
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  font-size: 30px; }
+
+#work {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 0 auto; }
 
 #click-frame {
-  height: auto; }
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }

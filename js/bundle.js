@@ -162,10 +162,14 @@ var Game = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.companies = new Array();
         _this.perClick = 1;
+        _this.mpd = 0;
         _this.totalMoney = 0;
         _this.map = new map_1.Map();
         return _this;
     }
+    /**
+     * "Work" (click) for money
+     */
     Game.prototype.work = function () {
         this.totalMoney += this.perClick;
     };

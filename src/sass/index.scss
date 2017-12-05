@@ -126,10 +126,23 @@ $selected-city-padding: 0 5px 0 5px;
 * WORK FRAME
 */
 
+$totalframeheight: 200px;
+
 #total-frame {
+    height: $totalframeheight;
+    line-height: $totalframeheight;
+    text-align: center;
+    font-size: 30px;
+}
+
+#work {
+    width: 200px;
     height: 200px;
+    margin: 0 auto 0 auto;
+
 }
 
 #click-frame {
-    height: auto;
+    display: flex;
+    justify-content: center;
 }

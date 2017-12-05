@@ -1,23 +1,23 @@
 import {Company} from "./company";
-import * as React from "react";
 import {Map} from "./map";
-import {MapFrame} from "./frames/mapframe";
-import {Frame} from "./frames/frame";
-import {WorkFrame} from "./frames/workframe";
 
-export class Game extends React.Component {
+export class Game {
 
     companies: Array<Company> = new Array<Company>();
     totalMoney: number;
+    mpd: number;
     perClick: number = 1;
     map: Map;
     
-    constructor(props: any) {
-        super(props);
+    constructor() {
+        this.mpd = 0;
         this.totalMoney = 0;
         this.map = new Map();
     }
 
+    /**
+     * "Work" (click) for money
+     */
     work() {
         this.totalMoney += this.perClick;
     }
@@ -28,15 +28,6 @@ export class Game extends React.Component {
      */
     public newCompany(company: Company){
         this.companies.push(company);
-    }
-
-    render() {
-        return (
-            <Frame frameId="main">
-                <WorkFrame game={this}/>
-                <MapFrame map={this.map}/>
-            </Frame>
-        );
     }
 
 }
