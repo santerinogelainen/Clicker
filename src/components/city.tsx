@@ -1,18 +1,22 @@
 import { Outlet, Company } from "./company";
+import * as React from "react";
 
 interface CityProps {
     name: string;
+    icon: string;
 }
 
 export class City {
 
     id: string;
     name: string;
+    icon: JSX.Element;
     outlets: Array<Outlet>;
 
     constructor(id: string, props: CityProps) {
         this.id = id;
         this.name = props.name;
+        this.icon = <img className="city-icon" src={props.icon}/>;
     }
 
     /**

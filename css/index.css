@@ -96,3 +96,25 @@ body, html, #body, #main-frame {
 .selected-city > .name {
   max-width: 100%;
   text-overflow: ellipsis; }
+
+#selected-city-icon-frame {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.city-icon {
+  height: 100px;
+  width: 100px;
+  margin-top: 25px; }
+
+/*
+* WORK FRAME
+*/
+#total-frame {
+  height: 200px; }
+
+#click-frame {
+  height: auto; }

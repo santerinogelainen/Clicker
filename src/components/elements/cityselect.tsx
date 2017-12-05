@@ -3,28 +3,41 @@ import {Map} from "../map";
 
 interface CitySelectProps {
     map: Map;
+    update?: Function;
 }
 
 export class CitySelect extends React.Component<CitySelectProps> {
     
+    /**
+     * Shows all the select options
+     */
     showOptions() {
         $(".select-options").show();
         $(".select-search").focus();
     }
 
+    /**
+     * Hides all the select options
+     */
     hideOptions() {
         $(".select-options").hide();
         $(".select-search").val("");
     }
 
+    /**
+     * Selects an option, set e.target to specify which element to select
+     */
     selectOption = (e) => {
         let id = $(e.target).attr("data-id");
         this.props.map.setSelected(id);
         $(".select-option").show();
-        this.forceUpdate();
+        this.props.update();
         this.hideOptions();
     }
 
+    /**
+     * Selects an option on enter click
+     */
     enterInput = (e) => {
         if (e.keyCode == 13) {
             e.target = $(".select-option:visible")[0];
@@ -32,6 +45,9 @@ export class CitySelect extends React.Component<CitySelectProps> {
         }
     }
 
+    /**
+     * Search for cities (oninput event)
+     */
     searchInput = (e) => {
         $(".select-option").hide();
         $(".select-option").filter(function(): boolean {

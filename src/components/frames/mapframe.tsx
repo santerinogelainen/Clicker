@@ -10,11 +10,15 @@ interface MapFrameProps {
 
 export class MapFrame extends React.Component<MapFrameProps> {
 
+    update = () => {
+        this.forceUpdate();
+    }
+
     render() {
         return (
             <Frame frameId="map">
-                <MapCanvasFrame map={this.props.map}/>
-                <SelectedCityFrame map={this.props.map}/>
+                <MapCanvasFrame map={this.props.map} update={this.update}/>
+                <SelectedCityFrame map={this.props.map} update={this.update}/>
             </Frame>
         );
     }

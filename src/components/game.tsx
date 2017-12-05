@@ -8,13 +8,24 @@ import {WorkFrame} from "./frames/workframe";
 export class Game extends React.Component {
 
     companies: Array<Company> = new Array<Company>();
+    totalMoney: number;
+    perClick: number = 1;
     map: Map;
     
     constructor(props: any) {
         super(props);
+        this.totalMoney = 0;
         this.map = new Map();
     }
 
+    work() {
+        this.totalMoney += this.perClick;
+    }
+
+    /**
+     * adds a new company
+     * @param company company that is added
+     */
     public newCompany(company: Company){
         this.companies.push(company);
     }
@@ -22,7 +33,7 @@ export class Game extends React.Component {
     render() {
         return (
             <Frame frameId="main">
-                <WorkFrame/>
+                <WorkFrame game={this}/>
                 <MapFrame map={this.map}/>
             </Frame>
         );

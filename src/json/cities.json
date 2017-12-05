@@ -1,26 +1,34 @@
 {
     "helsinki": {
-        "name": "Helsinki"
+        "name": "Helsinki",
+        "icon": "./img/placeholder.svg"
     },
     "london": {
-        "name": "London"
+        "name": "London",
+        "icon": "./img/placeholder.svg"
     },
     "paris": {
-        "name": "Paris"
+        "name": "Paris",
+        "icon": "./img/placeholder.svg"
     },
     "berlin": {
-        "name": "Berlin"
+        "name": "Berlin",
+        "icon": "./img/placeholder.svg"
     },
     "moscow": {
-        "name": "Moscow"
+        "name": "Moscow",
+        "icon": "./img/placeholder.svg"
     },
     "athens": {
-        "name": "Athens"
+        "name": "Athens",
+        "icon": "./img/placeholder.svg"
     },
     "madrid": {
-        "name": "Madrid"
+        "name": "Madrid",
+        "icon": "./img/placeholder.svg"
     },
     "tokyo": {
-        "name": "Tokyo"
+        "name": "Tokyo",
+        "icon": "./img/placeholder.svg"
     }
 }

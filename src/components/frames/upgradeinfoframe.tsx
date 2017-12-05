@@ -4,6 +4,7 @@ import {Map} from "../map";
 
 interface UpgradeInfoFrameProps {
     map: Map;
+    update?: Function;
 }
 
 export class UpgradeInfoFrame extends React.Component<UpgradeInfoFrameProps> {

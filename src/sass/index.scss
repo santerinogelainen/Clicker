@@ -111,3 +111,25 @@ $selected-city-padding: 0 5px 0 5px;
     text-overflow: ellipsis;
 }
 
+#selected-city-icon-frame {
+    display: flex;
+    justify-content: center;
+}
+
+.city-icon {
+    height: 100px;
+    width: 100px;
+    margin-top: 25px;
+}
+
+/*
+* WORK FRAME
+*/
+
+#total-frame {
+    height: 200px;
+}
+
+#click-frame {
+    height: auto;
+}
