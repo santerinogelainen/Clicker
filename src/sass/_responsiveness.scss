@@ -1,0 +1,18 @@
+/*
+*   Functions and variables for a responsive design
+*/
+
+$breakpoints: (
+    small: 767px,
+    medium: 992px,
+    large: 1200px
+);
+
+/*
+* Styles for screen sizes large, medium or small
+*/
+@mixin screen($breakpoint) {
+    @media screen and (max-width: map-get($breakpoints, $breakpoint)) {
+        @content;
+    }
+}

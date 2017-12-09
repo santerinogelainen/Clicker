@@ -1,0 +1,50 @@
+/*
+*   COLORS
+*   see: https://flatuicolors.com/
+*/
+
+/*
+* Raw color data in a map
+*/
+$colors: (
+    'green': #2ecc71,
+    'darkgreen': #27ae60,
+    'blue': #3498db,
+    'darkblue': #2980b9,
+    'purple': #9b59b6,
+    'darkpurple': #8e44ad,
+    'yellow': #f1c40f,
+    'darkyellow': #f39c12,
+    'orange': #e67e22,
+    'darkorange': #d35400,
+    'red': #e74c3c,
+    'darkred': #c0392b,
+    'white': #ecf0f1,
+    'darkwhite': #bdc3c7,
+    'gray': #95a5a6,
+    'darkgray': #7f8c8d,
+    'black': #1a1a1a,
+    'darkblack': #000000
+);
+
+/*
+* Returns a color from the map
+*/
+@function color($color) {
+    @if (map-has-key($colors, $color)) {
+        @return map-get($colors, $color);
+    } @else {
+        @error "Color #{$color} not found.";
+    }
+}
+
+/*
+* Sets the bg of the element and dark version of the color for hover
+*/
+@mixin dark-on-hover($color) {
+    background-color: color($color);
+    &:hover {
+        $key: "dark#{$color}";
+        background-color: map-get($colors, $key);
+    }
+}

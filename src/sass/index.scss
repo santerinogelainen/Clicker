@@ -1,8 +1,28 @@
-body, html, #body, #main-frame {
-    padding: 0;
-    margin: 0;
+@import "colors";
+@import "responsiveness";
+
+/*
+*   MIXINS
+*/
+
+@mixin parent-size() {
     width: 100%;
     height: 100%;
+}
+
+@mixin no-selection() {
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/*
+*   BASICS
+*/
+
+body, html, #body, #main-frame, #game-frame {
+    padding: 0;
+    margin: 0;
+    @include parent-size();
     overflow: hidden;
     border: none;
     font-family: "Roboto", sans-serif;
@@ -13,7 +33,7 @@ body, html, #body, #main-frame {
 *   FRAMES
 */
 
-#main-frame {
+#game-frame {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -51,8 +71,8 @@ body, html, #body, #main-frame {
 */
 
 $selected-city-height: 40px;
-$select-color: white;
-$select-secondary-color: #f2f2f2;
+$select-color: color('white');
+$select-secondary-color: color('darkwhite');
 $selected-city-font-size: 20px;
 $selected-city-padding: 0 5px 0 5px;
 
@@ -69,6 +89,10 @@ $selected-city-padding: 0 5px 0 5px;
     font-weight: 700;
     display: flex;
     justify-content: space-between;
+}
+
+.city-select {
+    @include no-selection();
 }
 
 .selected-city:hover {
@@ -136,6 +160,7 @@ $totalframeheight: 200px;
 }
 
 #work {
+    @include no-selection();
     width: 200px;
     height: 200px;
     margin: 0 auto 0 auto;
@@ -145,4 +170,55 @@ $totalframeheight: 200px;
 #click-frame {
     display: flex;
     justify-content: center;
+}
+
+/*
+*   MODALS
+*/
+
+$modalbg: rgba(0,0,0,0.5);
+$modalcolor: color('white');
+$modalno: 'red';
+$modalyes: 'green';
+$modalok: 'green';
+
+.modal-bg {
+    z-index: 100;
+    @include parent-size();
+    background-color: $modalbg;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.modal {
+    background-color: $modalcolor;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 500px;
+    height: auto;
+}
+
+.modal-buttons {
+    overflow: auto;
+}
+
+.modal-button {
+    float: right;
+    border: none;
+    padding: 5px;
+    color: white;
+}
+
+.modal-button-no {
+    float: left;
+    @include dark-on-hover($modalno);
+}
+
+.modal-button-yes {
+    @include dark-on-hover($modalyes);
+}
+
+.modal-button-ok {
+    @include dark-on-hover($modalok);
 }

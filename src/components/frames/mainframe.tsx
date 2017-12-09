@@ -6,34 +6,37 @@ import {Modal, ModalType} from "../elements/modal";
 import {WorkFrame} from "./workframe";
 
 export interface MainFrameProps {
-    showStartingModal: boolean;
     game: Game;
 }
 
 export class MainFrame extends React.Component<MainFrameProps> {
 
-    createFirstCompany = () => {
+    createCompany = () => {
+        let nameinput = $("#company-name-input");
+        // check if company name is empty
+        let cname = nameinput.val().toString();
+        if (cname.length == 0) {
+            return false;
+        }
+        // create new company
         this.props.game.newCompany({
-            name: $()
+            name: cname
         });
+        // empty name input
+        nameinput.val("");
+        return true;
     }
 
     render() {
-        let modal = null;
-        if (this.props.showStartingModal) {
-            modal = (
-                <Modal type={ModalType.OK} onOKClick={this.createFirstCompany}>
-                    <input type="text"/>
-                </Modal>
-            );
-        }
         return (
-            <Modal type={ModalType.OK} onOKClick={this.createFirstCompany}>
-                <input type="text"/>
-            </Modal>
             <Frame frameId="main">
-                <WorkFrame game={this.props.game}/>
-                <MapFrame map={this.props.game.map}/>
+                <Modal id="new-company" type={ModalType.OK} onOKClick={this.createCompany}>
+                    <input type="text" id="company-name-input" />
+                </Modal>
+                <Frame frameId="game">
+                    <WorkFrame game={this.props.game}/>
+                    <MapFrame map={this.props.game.map}/>
+                </Frame>
             </Frame>
         );
     }
