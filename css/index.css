@@ -56,8 +56,15 @@ body, html, #body, #main-frame, #game-frame {
 #work-frame {
   width: 30%; }
 
-#selected-city-frame, #canvas-frame {
-  height: 50%; }
+#selected-city-frame {
+  height: 40%; }
+
+#canvas-frame {
+  height: 60%; }
+
+#stats-frame {
+  display: none;
+  width: 70%; }
 
 #city-info-frame {
   width: 40%;
@@ -176,6 +183,15 @@ body, html, #body, #main-frame, #game-frame {
   z-index: 100;
   width: 100%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
@@ -186,16 +202,21 @@ body, html, #body, #main-frame, #game-frame {
   box-sizing: border-box;
   padding: 10px;
   width: 500px;
-  height: auto; }
+  height: auto;
+  border-radius: 5px; }
 
 .modal-buttons {
-  overflow: auto; }
+  overflow: auto;
+  padding-top: 10px; }
 
 .modal-button {
   float: right;
   border: none;
   padding: 5px;
-  color: white; }
+  color: white;
+  min-width: 40px;
+  border-radius: 2px;
+  cursor: pointer; }
 
 .modal-button-no {
   float: left;
@@ -212,3 +233,69 @@ body, html, #body, #main-frame, #game-frame {
   background-color: #2ecc71; }
   .modal-button-ok:hover {
     background-color: #27ae60; }
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom: 10px; }
+
+/*
+*   INPUTS
+*/
+.input-title {
+  padding: 3px 0 3px 0;
+  font-weight: 300; }
+
+.text-input {
+  width: 100%;
+  padding: 5px 3px 5px 3px;
+  font-size: 15px;
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid #bdc3c7;
+  border-radius: 2px; }
+
+/*
+*   NAVIGATION
+*/
+#navigation-frame {
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ecf0f1; }
+
+.nav-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  width: auto;
+  height: 50px;
+  padding-right: 20px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-touch-callout: none; }
+
+.nav-button {
+  display: inline-block;
+  line-height: 50px;
+  padding: 0 20px 0 20px;
+  cursor: pointer;
+  background-color: #ecf0f1; }
+  .nav-button:hover {
+    background-color: #bdc3c7; }
+
+#main-frame {
+  padding-top: 50px; }

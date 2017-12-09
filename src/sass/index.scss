@@ -15,6 +15,19 @@
     -webkit-touch-callout: none;
 }
 
+@mixin center-flex() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin center-absolute() {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /*
 *   BASICS
 */
@@ -33,6 +46,9 @@ body, html, #body, #main-frame, #game-frame {
 *   FRAMES
 */
 
+$leftside: 30%;
+$rightside: 70%;
+
 #game-frame {
     display: flex;
     flex-direction: column;
@@ -44,15 +60,24 @@ body, html, #body, #main-frame, #game-frame {
 }
 
 #map-frame {
-    width: 70%;
+    width: $rightside;
 }
 
 #work-frame {
-    width: 30%;
+    width: $leftside;
 }
 
-#selected-city-frame, #canvas-frame {
-    height: 50%;
+#selected-city-frame {
+    height: 40%;
+}
+
+#canvas-frame {
+    height: 60%;
+}
+
+#stats-frame {
+    display: none;
+    width: $rightside;
 }
 
 #city-info-frame {
@@ -185,6 +210,7 @@ $modalok: 'green';
 .modal-bg {
     z-index: 100;
     @include parent-size();
+    @include center-flex();
     background-color: $modalbg;
     position: absolute;
     top: 0;
@@ -197,10 +223,12 @@ $modalok: 'green';
     padding: 10px;
     width: 500px;
     height: auto;
+    border-radius: 5px;
 }
 
 .modal-buttons {
     overflow: auto;
+    padding-top: 10px;
 }
 
 .modal-button {
@@ -208,6 +236,9 @@ $modalok: 'green';
     border: none;
     padding: 5px;
     color: white;
+    min-width: 40px;
+    border-radius: 2px;
+    cursor: pointer;
 }
 
 .modal-button-no {
@@ -221,4 +252,72 @@ $modalok: 'green';
 
 .modal-button-ok {
     @include dark-on-hover($modalok);
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 10px;
+}
+
+/*
+*   INPUTS
+*/
+
+$inputbg: white;
+$inputborder: color("darkwhite");
+
+.input-title {
+    padding: 3px 0 3px 0;
+    font-weight: 300;
+}
+
+.text-input {
+    width: 100%;
+    padding: 5px 3px 5px 3px;
+    font-size: 15px;
+    box-sizing: border-box;
+    background-color: $inputbg;
+    border: 1px solid $inputborder;
+    border-radius: 2px;
+}
+
+/*
+*   NAVIGATION
+*/
+
+$barheight: 50px;
+$navbg: 'white';
+
+
+#navigation-frame {
+    height: $barheight;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: color($navbg);
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    width: auto;
+    height: $barheight;
+    padding-right: 20px;
+    @include no-selection();
+}
+
+.nav-button {
+    display: inline-block;
+    line-height: $barheight;
+    padding: 0 20px 0 20px;
+    cursor: pointer;
+    @include dark-on-hover($navbg);
+}
+
+#main-frame {
+    padding-top: $barheight;
 }

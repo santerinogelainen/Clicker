@@ -44,7 +44,7 @@ $colors: (
 @mixin dark-on-hover($color) {
     background-color: color($color);
     &:hover {
-        $key: "dark#{$color}";
+        $key: 'dark#{$color}';
         background-color: map-get($colors, $key);
     }
 }

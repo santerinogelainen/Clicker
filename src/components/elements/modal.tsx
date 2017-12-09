@@ -8,6 +8,7 @@ export enum ModalType {
 interface ModalProps {
     type: ModalType;
     id: string;
+    title?: string;
     /**
      * Note! return true if you want to hide the modal after this event
      */
@@ -41,13 +42,20 @@ export class Modal extends React.Component<ModalProps> {
             button = <input className="modal-button modal-button-ok" type="button" onClick={(e) => this.hide(e, this.props.onOKClick)} value="OK"/>;
         } else if (this.props.type == ModalType.YesNo) {
             button = [
-                <input className="modal-button modal-button-no" type="button" onClick={(e) => this.hide(e, this.props.onNoClick)} value="No"/>,
-                <input className="modal-button modal-button-yes" type="button" onClick={(e) => this.hide(e, this.props.onYesClick)} value="Yes"/>
+                <input className="modal-button modal-button-no" key="modal-no" type="button" onClick={(e) => this.hide(e, this.props.onNoClick)} value="No"/>,
+                <input className="modal-button modal-button-yes" key="modal-yes" type="button" onClick={(e) => this.hide(e, this.props.onYesClick)} value="Yes"/>
             ];
+        }
+
+        // get title
+        let title;
+        if (this.props.title != null) {
+            title = <div className="modal-title">New company</div>
         }
         return (
             <div className="modal-bg" id={this.props.id + "-modal"}>
                 <div className="modal">
+                    {title}
                     <div className="modal-content">
                         {this.props.children}
                     </div>

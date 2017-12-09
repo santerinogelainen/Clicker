@@ -111,7 +111,7 @@ module.exports = $;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(4);
-module.exports = __webpack_require__(20);
+module.exports = __webpack_require__(23);
 
 
 /***/ }),
@@ -317,6 +317,8 @@ var mapframe_1 = __webpack_require__(12);
 var frame_1 = __webpack_require__(1);
 var modal_1 = __webpack_require__(18);
 var workframe_1 = __webpack_require__(19);
+var navigationframe_1 = __webpack_require__(20);
+var statsframe_1 = __webpack_require__(22);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -326,6 +328,7 @@ var MainFrame = /** @class */ (function (_super) {
             // check if company name is empty
             var cname = nameinput.val().toString();
             if (cname.length == 0) {
+                alert("Company name cannot be empty.");
                 return false;
             }
             // create new company
@@ -336,14 +339,24 @@ var MainFrame = /** @class */ (function (_super) {
             nameinput.val("");
             return true;
         };
+        _this.createCompanyEnter = function (e) {
+            if (e.keyCode == 13) {
+                if (_this.createCompany()) {
+                    $("#new-company-modal").hide();
+                }
+            }
+        };
         return _this;
     }
     MainFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "main" },
-            React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OK, onOKClick: this.createCompany },
-                React.createElement("input", { type: "text", id: "company-name-input" })),
+            React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OK, onOKClick: this.createCompany, title: "New company" },
+                React.createElement("div", { className: "input-title" }, "Name: "),
+                React.createElement("input", { type: "text", id: "company-name-input", className: "text-input", onKeyDown: this.createCompanyEnter })),
             React.createElement(frame_1.Frame, { frameId: "game" },
+                React.createElement(navigationframe_1.NavigationFrame, null),
                 React.createElement(workframe_1.WorkFrame, { game: this.props.game }),
+                React.createElement(statsframe_1.StatsFrame, { game: this.props.game }),
                 React.createElement(mapframe_1.MapFrame, { map: this.props.game.map }))));
     };
     return MainFrame;
@@ -659,12 +672,18 @@ var Modal = /** @class */ (function (_super) {
         }
         else if (this.props.type == ModalType.YesNo) {
             button = [
-                React.createElement("input", { className: "modal-button modal-button-no", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onNoClick); }, value: "No" }),
-                React.createElement("input", { className: "modal-button modal-button-yes", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onYesClick); }, value: "Yes" })
+                React.createElement("input", { className: "modal-button modal-button-no", key: "modal-no", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onNoClick); }, value: "No" }),
+                React.createElement("input", { className: "modal-button modal-button-yes", key: "modal-yes", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onYesClick); }, value: "Yes" })
             ];
+        }
+        // get title
+        var title;
+        if (this.props.title != null) {
+            title = React.createElement("div", { className: "modal-title" }, "New company");
         }
         return (React.createElement("div", { className: "modal-bg", id: this.props.id + "-modal" },
             React.createElement("div", { className: "modal" },
+                title,
                 React.createElement("div", { className: "modal-content" }, this.props.children),
                 React.createElement("div", { className: "modal-buttons" }, button))));
     };
@@ -718,6 +737,114 @@ exports.WorkFrame = WorkFrame;
 
 /***/ }),
 /* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var navigationbutton_1 = __webpack_require__(21);
+var NavigationFrame = /** @class */ (function (_super) {
+    __extends(NavigationFrame, _super);
+    function NavigationFrame() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.showStats = function () {
+            $("#map-frame").hide();
+            $("#stats-frame").show();
+        };
+        _this.showMap = function () {
+            $("#map-frame").show();
+            $("#stats-frame").hide();
+        };
+        return _this;
+    }
+    NavigationFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "navigation" },
+            React.createElement("div", { className: "nav-buttons" },
+                React.createElement(navigationbutton_1.NavigationButton, { text: "Stats", onClick: this.showStats }),
+                React.createElement(navigationbutton_1.NavigationButton, { text: "Map", onClick: this.showMap }))));
+    };
+    return NavigationFrame;
+}(React.Component));
+exports.NavigationFrame = NavigationFrame;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var NavigationButton = /** @class */ (function (_super) {
+    __extends(NavigationButton, _super);
+    function NavigationButton() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    NavigationButton.prototype.render = function () {
+        return (React.createElement("div", { className: "nav-button", onClick: this.props.onClick }, this.props.text));
+    };
+    return NavigationButton;
+}(React.Component));
+exports.NavigationButton = NavigationButton;
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var StatsFrame = /** @class */ (function (_super) {
+    __extends(StatsFrame, _super);
+    function StatsFrame() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    StatsFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "stats" }));
+    };
+    return StatsFrame;
+}(React.Component));
+exports.StatsFrame = StatsFrame;
+
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";
