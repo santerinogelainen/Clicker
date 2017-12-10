@@ -350,7 +350,7 @@ var MainFrame = /** @class */ (function (_super) {
     }
     MainFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "main" },
-            React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OK, onOKClick: this.createCompany, title: "New company" },
+            React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OKCancel, onCancel: function () { return true; }, onOK: this.createCompany, title: "New company" },
                 React.createElement("div", { className: "input-title" }, "Name: "),
                 React.createElement("input", { type: "text", id: "company-name-input", className: "text-input", onKeyDown: this.createCompanyEnter })),
             React.createElement(frame_1.Frame, { frameId: "game" },
@@ -646,12 +646,17 @@ var React = __webpack_require__(0);
 var ModalType;
 (function (ModalType) {
     ModalType[ModalType["YesNo"] = 0] = "YesNo";
-    ModalType[ModalType["OK"] = 1] = "OK";
+    ModalType[ModalType["OKCancel"] = 1] = "OKCancel";
+    ModalType[ModalType["OK"] = 2] = "OK";
 })(ModalType = exports.ModalType || (exports.ModalType = {}));
 var Modal = /** @class */ (function (_super) {
     __extends(Modal, _super);
     function Modal() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.okbutton = React.createElement("input", { className: "modal-button modal-button-ok", key: "modal-ok", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onOK); }, value: "OK" });
+        _this.cancelbutton = React.createElement("input", { className: "modal-button modal-button-cancel", key: "modal-cancel", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onCancel); }, value: "Cancel" });
+        _this.nobutton = React.createElement("input", { className: "modal-button modal-button-no", key: "modal-no", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onNo); }, value: "No" });
+        _this.yesbutton = React.createElement("input", { className: "modal-button modal-button-yes", key: "modal-yes", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onYes); }, value: "Yes" });
         /**
          * Hides the modal IF clickevent returns true
          * @param clickevent Event to do when we click OK/No/Yes
@@ -664,16 +669,21 @@ var Modal = /** @class */ (function (_super) {
         return _this;
     }
     Modal.prototype.render = function () {
-        var _this = this;
         // get button(s) from modal type
         var button;
         if (this.props.type == ModalType.OK) {
-            button = React.createElement("input", { className: "modal-button modal-button-ok", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onOKClick); }, value: "OK" });
+            button = this.okbutton;
         }
         else if (this.props.type == ModalType.YesNo) {
             button = [
-                React.createElement("input", { className: "modal-button modal-button-no", key: "modal-no", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onNoClick); }, value: "No" }),
-                React.createElement("input", { className: "modal-button modal-button-yes", key: "modal-yes", type: "button", onClick: function (e) { return _this.hide(e, _this.props.onYesClick); }, value: "Yes" })
+                this.nobutton,
+                this.yesbutton
+            ];
+        }
+        else if (this.props.type == ModalType.OKCancel) {
+            button = [
+                this.cancelbutton,
+                this.okbutton
             ];
         }
         // get title

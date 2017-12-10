@@ -203,9 +203,8 @@ $totalframeheight: 200px;
 
 $modalbg: rgba(0,0,0,0.5);
 $modalcolor: color('white');
-$modalno: 'red';
-$modalyes: 'green';
-$modalok: 'green';
+$modalnegative: 'red';
+$modalpositive: 'green';
 
 .modal-bg {
     z-index: 100;
@@ -241,17 +240,13 @@ $modalok: 'green';
     cursor: pointer;
 }
 
-.modal-button-no {
+.modal-button-no, .modal-button-cancel {
     float: left;
-    @include dark-on-hover($modalno);
+    @include dark-on-hover($modalnegative);
 }
 
-.modal-button-yes {
-    @include dark-on-hover($modalyes);
-}
-
-.modal-button-ok {
-    @include dark-on-hover($modalok);
+.modal-button-yes, .modal-button-ok {
+    @include dark-on-hover($modalpositive);
 }
 
 .modal-title {

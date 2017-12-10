@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Frame} from "./frame";
+import {Frame} from "../elements/frame";
 import {Map} from "../map";
 import {CitySelect} from "../elements/cityselect";
 

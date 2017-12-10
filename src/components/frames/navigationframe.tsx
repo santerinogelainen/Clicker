@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Frame} from "./frame";
+import {Frame} from "../elements/frame";
 import {NavigationButton} from "../elements/navigationbutton";
 
 export class NavigationFrame extends React.Component {

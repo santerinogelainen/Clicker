@@ -1,7 +1,7 @@
 import {Game} from "../game";
 import * as React from "react";
 import {MapFrame} from "./mapframe";
-import {Frame} from "./frame";
+import {Frame} from "../elements/frame";
 import {Modal, ModalType} from "../elements/modal";
 import {WorkFrame} from "./workframe";
 import {NavigationFrame} from "./navigationframe";
@@ -41,7 +41,11 @@ export class MainFrame extends React.Component<MainFrameProps> {
     render() {
         return (
             <Frame frameId="main">
-                <Modal id="new-company" type={ModalType.OK} onOKClick={this.createCompany} title="New company">
+                {/*<Modal id="first-company" type={ModalType.OK} onOK={this.createCompany} title="Create your first company">
+                    <div className="input-title">Name: </div>
+                    <input type="text" id="first-company-name-input" className="text-input" onKeyDown={this.createCompanyEnter}/>
+        </Modal>*/}
+                <Modal id="new-company" type={ModalType.OKCancel} onCancel={() => {return true;}} onOK={this.createCompany} title="New company">
                     <div className="input-title">Name: </div>
                     <input type="text" id="company-name-input" className="text-input" onKeyDown={this.createCompanyEnter}/>
                 </Modal>

@@ -2,7 +2,7 @@ import * as React from "react";
 import {Map} from "../map";
 import {SelectedCityFrame} from "./selectedcityframe";
 import {MapCanvasFrame} from "./mapcanvasframe";
-import {Frame} from "./frame";
+import {Frame} from "../elements/frame";
 
 interface MapFrameProps {
     map: Map;

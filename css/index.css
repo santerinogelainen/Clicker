@@ -218,20 +218,15 @@ body, html, #body, #main-frame, #game-frame {
   border-radius: 2px;
   cursor: pointer; }
 
-.modal-button-no {
+.modal-button-no, .modal-button-cancel {
   float: left;
   background-color: #e74c3c; }
-  .modal-button-no:hover {
+  .modal-button-no:hover, .modal-button-cancel:hover {
     background-color: #c0392b; }
 
-.modal-button-yes {
+.modal-button-yes, .modal-button-ok {
   background-color: #2ecc71; }
-  .modal-button-yes:hover {
-    background-color: #27ae60; }
-
-.modal-button-ok {
-  background-color: #2ecc71; }
-  .modal-button-ok:hover {
+  .modal-button-yes:hover, .modal-button-ok:hover {
     background-color: #27ae60; }
 
 .modal-title {
