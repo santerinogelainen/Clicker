@@ -65,7 +65,7 @@ export class Modal extends React.Component<ModalProps> {
         // get title
         let title;
         if (this.props.title != null) {
-            title = <div className="modal-title">New company</div>
+            title = <div className="modal-title">{this.props.title}</div>
         }
         return (
             <div className="modal-bg" id={this.props.id + "-modal"}>

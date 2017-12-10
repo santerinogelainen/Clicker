@@ -5,13 +5,13 @@ import {NewCompanyModal} from "./newcompany";
 export class FirstCompanyModal extends NewCompanyModal {
 
 	protected createCompany() {
-		return super.createCompany("#first-company-");
+		return super.createCompany("#first-company-name-input");
 	}
 
 	createCompanyEnter(e) {
         if (e.keyCode == 13) {
             if (this.createCompany()) {
-                $("#new-company-modal").hide();
+                $("#first-company-modal").hide();
             }
         }
     }

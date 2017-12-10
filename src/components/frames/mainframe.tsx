@@ -18,7 +18,7 @@ export class MainFrame extends React.Component<MainFrameProps> {
         return (
             <Frame frameId="main">
                 <FirstCompanyModal game={this.props.game}/>
-                <NewCompanyModal game={this.props.game}/>
+                {/*<NewCompanyModal game={this.props.game}/>*/}
                 <Frame frameId="game">
                     <NavigationFrame/>
                     <WorkFrame game={this.props.game}/>
