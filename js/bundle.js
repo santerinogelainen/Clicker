@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -108,6 +108,65 @@ module.exports = $;
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var modal_1 = __webpack_require__(4);
+var NewCompanyModal = /** @class */ (function (_super) {
+    __extends(NewCompanyModal, _super);
+    function NewCompanyModal() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    NewCompanyModal.prototype.createCompany = function (inputid) {
+        if (inputid === void 0) { inputid = "#company-name-input"; }
+        var nameinput = $(inputid);
+        // check if company name is empty
+        var cname = nameinput.val().toString();
+        if (cname.length == 0) {
+            alert("Company name cannot be empty.");
+            return false;
+        }
+        // create new company
+        this.props.game.newCompany({
+            name: cname
+        });
+        // empty name input
+        nameinput.val("");
+        return true;
+    };
+    NewCompanyModal.prototype.createCompanyEnter = function (e) {
+        if (e.keyCode == 13) {
+            if (this.createCompany()) {
+                $("#new-company-modal").hide();
+            }
+        }
+    };
+    NewCompanyModal.prototype.render = function () {
+        var _this = this;
+        return (React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OKCancel, onCancel: function () { return true; }, onOK: function () { return _this.createCompany(); }, title: "New company" },
+            React.createElement("div", { className: "input-title" }, "Name: "),
+            React.createElement("input", { type: "text", id: "company-name-input", className: "text-input", onKeyDown: function (e) { return _this.createCompanyEnter(e); } })));
+    };
+    return NewCompanyModal;
+}(React.Component));
+exports.NewCompanyModal = NewCompanyModal;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -184,43 +243,43 @@ exports.Modal = Modal;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(5);
+__webpack_require__(6);
 module.exports = __webpack_require__(25);
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(6);
+var ReactDOM = __webpack_require__(7);
 var $ = __webpack_require__(2);
-var game_1 = __webpack_require__(7);
-var mainframe_1 = __webpack_require__(12);
+var game_1 = __webpack_require__(8);
+var mainframe_1 = __webpack_require__(13);
 var game = new game_1.Game();
 ReactDOM.render(React.createElement(mainframe_1.MainFrame, { game: game }), $("#body")[0]);
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var map_1 = __webpack_require__(8);
+var map_1 = __webpack_require__(9);
 var Game = /** @class */ (function () {
     function Game() {
         this.companies = new Array();
@@ -248,15 +307,15 @@ exports.Game = Game;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var city_1 = __webpack_require__(9);
+var city_1 = __webpack_require__(10);
 var $ = __webpack_require__(2);
-var CityJSON = __webpack_require__(11);
+var CityJSON = __webpack_require__(12);
 var Map = /** @class */ (function () {
     function Map() {
         this.cities = new Array();
@@ -310,13 +369,13 @@ exports.Map = Map;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var company_1 = __webpack_require__(10);
+var company_1 = __webpack_require__(11);
 var React = __webpack_require__(0);
 var City = /** @class */ (function () {
     function City(id, props) {
@@ -351,7 +410,7 @@ exports.City = City;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -367,53 +426,10 @@ exports.Outlet = Outlet;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = {"helsinki":{"name":"Helsinki","icon":"./img/placeholder.svg"},"london":{"name":"London","icon":"./img/placeholder.svg"},"paris":{"name":"Paris","icon":"./img/placeholder.svg"},"berlin":{"name":"Berlin","icon":"./img/placeholder.svg"},"moscow":{"name":"Moscow","icon":"./img/placeholder.svg"},"athens":{"name":"Athens","icon":"./img/placeholder.svg"},"madrid":{"name":"Madrid","icon":"./img/placeholder.svg"},"tokyo":{"name":"Tokyo","icon":"./img/placeholder.svg"}}
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var mapframe_1 = __webpack_require__(13);
-var frame_1 = __webpack_require__(1);
-var firstcompany_1 = __webpack_require__(19);
-var workframe_1 = __webpack_require__(21);
-var navigationframe_1 = __webpack_require__(22);
-var statsframe_1 = __webpack_require__(24);
-var MainFrame = /** @class */ (function (_super) {
-    __extends(MainFrame, _super);
-    function MainFrame() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    MainFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "main" },
-            React.createElement(firstcompany_1.FirstCompanyModal, { game: this.props.game }),
-            React.createElement(frame_1.Frame, { frameId: "game" },
-                React.createElement(navigationframe_1.NavigationFrame, null),
-                React.createElement(workframe_1.WorkFrame, { game: this.props.game }),
-                React.createElement(statsframe_1.StatsFrame, { game: this.props.game }),
-                React.createElement(mapframe_1.MapFrame, { map: this.props.game.map }))));
-    };
-    return MainFrame;
-}(React.Component));
-exports.MainFrame = MainFrame;
-
 
 /***/ }),
 /* 13 */
@@ -433,8 +449,53 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var selectedcityframe_1 = __webpack_require__(14);
-var mapcanvasframe_1 = __webpack_require__(18);
+var mapframe_1 = __webpack_require__(14);
+var frame_1 = __webpack_require__(1);
+var newcompany_1 = __webpack_require__(3);
+var firstcompany_1 = __webpack_require__(20);
+var workframe_1 = __webpack_require__(21);
+var navigationframe_1 = __webpack_require__(22);
+var statsframe_1 = __webpack_require__(24);
+var MainFrame = /** @class */ (function (_super) {
+    __extends(MainFrame, _super);
+    function MainFrame() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    MainFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "main" },
+            React.createElement(firstcompany_1.FirstCompanyModal, { game: this.props.game }),
+            React.createElement(newcompany_1.NewCompanyModal, { game: this.props.game }),
+            React.createElement(frame_1.Frame, { frameId: "game" },
+                React.createElement(navigationframe_1.NavigationFrame, null),
+                React.createElement(workframe_1.WorkFrame, { game: this.props.game }),
+                React.createElement(statsframe_1.StatsFrame, { game: this.props.game }),
+                React.createElement(mapframe_1.MapFrame, { map: this.props.game.map }))));
+    };
+    return MainFrame;
+}(React.Component));
+exports.MainFrame = MainFrame;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var selectedcityframe_1 = __webpack_require__(15);
+var mapcanvasframe_1 = __webpack_require__(19);
 var frame_1 = __webpack_require__(1);
 var MapFrame = /** @class */ (function (_super) {
     __extends(MapFrame, _super);
@@ -456,42 +517,6 @@ exports.MapFrame = MapFrame;
 
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var frame_1 = __webpack_require__(1);
-var cityinfoframe_1 = __webpack_require__(15);
-var upgradeinfoframe_1 = __webpack_require__(17);
-var SelectedCityFrame = /** @class */ (function (_super) {
-    __extends(SelectedCityFrame, _super);
-    function SelectedCityFrame() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    SelectedCityFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "selected-city" },
-            React.createElement(cityinfoframe_1.CityInfoFrame, { map: this.props.map, update: this.props.update }),
-            React.createElement(upgradeinfoframe_1.UpgradeInfoFrame, { map: this.props.map, update: this.props.update })));
-    };
-    return SelectedCityFrame;
-}(React.Component));
-exports.SelectedCityFrame = SelectedCityFrame;
-
-
-/***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -510,7 +535,43 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var cityselect_1 = __webpack_require__(16);
+var cityinfoframe_1 = __webpack_require__(16);
+var upgradeinfoframe_1 = __webpack_require__(18);
+var SelectedCityFrame = /** @class */ (function (_super) {
+    __extends(SelectedCityFrame, _super);
+    function SelectedCityFrame() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SelectedCityFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "selected-city" },
+            React.createElement(cityinfoframe_1.CityInfoFrame, { map: this.props.map, update: this.props.update }),
+            React.createElement(upgradeinfoframe_1.UpgradeInfoFrame, { map: this.props.map, update: this.props.update })));
+    };
+    return SelectedCityFrame;
+}(React.Component));
+exports.SelectedCityFrame = SelectedCityFrame;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var cityselect_1 = __webpack_require__(17);
 var CityInfoFrame = /** @class */ (function (_super) {
     __extends(CityInfoFrame, _super);
     function CityInfoFrame() {
@@ -527,7 +588,7 @@ exports.CityInfoFrame = CityInfoFrame;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -613,7 +674,7 @@ exports.CitySelect = CitySelect;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -645,7 +706,7 @@ exports.UpgradeInfoFrame = UpgradeInfoFrame;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -677,7 +738,7 @@ exports.MapCanvasFrame = MapCanvasFrame;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -694,8 +755,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(3);
-var newcompany_1 = __webpack_require__(20);
+var modal_1 = __webpack_require__(4);
+var newcompany_1 = __webpack_require__(3);
 var FirstCompanyModal = /** @class */ (function (_super) {
     __extends(FirstCompanyModal, _super);
     function FirstCompanyModal() {
@@ -720,65 +781,6 @@ var FirstCompanyModal = /** @class */ (function (_super) {
     return FirstCompanyModal;
 }(newcompany_1.NewCompanyModal));
 exports.FirstCompanyModal = FirstCompanyModal;
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(3);
-var NewCompanyModal = /** @class */ (function (_super) {
-    __extends(NewCompanyModal, _super);
-    function NewCompanyModal() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NewCompanyModal.prototype.createCompany = function (inputid) {
-        if (inputid === void 0) { inputid = "#company-name-input"; }
-        var nameinput = $(inputid);
-        // check if company name is empty
-        var cname = nameinput.val().toString();
-        if (cname.length == 0) {
-            alert("Company name cannot be empty.");
-            return false;
-        }
-        // create new company
-        this.props.game.newCompany({
-            name: cname
-        });
-        // empty name input
-        nameinput.val("");
-        return true;
-    };
-    NewCompanyModal.prototype.createCompanyEnter = function (e) {
-        if (e.keyCode == 13) {
-            if (this.createCompany()) {
-                $("#new-company-modal").hide();
-            }
-        }
-    };
-    NewCompanyModal.prototype.render = function () {
-        var _this = this;
-        return (React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OKCancel, onCancel: function () { return true; }, onOK: function () { return _this.createCompany(); }, title: "New company" },
-            React.createElement("div", { className: "input-title" }, "Name: "),
-            React.createElement("input", { type: "text", id: "company-name-input", className: "text-input", onKeyDown: function (e) { return _this.createCompanyEnter(e); } })));
-    };
-    return NewCompanyModal;
-}(React.Component));
-exports.NewCompanyModal = NewCompanyModal;
 
 
 /***/ }),
@@ -856,13 +858,18 @@ var NavigationFrame = /** @class */ (function (_super) {
             $("#map-frame").show();
             $("#stats-frame").hide();
         };
+        _this.showNewCompanyModal = function () {
+            $("#new-company-modal").css("display", "flex");
+            $("#company-name-input").focus();
+        };
         return _this;
     }
     NavigationFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "navigation" },
             React.createElement("div", { className: "nav-buttons" },
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Stats", onClick: this.showStats }),
-                React.createElement(navigationbutton_1.NavigationButton, { text: "Map", onClick: this.showMap }))));
+                React.createElement(navigationbutton_1.NavigationButton, { text: "Map", onClick: this.showMap }),
+                React.createElement(navigationbutton_1.NavigationButton, { text: "New company", onClick: this.showNewCompanyModal }))));
     };
     return NavigationFrame;
 }(React.Component));

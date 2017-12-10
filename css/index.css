@@ -234,6 +234,9 @@ body, html, #body, #main-frame, #game-frame {
   font-weight: 700;
   padding-bottom: 10px; }
 
+#new-company-modal {
+  display: none; }
+
 /*
 *   INPUTS
 */
