@@ -11,7 +11,7 @@ export class City {
     id: string;
     name: string;
     icon: JSX.Element;
-    outlets: Array<Outlet>;
+    outlets: Array<Outlet> = [];
 
     constructor(id: string, props: CityProps) {
         this.id = id;

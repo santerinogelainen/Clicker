@@ -247,7 +247,7 @@ exports.Modal = Modal;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(6);
-module.exports = __webpack_require__(25);
+module.exports = __webpack_require__(27);
 
 
 /***/ }),
@@ -379,6 +379,7 @@ var company_1 = __webpack_require__(11);
 var React = __webpack_require__(0);
 var City = /** @class */ (function () {
     function City(id, props) {
+        this.outlets = [];
         this.id = id;
         this.name = props.name;
         this.icon = React.createElement("img", { className: "city-icon", src: props.icon });
@@ -419,7 +420,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Outlet = /** @class */ (function () {
     function Outlet(props) {
         this.name = props.name;
+        this.amount = 1;
     }
+    Outlet.prototype.upgrade = function () {
+        this.amount += 1;
+    };
     return Outlet;
 }());
 exports.Outlet = Outlet;
@@ -452,10 +457,10 @@ var React = __webpack_require__(0);
 var mapframe_1 = __webpack_require__(14);
 var frame_1 = __webpack_require__(1);
 var newcompany_1 = __webpack_require__(3);
-var firstcompany_1 = __webpack_require__(20);
-var workframe_1 = __webpack_require__(21);
-var navigationframe_1 = __webpack_require__(22);
-var statsframe_1 = __webpack_require__(24);
+var firstcompany_1 = __webpack_require__(22);
+var workframe_1 = __webpack_require__(23);
+var navigationframe_1 = __webpack_require__(24);
+var statsframe_1 = __webpack_require__(26);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -495,7 +500,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var selectedcityframe_1 = __webpack_require__(15);
-var mapcanvasframe_1 = __webpack_require__(19);
+var mapcanvasframe_1 = __webpack_require__(21);
 var frame_1 = __webpack_require__(1);
 var MapFrame = /** @class */ (function (_super) {
     __extends(MapFrame, _super);
@@ -692,13 +697,15 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
+var outletlist_1 = __webpack_require__(19);
 var UpgradeInfoFrame = /** @class */ (function (_super) {
     __extends(UpgradeInfoFrame, _super);
     function UpgradeInfoFrame() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     UpgradeInfoFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "upgrade-info" }));
+        return (React.createElement(frame_1.Frame, { frameId: "upgrade-info" },
+            React.createElement(outletlist_1.OutletList, { city: this.props.map.selected })));
     };
     return UpgradeInfoFrame;
 }(React.Component));
@@ -707,6 +714,101 @@ exports.UpgradeInfoFrame = UpgradeInfoFrame;
 
 /***/ }),
 /* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var outletitem_1 = __webpack_require__(20);
+var OutletList = /** @class */ (function (_super) {
+    __extends(OutletList, _super);
+    function OutletList() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    OutletList.prototype.outletsToItems = function () {
+        var items = [];
+        this.props.city.outlets.forEach(function (outlet) {
+            items.push(React.createElement(outletitem_1.OutletItem, { outlet: outlet, key: outlet.name }));
+        });
+        return items;
+    };
+    OutletList.prototype.render = function () {
+        var items = this.outletsToItems();
+        return (React.createElement("div", { className: "outlet-list" },
+            items,
+            React.createElement(outletitem_1.NewOutletItem, { city: this.props.city })));
+    };
+    return OutletList;
+}(React.Component));
+exports.OutletList = OutletList;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var OutletItem = /** @class */ (function (_super) {
+    __extends(OutletItem, _super);
+    function OutletItem() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.upgrade = function () {
+            _this.props.outlet.upgrade();
+            _this.forceUpdate();
+        };
+        return _this;
+    }
+    OutletItem.prototype.render = function () {
+        return (React.createElement("div", { className: "outlet-item", onClick: this.upgrade },
+            React.createElement("span", { className: "outlet-upgrade-count" }, this.props.outlet.amount),
+            React.createElement("span", { className: "outlet-name" }, this.props.outlet.name)));
+    };
+    return OutletItem;
+}(React.Component));
+exports.OutletItem = OutletItem;
+var NewOutletItem = /** @class */ (function (_super) {
+    __extends(NewOutletItem, _super);
+    function NewOutletItem() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.openNewOutletModal = function () {
+        };
+        return _this;
+    }
+    NewOutletItem.prototype.render = function () {
+        return (React.createElement("div", { className: "outlet-item new-outlet-button", onClick: this.openNewOutletModal },
+            React.createElement("span", { className: "outlet-name" }, "+ New outlet")));
+    };
+    return NewOutletItem;
+}(React.Component));
+exports.NewOutletItem = NewOutletItem;
+
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -738,7 +840,7 @@ exports.MapCanvasFrame = MapCanvasFrame;
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -784,7 +886,7 @@ exports.FirstCompanyModal = FirstCompanyModal;
 
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -827,7 +929,7 @@ exports.WorkFrame = WorkFrame;
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -845,7 +947,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var navigationbutton_1 = __webpack_require__(23);
+var navigationbutton_1 = __webpack_require__(25);
 var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
     function NavigationFrame() {
@@ -877,7 +979,7 @@ exports.NavigationFrame = NavigationFrame;
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -908,7 +1010,7 @@ exports.NavigationButton = NavigationButton;
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -940,7 +1042,7 @@ exports.StatsFrame = StatsFrame;
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";
