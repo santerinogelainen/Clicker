@@ -1,7 +1,7 @@
 import * as React from "react";
 import {City} from "./city";
 import * as $ from "jquery";
-import * as CityJSON from "../json/cities.json";
+import * as CityJSON from "../../json/cities.json";
 
 export class Map {
 
