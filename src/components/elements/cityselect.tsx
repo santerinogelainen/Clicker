@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Map} from "../map";
+import {Map} from "../core/map";
 
 interface CitySelectProps {
     map: Map;

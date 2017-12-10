@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Frame} from "../elements/frame";
-import {Map} from "../map";
+import {Map} from "../core/map";
 
 interface UpgradeInfoFrameProps {
     map: Map;

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as $ from "jquery";
-import {Game} from "./components/game";
+import {Game} from "./components/core/game";
 import {MainFrame} from "./components/frames/mainframe";
 
 let game = new Game();

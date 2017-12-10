@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Frame} from "../elements/frame";
-import {Game} from "../game";
+import {Game} from "../core/game";
 
 interface WorkFrameProps {
     game: Game;

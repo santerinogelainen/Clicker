@@ -1,4 +1,4 @@
-import {Game} from "../game";
+import {Game} from "../core/game";
 import * as React from "react";
 import {MapFrame} from "./mapframe";
 import {Frame} from "../elements/frame";

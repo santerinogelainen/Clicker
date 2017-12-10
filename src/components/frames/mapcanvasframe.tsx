@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Map} from "../map";
+import {Map} from "../core/map";
 import {Frame} from "../elements/frame";
 
 interface MapCanvasFrameProps {
