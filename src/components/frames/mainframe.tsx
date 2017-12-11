@@ -15,17 +15,21 @@ export interface MainFrameProps {
 
 export class MainFrame extends React.Component<MainFrameProps> {
 
+    update = () => {
+        this.forceUpdate();
+    }
+
     render() {
         return (
             <Frame frameId="main">
-                <FirstCompanyModal game={this.props.game}/>
-                <NewCompanyModal game={this.props.game}/>
-			    <NewOutletModal game={this.props.game}/>,
+                <FirstCompanyModal game={this.props.game} update={this.update}/>
+                <NewCompanyModal game={this.props.game} update={this.update}/>
+			    <NewOutletModal game={this.props.game} update={this.update}/>,
                 <Frame frameId="game">
                     <NavigationFrame/>
-                    <WorkFrame game={this.props.game}/>
-                    <StatsFrame game={this.props.game}/>
-                    <MapFrame game={this.props.game}/>
+                    <WorkFrame game={this.props.game} update={this.update}/>
+                    <StatsFrame game={this.props.game} update={this.update}/>
+                    <MapFrame game={this.props.game} update={this.update}/>
                 </Frame>
             </Frame>
         );

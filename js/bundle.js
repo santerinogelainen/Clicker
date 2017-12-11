@@ -465,19 +465,23 @@ var newoutlet_1 = __webpack_require__(27);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.update = function () {
+            _this.forceUpdate();
+        };
+        return _this;
     }
     MainFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "main" },
-            React.createElement(firstcompany_1.FirstCompanyModal, { game: this.props.game }),
-            React.createElement(newcompany_1.NewCompanyModal, { game: this.props.game }),
-            React.createElement(newoutlet_1.NewOutletModal, { game: this.props.game }),
+            React.createElement(firstcompany_1.FirstCompanyModal, { game: this.props.game, update: this.update }),
+            React.createElement(newcompany_1.NewCompanyModal, { game: this.props.game, update: this.update }),
+            React.createElement(newoutlet_1.NewOutletModal, { game: this.props.game, update: this.update }),
             ",",
             React.createElement(frame_1.Frame, { frameId: "game" },
                 React.createElement(navigationframe_1.NavigationFrame, null),
-                React.createElement(workframe_1.WorkFrame, { game: this.props.game }),
-                React.createElement(statsframe_1.StatsFrame, { game: this.props.game }),
-                React.createElement(mapframe_1.MapFrame, { game: this.props.game }))));
+                React.createElement(workframe_1.WorkFrame, { game: this.props.game, update: this.update }),
+                React.createElement(statsframe_1.StatsFrame, { game: this.props.game, update: this.update }),
+                React.createElement(mapframe_1.MapFrame, { game: this.props.game, update: this.update }))));
     };
     return MainFrame;
 }(React.Component));
@@ -516,11 +520,7 @@ var frame_1 = __webpack_require__(1);
 var MapFrame = /** @class */ (function (_super) {
     __extends(MapFrame, _super);
     function MapFrame() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.update = function () {
-            _this.forceUpdate();
-        };
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     MapFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "map" },
@@ -822,6 +822,7 @@ var NewOutletItem = /** @class */ (function (_super) {
     function NewOutletItem() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.openNewOutletModal = function () {
+            $("#new-outlet-modal").css("display", "flex");
         };
         return _this;
     }
@@ -1090,14 +1091,10 @@ var modal_1 = __webpack_require__(2);
 var NewOutletModal = /** @class */ (function (_super) {
     __extends(NewOutletModal, _super);
     function NewOutletModal() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.close = function () {
-            $("#new-outlet-modal").remove();
-        };
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     NewOutletModal.prototype.render = function () {
-        return (React.createElement(modal_1.Modal, { type: modal_1.ModalType.OKCancel, id: "new-outlet", onCancel: this.close, title: "New outlet" }));
+        return (React.createElement(modal_1.Modal, { type: modal_1.ModalType.OKCancel, id: "new-outlet", onCancel: function () { return true; }, title: "New outlet in " + this.props.game.map.selected.name }));
     };
     return NewOutletModal;
 }(React.Component));

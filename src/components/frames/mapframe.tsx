@@ -7,10 +7,6 @@ import {Props} from "../other/props";
 
 export class MapFrame extends React.Component<Props> {
 
-    update = () => {
-        this.forceUpdate();
-    }
-
     render() {
         return (
             <Frame frameId="map">

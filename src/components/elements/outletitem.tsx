@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import {Outlet} from "../core/company";
 import {NewOutletModal} from "../modals/newoutlet";
 import {Game} from "../core/game";
+import {Props} from "../other/props";
 
 interface OutletItemProps {
 	outlet: Outlet
@@ -27,13 +28,10 @@ export class OutletItem extends React.Component<OutletItemProps> {
 
 }
 
-interface NewOutletItemProps {
-	game: Game;
-}
-
-export class NewOutletItem extends React.Component<NewOutletItemProps> {
+export class NewOutletItem extends React.Component<Props> {
 
 	openNewOutletModal = () => {
+		$("#new-outlet-modal").css("display", "flex");
 	} 
 
 	render() {
