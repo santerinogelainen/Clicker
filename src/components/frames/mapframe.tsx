@@ -1,14 +1,11 @@
 import * as React from "react";
-import {Map} from "../core/map";
+import {Game} from "../core/game";
 import {SelectedCityFrame} from "./selectedcityframe";
 import {MapCanvasFrame} from "./mapcanvasframe";
 import {Frame} from "../elements/frame";
+import {Props} from "../other/props";
 
-interface MapFrameProps {
-    map: Map;
-}
-
-export class MapFrame extends React.Component<MapFrameProps> {
+export class MapFrame extends React.Component<Props> {
 
     update = () => {
         this.forceUpdate();
@@ -17,8 +14,8 @@ export class MapFrame extends React.Component<MapFrameProps> {
     render() {
         return (
             <Frame frameId="map">
-                <MapCanvasFrame map={this.props.map} update={this.update}/>
-                <SelectedCityFrame map={this.props.map} update={this.update}/>
+                <MapCanvasFrame {...this.props}/>
+                <SelectedCityFrame {...this.props}/>
             </Frame>
         );
     }

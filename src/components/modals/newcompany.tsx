@@ -1,12 +1,9 @@
 import * as React from "react";
 import {Modal, ModalType} from "../elements/modal";
 import {Game} from "../core/game";
+import {Props} from "../other/props";
 
-interface NewCompanyModalProps {
-	game: Game
-}
-
-export class NewCompanyModal extends React.Component<NewCompanyModalProps> {
+export class NewCompanyModal extends React.Component<Props> {
 
 	protected createCompany(inputid: string = "#company-name-input") {
         let nameinput = $(inputid);

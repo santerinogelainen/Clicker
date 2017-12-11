@@ -1,12 +1,9 @@
 import * as React from "react";
 import {Frame} from "../elements/frame";
 import {Game} from "../core/game";
+import {Props} from "../other/props";
 
-interface WorkFrameProps {
-    game: Game;
-}
-
-export class WorkFrame extends React.Component<WorkFrameProps> {
+export class WorkFrame extends React.Component<Props> {
 
     work = () => {
         this.props.game.work();

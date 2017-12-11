@@ -1,6 +1,8 @@
 import * as React from "react";
-import {Company, Outlet} from "../core/company";
-import {City} from "../core/city";
+import * as ReactDOM from "react-dom";
+import {Outlet} from "../core/company";
+import {NewOutletModal} from "../modals/newoutlet";
+import {Game} from "../core/game";
 
 interface OutletItemProps {
 	outlet: Outlet
@@ -26,13 +28,12 @@ export class OutletItem extends React.Component<OutletItemProps> {
 }
 
 interface NewOutletItemProps {
-	city: City
+	game: Game;
 }
 
 export class NewOutletItem extends React.Component<NewOutletItemProps> {
 
 	openNewOutletModal = () => {
-
 	} 
 
 	render() {

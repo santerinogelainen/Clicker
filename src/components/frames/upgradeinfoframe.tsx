@@ -1,18 +1,14 @@
 import * as React from "react";
 import {Frame} from "../elements/frame";
-import {Map} from "../core/map";
+import {Game} from "../core/game";
 import {OutletList} from "../elements/outletlist";
+import {Props} from "../other/props";
 
-interface UpgradeInfoFrameProps {
-    map: Map;
-    update?: Function;
-}
-
-export class UpgradeInfoFrame extends React.Component<UpgradeInfoFrameProps> {
+export class UpgradeInfoFrame extends React.Component<Props> {
     render() {
         return (
             <Frame frameId="upgrade-info">
-                <OutletList city={this.props.map.selected}/>
+                <OutletList game={this.props.game}/>
             </Frame>
         );
     }

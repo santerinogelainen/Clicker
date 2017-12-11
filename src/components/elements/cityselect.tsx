@@ -1,12 +1,8 @@
 import * as React from "react";
 import {Map} from "../core/map";
+import {Props} from "../other/props";
 
-interface CitySelectProps {
-    map: Map;
-    update?: Function;
-}
-
-export class CitySelect extends React.Component<CitySelectProps> {
+export class CitySelect extends React.Component<Props> {
     
     /**
      * Shows all the select options
@@ -29,7 +25,7 @@ export class CitySelect extends React.Component<CitySelectProps> {
      */
     selectOption = (e) => {
         let id = $(e.target).attr("data-id");
-        this.props.map.setSelected(id);
+        this.props.game.map.setSelected(id);
         $(".select-option").show();
         this.props.update();
         this.hideOptions();
@@ -58,13 +54,13 @@ export class CitySelect extends React.Component<CitySelectProps> {
 
     render() {
         let options = new Array<JSX.Element>();
-        this.props.map.cities.forEach((city, index) => {
+        this.props.game.map.cities.forEach((city, index) => {
             options.push(<div key={index} className="select-option" data-id={city.id} onClick={(e) => this.selectOption(e)}>{city.name}</div>);
         });
         return (
             <div className="city-select">
-                <div className="selected-city" onClick={this.showOptions} data-id={this.props.map.selected.id}>
-                    <span className="name">{this.props.map.selected.name}</span>
+                <div className="selected-city" onClick={this.showOptions} data-id={this.props.game.map.selected.id}>
+                    <span className="name">{this.props.game.map.selected.name}</span>
                     <span className="icon">&#9660;</span>
                 </div>
                 <div className="select-options">

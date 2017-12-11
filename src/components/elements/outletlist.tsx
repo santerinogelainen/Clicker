@@ -1,16 +1,13 @@
 import * as React from "react";
-import {City} from "../core/city";
 import {OutletItem, NewOutletItem} from "./outletitem";
+import {Game} from "../core/game";
+import {Props} from "../other/props";
 
-interface OutletListProps {
-	city: City;
-}
-
-export class OutletList extends React.Component<OutletListProps> {
+export class OutletList extends React.Component<Props> {
 
 	outletsToItems() {
 		let items = [];
-		this.props.city.outlets.forEach(outlet => {
+		this.props.game.map.selected.outlets.forEach(outlet => {
 			items.push(<OutletItem outlet={outlet} key={outlet.name}/>);
 		});
 		return items;
@@ -21,7 +18,7 @@ export class OutletList extends React.Component<OutletListProps> {
 		return (
 			<div className="outlet-list">
 				{items}
-				<NewOutletItem city={this.props.city}/>
+				<NewOutletItem game={this.props.game}/>
 			</div>
 		);
 	}

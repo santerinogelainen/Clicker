@@ -2,19 +2,15 @@ import * as React from "react";
 import {Frame} from "../elements/frame";
 import {Map} from "../core/map";
 import {CitySelect} from "../elements/cityselect";
+import {Props} from "../other/props";
 
-interface CityInfoFrameProps {
-    map: Map;
-    update?: Function;
-}
-
-export class CityInfoFrame extends React.Component<CityInfoFrameProps> {
+export class CityInfoFrame extends React.Component<Props> {
     render() {
         return (
             <Frame frameId="city-info">
-                <CitySelect map={this.props.map} update={this.props.update}/>
+                <CitySelect {...this.props}/>
                 <Frame frameId="selected-city-icon">
-                    {this.props.map.selected.icon}
+                    {this.props.game.map.selected.icon}
                 </Frame>
             </Frame>
         );

@@ -7,6 +7,7 @@ import {FirstCompanyModal} from "../modals/firstcompany";
 import {WorkFrame} from "./workframe";
 import {NavigationFrame} from "./navigationframe";
 import {StatsFrame} from "./statsframe";
+import {NewOutletModal} from "../modals/newoutlet";
 
 export interface MainFrameProps {
     game: Game;
@@ -19,11 +20,12 @@ export class MainFrame extends React.Component<MainFrameProps> {
             <Frame frameId="main">
                 <FirstCompanyModal game={this.props.game}/>
                 <NewCompanyModal game={this.props.game}/>
+			    <NewOutletModal game={this.props.game}/>,
                 <Frame frameId="game">
                     <NavigationFrame/>
                     <WorkFrame game={this.props.game}/>
                     <StatsFrame game={this.props.game}/>
-                    <MapFrame map={this.props.game.map}/>
+                    <MapFrame game={this.props.game}/>
                 </Frame>
             </Frame>
         );

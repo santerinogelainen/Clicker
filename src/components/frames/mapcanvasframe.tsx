@@ -1,13 +1,9 @@
 import * as React from "react";
 import {Map} from "../core/map";
 import {Frame} from "../elements/frame";
+import {Props} from "../other/props";
 
-interface MapCanvasFrameProps {
-    map: Map;
-    update?: Function;
-}
-
-export class MapCanvasFrame extends React.Component<MapCanvasFrameProps> {
+export class MapCanvasFrame extends React.Component<Props> {
 
     render() {
         return (
