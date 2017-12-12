@@ -3,7 +3,7 @@ import {Map} from "./map";
 
 export class Game {
 
-    companies: Array<Company> = new Array<Company>();
+    companies: Array<Company> = [];
     totalMoney: number;
     mpd: number;
     perClick: number = 1;
@@ -27,7 +27,7 @@ export class Game {
      * @param company company that is added
      */
     public newCompany(company: Company){
-        this.companies.push(company);
+        this.companies[company.id] = company;
     }
 
 }

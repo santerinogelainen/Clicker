@@ -20,12 +20,12 @@ export class City {
     }
 
     /**
-     * checks if the outlet already exists in the city
-     * @param outlet outlet that is being checked
+     * checks if the company already has an outlet in the city
+     * @param company company that is being checked
      * @returns true is outlet exists
      */
-    outletExists(outlet: Outlet): boolean {
-        return this.outlets.indexOf(outlet) != -1 ? true : false;
+    hasOutletFor(company: Company): boolean {
+        return company.id in this.outlets;
     }
 
     /**
@@ -34,9 +34,8 @@ export class City {
      * @returns outlet added or not
      */
     newOutlet(company: Company): boolean {
-        let outlet = new Outlet(company);
-        if (!this.outletExists(outlet)) {
-            this.outlets.push(outlet);
+        if (!this.hasOutletFor(company)) {
+            this.outlets[company.id] = new Outlet(company);
             return true;
         }
         return false;

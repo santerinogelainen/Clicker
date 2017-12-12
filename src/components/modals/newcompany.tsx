@@ -15,6 +15,7 @@ export class NewCompanyModal extends React.Component<Props> {
         }
         // create new company
         this.props.game.newCompany({
+            id: this.props.game.companies.length,
             name: cname
         });
         // empty name input

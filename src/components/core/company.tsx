@@ -1,5 +1,6 @@
 export interface Company {
-    name: string
+    id: number; //THIS HAS TO BE UNIQUE
+    name: string;
 }
 
 export class Outlet {
