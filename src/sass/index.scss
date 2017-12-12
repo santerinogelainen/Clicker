@@ -322,20 +322,20 @@ $navbg: 'white';
 }
 
 /*
-*   OUTLETLIST
+*   LISTS
 */
 
 $listitemcolor: 'white';
 $listitemheight: 50px;
 
-.outlet-list {
+.list {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     @include no-selection();
 }
 
-.outlet-item {
+.list-item {
     width: 100%;
     height: $listitemheight;
     cursor: pointer;
@@ -343,14 +343,14 @@ $listitemheight: 50px;
     position: relative;
 }
 
-.outlet-name {
+.list-title {
     @include parent-size();
     line-height: $listitemheight;
     font-weight: 700;
     padding-left: 20px;
 }
 
-.outlet-upgrade-count {
+.list-number {
     position: absolute;
     left: 0;
     top: 0;

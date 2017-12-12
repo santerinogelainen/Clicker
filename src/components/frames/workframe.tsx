@@ -7,11 +7,7 @@ export class WorkFrame extends React.Component<Props> {
 
     work = () => {
         this.props.game.work();
-        this.update();
-    }
-
-    update = () => {
-        this.forceUpdate();
+        this.props.update();
     }
 
     render() {

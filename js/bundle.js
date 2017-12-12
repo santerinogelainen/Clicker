@@ -476,7 +476,6 @@ var MainFrame = /** @class */ (function (_super) {
             React.createElement(firstcompany_1.FirstCompanyModal, { game: this.props.game, update: this.update }),
             React.createElement(newcompany_1.NewCompanyModal, { game: this.props.game, update: this.update }),
             React.createElement(newoutlet_1.NewOutletModal, { game: this.props.game, update: this.update }),
-            ",",
             React.createElement(frame_1.Frame, { frameId: "game" },
                 React.createElement(navigationframe_1.NavigationFrame, null),
                 React.createElement(workframe_1.WorkFrame, { game: this.props.game, update: this.update }),
@@ -721,6 +720,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
@@ -732,7 +739,7 @@ var UpgradeInfoFrame = /** @class */ (function (_super) {
     }
     UpgradeInfoFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "upgrade-info" },
-            React.createElement(outletlist_1.OutletList, { game: this.props.game })));
+            React.createElement(outletlist_1.OutletList, __assign({}, this.props))));
     };
     return UpgradeInfoFrame;
 }(React.Component));
@@ -757,24 +764,40 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var outletitem_1 = __webpack_require__(20);
+var list_1 = __webpack_require__(20);
 var OutletList = /** @class */ (function (_super) {
     __extends(OutletList, _super);
     function OutletList() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**
+         * Upgrades an outlet
+         */
+        _this.upgradeOutlet = function (e, outlet) {
+            outlet.upgrade();
+            _this.props.update();
+        };
+        /**
+         * Shows the new outlet modal
+         */
+        _this.showNewOutletModal = function () {
+            $("#new-outlet-modal").css("display", "flex");
+        };
+        return _this;
     }
+    /**
+     * Turns outlets into JSX ListItems
+     */
     OutletList.prototype.outletsToItems = function () {
+        var _this = this;
         var items = [];
         this.props.game.map.selected.outlets.forEach(function (outlet) {
-            items.push(React.createElement(outletitem_1.OutletItem, { outlet: outlet, key: outlet.name }));
+            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: outlet.name, number: outlet.amount, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
         });
+        items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal }));
         return items;
     };
     OutletList.prototype.render = function () {
-        var items = this.outletsToItems();
-        return (React.createElement("div", { className: "outlet-list" },
-            items,
-            React.createElement(outletitem_1.NewOutletItem, { game: this.props.game })));
+        return (React.createElement(list_1.List, { items: this.outletsToItems() }));
     };
     return OutletList;
 }(React.Component));
@@ -799,40 +822,35 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var OutletItem = /** @class */ (function (_super) {
-    __extends(OutletItem, _super);
-    function OutletItem() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.upgrade = function () {
-            _this.props.outlet.upgrade();
-            _this.forceUpdate();
-        };
-        return _this;
+var List = /** @class */ (function (_super) {
+    __extends(List, _super);
+    function List() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    OutletItem.prototype.render = function () {
-        return (React.createElement("div", { className: "outlet-item", onClick: this.upgrade },
-            React.createElement("span", { className: "outlet-upgrade-count" }, this.props.outlet.amount),
-            React.createElement("span", { className: "outlet-name" }, this.props.outlet.name)));
+    List.prototype.render = function () {
+        return (React.createElement("div", { className: "list" }, this.props.items));
     };
-    return OutletItem;
+    return List;
 }(React.Component));
-exports.OutletItem = OutletItem;
-var NewOutletItem = /** @class */ (function (_super) {
-    __extends(NewOutletItem, _super);
-    function NewOutletItem() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.openNewOutletModal = function () {
-            $("#new-outlet-modal").css("display", "flex");
-        };
-        return _this;
+exports.List = List;
+var ListItem = /** @class */ (function (_super) {
+    __extends(ListItem, _super);
+    function ListItem() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    NewOutletItem.prototype.render = function () {
-        return (React.createElement("div", { className: "outlet-item new-outlet-button", onClick: this.openNewOutletModal },
-            React.createElement("span", { className: "outlet-name" }, "+ New outlet")));
+    ListItem.prototype.listNumber = function () {
+        if (this.props.number != null) {
+            return React.createElement("span", { className: "list-number" }, this.props.number);
+        }
     };
-    return NewOutletItem;
+    ListItem.prototype.render = function () {
+        return (React.createElement("div", { className: "list-item", onClick: this.props.onClick },
+            this.listNumber(),
+            React.createElement("span", { className: "list-title" }, this.props.title)));
+    };
+    return ListItem;
 }(React.Component));
-exports.NewOutletItem = NewOutletItem;
+exports.ListItem = ListItem;
 
 
 /***/ }),
@@ -938,10 +956,7 @@ var WorkFrame = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.work = function () {
             _this.props.game.work();
-            _this.update();
-        };
-        _this.update = function () {
-            _this.forceUpdate();
+            _this.props.update();
         };
         return _this;
     }
@@ -1093,6 +1108,8 @@ var NewOutletModal = /** @class */ (function (_super) {
     function NewOutletModal() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    NewOutletModal.prototype.renderChoices = function () {
+    };
     NewOutletModal.prototype.render = function () {
         return (React.createElement(modal_1.Modal, { type: modal_1.ModalType.OKCancel, id: "new-outlet", onCancel: function () { return true; }, title: "New outlet in " + this.props.game.map.selected.name }));
     };

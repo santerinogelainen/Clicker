@@ -299,9 +299,9 @@ body, html, #body, #main-frame, #game-frame {
   padding-top: 50px; }
 
 /*
-*   OUTLETLIST
+*   LISTS
 */
-.outlet-list {
+.list {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -317,23 +317,23 @@ body, html, #body, #main-frame, #game-frame {
           user-select: none;
   -webkit-touch-callout: none; }
 
-.outlet-item {
+.list-item {
   width: 100%;
   height: 50px;
   cursor: pointer;
   background-color: #ecf0f1;
   position: relative; }
-  .outlet-item:hover {
+  .list-item:hover {
     background-color: #bdc3c7; }
 
-.outlet-name {
+.list-title {
   width: 100%;
   height: 100%;
   line-height: 50px;
   font-weight: 700;
   padding-left: 20px; }
 
-.outlet-upgrade-count {
+.list-number {
   position: absolute;
   left: 0;
   top: 0;

@@ -5,6 +5,9 @@ import {Props} from "../other/props";
 
 export class NewOutletModal extends React.Component<Props> {
 
+	renderChoices() {
+	}
+
 	render() {
 		return(
 			<Modal type={ModalType.OKCancel} id="new-outlet" onCancel={() => {return true;}} title={"New outlet in " + this.props.game.map.selected.name}>
