@@ -19,6 +19,7 @@ export class NewCompanyModal extends React.Component<Props> {
         });
         // empty name input
         nameinput.val("");
+        this.props.update();
         return true;
     }
 

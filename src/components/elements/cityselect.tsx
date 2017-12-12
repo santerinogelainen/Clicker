@@ -36,8 +36,11 @@ export class CitySelect extends React.Component<Props> {
      */
     enterInput = (e) => {
         if (e.keyCode == 13) {
-            e.target = $(".select-option:visible")[0];
-            this.selectOption(e);
+            let visible = $(".select-option:visible");
+            if (visible.length) {
+                e.target = visible[0];
+                this.selectOption(e);
+            }
         }
     }
 

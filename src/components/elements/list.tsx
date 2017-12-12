@@ -1,14 +1,15 @@
 import * as React from "react";
 
 interface ListProps {
-	items: Array<ListItem>
+	items: Array<ListItem>;
+	id?: string;
 }
 
 export class List extends React.Component<ListProps> {
 
 	render() {
 		return (
-			<div className="list">
+			<div className="list" id={this.props.id != null ? " " + this.props.id + "-list" : null}>
 				{this.props.items}
 			</div>
 		);
@@ -20,7 +21,7 @@ interface ListItemProps {
 	title: string;
 	number?: number;
 	onClick?: (...args) => any;
-	key: string;
+	key: any;
 }
 
 export class ListItem extends React.Component<ListItemProps> {

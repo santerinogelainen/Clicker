@@ -3,7 +3,8 @@ import * as React from "react";
 export enum ModalType {
     YesNo,
     OKCancel,
-    OK
+    OK,
+    Cancel
 }
 
 interface ModalProps {
@@ -45,22 +46,37 @@ export class Modal extends React.Component<ModalProps> {
         }
     }
 
+    /**
+     * Returns the button(s) of this modals type
+     */
+    getButtonFromType() {
+        let button;
+        switch(this.props.type) {
+            case ModalType.OK:
+                button = this.okbutton;
+                break;
+            case ModalType.Cancel:
+                button = this.cancelbutton;
+                break;
+            case ModalType.YesNo:
+                button = [
+                    this.nobutton,
+                    this.yesbutton
+                ];
+                break;
+            case ModalType.OKCancel:
+                button = [
+                    this.cancelbutton,
+                    this.okbutton
+                ];
+                break;
+        }
+        return button;
+    }
+
     render(){
         // get button(s) from modal type
-        let button;
-        if (this.props.type == ModalType.OK) {
-            button = this.okbutton;
-        } else if (this.props.type == ModalType.YesNo) {
-            button = [
-                this.nobutton,
-                this.yesbutton
-            ];
-        } else if (this.props.type == ModalType.OKCancel) {
-            button = [
-                this.cancelbutton,
-                this.okbutton
-            ];
-        }
+        let button = this.getButtonFromType();
 
         // get title
         let title;
