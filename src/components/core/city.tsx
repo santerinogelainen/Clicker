@@ -29,6 +29,20 @@ export class City {
     }
 
     /**
+     * Checks if this city has all outlets for all companies
+     * @param companies list of companies
+     * @returns true if this city has all outlets
+     */
+    hasAllOutlets(companies: Array<Company>): boolean {
+        for (let i = 0; i < companies.length; i++) {
+            if (!this.hasOutletFor(companies[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * adds a new outlet to the city if it doesn't exist yet
      * @param company companies' props
      * @returns outlet added or not

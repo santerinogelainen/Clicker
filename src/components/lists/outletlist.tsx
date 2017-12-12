@@ -30,9 +30,11 @@ export class OutletList extends React.Component<Props> {
 				<ListItem title={outlet.name} key={index} number={outlet.amount} onClick={(e, o) => this.upgradeOutlet(e, outlet)}/>
 			);
 		});
-		items.push(
-			<ListItem title="+ New outlet" key="new-outlet" onClick={this.showNewOutletModal}/>
-		);
+		if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {
+			items.push(
+				<ListItem title="+ New outlet" key="new-outlet" onClick={this.showNewOutletModal}/>
+			);
+		}
 		return items;
 	}
 

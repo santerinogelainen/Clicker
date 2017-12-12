@@ -457,6 +457,19 @@ var City = /** @class */ (function () {
         return company.id in this.outlets;
     };
     /**
+     * Checks if this city has all outlets for all companies
+     * @param companies list of companies
+     * @returns true if this city has all outlets
+     */
+    City.prototype.hasAllOutlets = function (companies) {
+        for (var i = 0; i < companies.length; i++) {
+            if (!this.hasOutletFor(companies[i])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    /**
      * adds a new outlet to the city if it doesn't exist yet
      * @param company companies' props
      * @returns outlet added or not
@@ -859,7 +872,9 @@ var OutletList = /** @class */ (function (_super) {
         this.props.game.map.selected.outlets.forEach(function (outlet, index) {
             items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.amount, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
         });
-        items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal }));
+        if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {
+            items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal }));
+        }
         return items;
     };
     OutletList.prototype.render = function () {
@@ -1182,7 +1197,9 @@ var CompanyList = /** @class */ (function (_super) {
         var _this = this;
         var items = [];
         this.props.game.companies.forEach(function (company, index) {
-            items.push(React.createElement(CompanyListItem, __assign({ key: index, index: index, company: company }, _this.props)));
+            if (!_this.props.game.map.selected.hasOutletFor(company)) {
+                items.push(React.createElement(CompanyListItem, __assign({ key: index, index: index, company: company }, _this.props)));
+            }
         });
         return items;
     };
@@ -1203,7 +1220,6 @@ var CompanyListItem = /** @class */ (function (_super) {
             _this.props.game.map.selected.newOutlet(_this.props.company);
             $("#new-outlet-modal").hide();
             _this.props.update();
-            console.log(_this.props.game);
         };
         return _this;
     }

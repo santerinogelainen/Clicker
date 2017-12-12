@@ -12,9 +12,11 @@ export class CompanyList extends React.Component<Props> {
 	companiesToItems() {
 		let items = [];
 		this.props.game.companies.forEach((company, index) => {
-			items.push(
-				<CompanyListItem key={index} index={index} company={company} {...this.props} />
-			);
+			if (!this.props.game.map.selected.hasOutletFor(company)) {
+				items.push(
+					<CompanyListItem key={index} index={index} company={company} {...this.props} />
+				);
+			}
 		});
 		return items;
 	}
