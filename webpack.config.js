@@ -41,6 +41,7 @@ module.exports = {
         "react": "React",
         "react-dom": "ReactDOM",
         "jquery": "jQuery",
-        "jquery": "$"
+        "jquery": "$",
+        "numeral": "numeral"
     }
 }

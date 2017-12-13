@@ -214,6 +214,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var format_1 = __webpack_require__(21);
 var List = /** @class */ (function (_super) {
     __extends(List, _super);
     function List() {
@@ -235,10 +236,16 @@ var ListItem = /** @class */ (function (_super) {
             return React.createElement("span", { className: "list-number" }, this.props.number);
         }
     };
+    ListItem.prototype.listCost = function () {
+        if (this.props.cost != null) {
+            return React.createElement("span", { className: "list-cost" }, format_1.default.abbriviate(this.props.cost));
+        }
+    };
     ListItem.prototype.render = function () {
         return (React.createElement("div", { className: "list-item", onClick: this.props.onClick },
             this.listNumber(),
-            React.createElement("span", { className: "list-title" }, this.props.title)));
+            React.createElement("span", { className: "list-title" }, this.props.title),
+            this.listCost()));
     };
     return ListItem;
 }(React.Component));
@@ -311,7 +318,7 @@ exports.NewCompanyModal = NewCompanyModal;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(7);
-module.exports = __webpack_require__(29);
+module.exports = __webpack_require__(31);
 
 
 /***/ }),
@@ -444,7 +451,7 @@ var React = __webpack_require__(0);
 var City = /** @class */ (function () {
     function City(id, props) {
         this.outlets = [];
-        this.outletcost = 15;
+        this.cost = 15;
         this.costmodifier = 10;
         this.id = id;
         this.name = props.name;
@@ -492,7 +499,7 @@ var City = /** @class */ (function () {
         if (!this.hasOutletFor(company)) {
             this.outlets[company.id] = new company_1.Outlet(company, this.outletCount());
             console.log(this);
-            this.outletcost *= this.costmodifier;
+            this.cost *= this.costmodifier;
             return true;
         }
         return false;
@@ -515,7 +522,7 @@ var Outlet = /** @class */ (function () {
         this.mpd = 0.1;
         this.basempd = 0.1;
         this.cost = 15;
-        this.costmodifier = 2;
+        this.costmodifier = 0.15;
         this.name = props.name;
         this.count = 1;
         this.adjustBaseMpd(nth);
@@ -540,7 +547,7 @@ var Outlet = /** @class */ (function () {
      */
     Outlet.prototype.upgrade = function () {
         this.count += 1;
-        this.cost *= this.costmodifier;
+        this.cost += Math.floor(this.cost * this.costmodifier);
         this.calculateMpd();
     };
     return Outlet;
@@ -575,11 +582,11 @@ var React = __webpack_require__(0);
 var mapframe_1 = __webpack_require__(15);
 var frame_1 = __webpack_require__(1);
 var newcompany_1 = __webpack_require__(5);
-var firstcompany_1 = __webpack_require__(22);
-var workframe_1 = __webpack_require__(23);
-var navigationframe_1 = __webpack_require__(24);
-var statsframe_1 = __webpack_require__(26);
-var newoutlet_1 = __webpack_require__(27);
+var firstcompany_1 = __webpack_require__(24);
+var workframe_1 = __webpack_require__(25);
+var navigationframe_1 = __webpack_require__(26);
+var statsframe_1 = __webpack_require__(28);
+var newoutlet_1 = __webpack_require__(29);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -632,7 +639,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var selectedcityframe_1 = __webpack_require__(16);
-var mapcanvasframe_1 = __webpack_require__(21);
+var mapcanvasframe_1 = __webpack_require__(23);
 var frame_1 = __webpack_require__(1);
 var MapFrame = /** @class */ (function (_super) {
     __extends(MapFrame, _super);
@@ -912,10 +919,10 @@ var OutletList = /** @class */ (function (_super) {
         var _this = this;
         var items = [];
         this.props.game.map.selected.outlets.forEach(function (outlet, index) {
-            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.count, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
+            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.count, cost: outlet.cost, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
         });
         if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {
-            items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal }));
+            items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal, cost: this.props.game.map.selected.cost }));
         }
         return items;
     };
@@ -929,6 +936,39 @@ exports.OutletList = OutletList;
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var numeral = __webpack_require__(22);
+var Format = /** @class */ (function () {
+    function Format() {
+    }
+    /**
+     * Abbriviates a number (1000 => 1k)
+     * Anything less than 1000 wont be abbriviated
+     * @param n number to be abbriviated
+     */
+    Format.abbriviate = function (n) {
+        if (n < 1000) {
+            return n.toString();
+        }
+        return numeral(n).format("0.0a");
+    };
+    return Format;
+}());
+exports.default = Format;
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+module.exports = numeral;
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -960,7 +1000,7 @@ exports.MapCanvasFrame = MapCanvasFrame;
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1006,7 +1046,7 @@ exports.FirstCompanyModal = FirstCompanyModal;
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1046,7 +1086,7 @@ exports.WorkFrame = WorkFrame;
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1064,7 +1104,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var navigationbutton_1 = __webpack_require__(25);
+var navigationbutton_1 = __webpack_require__(27);
 var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
     function NavigationFrame() {
@@ -1096,7 +1136,7 @@ exports.NavigationFrame = NavigationFrame;
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1127,7 +1167,7 @@ exports.NavigationButton = NavigationButton;
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1159,7 +1199,7 @@ exports.StatsFrame = StatsFrame;
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1185,7 +1225,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var modal_1 = __webpack_require__(2);
-var companylist_1 = __webpack_require__(28);
+var companylist_1 = __webpack_require__(30);
 var NewOutletModal = /** @class */ (function (_super) {
     __extends(NewOutletModal, _super);
     function NewOutletModal() {
@@ -1201,7 +1241,7 @@ exports.NewOutletModal = NewOutletModal;
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1273,7 +1313,7 @@ var CompanyListItem = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";

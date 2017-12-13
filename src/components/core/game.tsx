@@ -1,4 +1,5 @@
 import {Company} from "./company";
+import Stats from "./stats";
 import {Map} from "./map";
 
 export class Game {
@@ -28,6 +29,7 @@ export class Game {
      */
     public newCompany(company: Company){
         this.companies[company.id] = company;
+        Stats.totalCompanies++;
     }
 
 }

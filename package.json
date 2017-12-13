@@ -10,9 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "@types/jquery": "^3.2.16",
+    "@types/numeral": "0.0.22",
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
     "jquery": "^3.2.1",
+    "numeral": "^2.0.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },

@@ -1,4 +1,5 @@
 import { Outlet, Company } from "./company";
+import Stats from "./stats";
 import * as React from "react";
 
 interface CityProps {
@@ -12,13 +13,19 @@ export class City {
     name: string;
     icon: JSX.Element;
     outlets: Array<Outlet> = [];
-    outletcost: number = 15;
-    costmodifier: number = 10;
+    basecost: number = 15;
+    cost: number = 15;
+    costmodifier: number = 1.5;
 
     constructor(id: string, props: CityProps) {
         this.id = id;
         this.name = props.name;
         this.icon = <img className="city-icon" src={props.icon}/>;
+    }
+
+    adjustBaseCost() {
+        // TODO: change cost so they are not relative and can be calculated later
+        this.cost += Math.floor(this.cost * this.costmodifier);
     }
 
     /**
@@ -64,9 +71,13 @@ export class City {
      */
     newOutlet(company: Company): boolean {
         if (!this.hasOutletFor(company)) {
+            if (this.outletCount() == 0) {
+                Stats.citiesWithOutlets++;
+            }
             this.outlets[company.id] = new Outlet(company, this.outletCount());
+            Stats.totalOutlets++;
             console.log(this);
-            this.outletcost *= this.costmodifier;
+            this.cost = Math.floor(this.cost * this.costmodifier);
             return true;
         }
         return false;
