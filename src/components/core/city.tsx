@@ -12,6 +12,8 @@ export class City {
     name: string;
     icon: JSX.Element;
     outlets: Array<Outlet> = [];
+    outletcost: number = 15;
+    costmodifier: number = 10;
 
     constructor(id: string, props: CityProps) {
         this.id = id;
@@ -26,6 +28,19 @@ export class City {
      */
     hasOutletFor(company: Company): boolean {
         return company.id in this.outlets;
+    }
+
+    /**
+     * Returns the number of outlets in this city
+     */
+    outletCount() {
+        let count = 0;
+        for (let i = 0; i < this.outlets.length; i++) {
+            if (this.outlets[i] != null) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -49,7 +64,9 @@ export class City {
      */
     newOutlet(company: Company): boolean {
         if (!this.hasOutletFor(company)) {
-            this.outlets[company.id] = new Outlet(company);
+            this.outlets[company.id] = new Outlet(company, this.outletCount());
+            console.log(this);
+            this.outletcost *= this.costmodifier;
             return true;
         }
         return false;

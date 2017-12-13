@@ -27,7 +27,7 @@ export class OutletList extends React.Component<Props> {
 		let items = [];
 		this.props.game.map.selected.outlets.forEach((outlet, index) => {
 			items.push(
-				<ListItem title={outlet.name} key={index} number={outlet.amount} onClick={(e, o) => this.upgradeOutlet(e, outlet)}/>
+				<ListItem title={outlet.name} key={index} number={outlet.count} onClick={(e, o) => this.upgradeOutlet(e, outlet)}/>
 			);
 		});
 		if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {

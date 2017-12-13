@@ -444,6 +444,8 @@ var React = __webpack_require__(0);
 var City = /** @class */ (function () {
     function City(id, props) {
         this.outlets = [];
+        this.outletcost = 15;
+        this.costmodifier = 10;
         this.id = id;
         this.name = props.name;
         this.icon = React.createElement("img", { className: "city-icon", src: props.icon });
@@ -455,6 +457,18 @@ var City = /** @class */ (function () {
      */
     City.prototype.hasOutletFor = function (company) {
         return company.id in this.outlets;
+    };
+    /**
+     * Returns the number of outlets in this city
+     */
+    City.prototype.outletCount = function () {
+        var count = 0;
+        for (var i = 0; i < this.outlets.length; i++) {
+            if (this.outlets[i] != null) {
+                count++;
+            }
+        }
+        return count;
     };
     /**
      * Checks if this city has all outlets for all companies
@@ -476,7 +490,9 @@ var City = /** @class */ (function () {
      */
     City.prototype.newOutlet = function (company) {
         if (!this.hasOutletFor(company)) {
-            this.outlets[company.id] = new company_1.Outlet(company);
+            this.outlets[company.id] = new company_1.Outlet(company, this.outletCount());
+            console.log(this);
+            this.outletcost *= this.costmodifier;
             return true;
         }
         return false;
@@ -494,12 +510,38 @@ exports.City = City;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Outlet = /** @class */ (function () {
-    function Outlet(props) {
+    function Outlet(props, nth) {
+        if (nth === void 0) { nth = 0; }
+        this.mpd = 0.1;
+        this.basempd = 0.1;
+        this.cost = 15;
+        this.costmodifier = 2;
         this.name = props.name;
-        this.amount = 1;
+        this.count = 1;
+        this.adjustBaseMpd(nth);
     }
+    /**
+     * Adjust the base mpd of this outlet
+     * @param nth the nth outlet in the city
+     */
+    Outlet.prototype.adjustBaseMpd = function (nth) {
+        this.basempd = this.basempd * Math.pow(10, nth);
+        this.mpd = this.basempd;
+    };
+    /**
+     * Calculate mpd of this outlet
+     * Use this everytime you update something
+     */
+    Outlet.prototype.calculateMpd = function () {
+        this.mpd = this.basempd * this.count;
+    };
+    /**
+     * Upgrade the outlet
+     */
     Outlet.prototype.upgrade = function () {
-        this.amount += 1;
+        this.count += 1;
+        this.cost *= this.costmodifier;
+        this.calculateMpd();
     };
     return Outlet;
 }());
@@ -870,7 +912,7 @@ var OutletList = /** @class */ (function (_super) {
         var _this = this;
         var items = [];
         this.props.game.map.selected.outlets.forEach(function (outlet, index) {
-            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.amount, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
+            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.count, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
         });
         if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {
             items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal }));
