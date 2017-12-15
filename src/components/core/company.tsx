@@ -8,8 +8,9 @@ export class Outlet {
     count: number;
     mpd: number = 0.1;
     basempd: number = 0.1;
+    basecost: number = 15;
     cost: number = 15;
-    costmodifier: number = 0.15;
+    costmodifier: number = 1.15;
 
     constructor(props: Company, nth: number = 0) {
         this.name = props.name;
@@ -34,12 +35,16 @@ export class Outlet {
         this.mpd = this.basempd * this.count;
     }
 
+    calculateCost() {
+        this.cost = Math.floor(Math.pow(this.costmodifier, this.count) * this.basecost);
+    }
+
     /**
      * Upgrade the outlet
      */
     upgrade() {
         this.count += 1;
-        this.cost += Math.floor(this.cost * this.costmodifier);
+        this.calculateCost();
         this.calculateMpd();
     }
 

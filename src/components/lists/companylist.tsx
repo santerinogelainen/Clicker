@@ -41,7 +41,7 @@ class CompanyListItem extends React.Component<CompanyListItemProps> {
 	 * Selects an item and creates a new outlet in selected city
 	 */
 	selectItem = () => {
-		this.props.game.map.selected.newOutlet(this.props.company);
+		this.props.game.map.newOutlet(this.props.company);
 		$("#new-outlet-modal").hide();
 		this.props.update();
 	}

@@ -15,7 +15,8 @@ export class City {
     outlets: Array<Outlet> = [];
     basecost: number = 15;
     cost: number = 15;
-    costmodifier: number = 1.5;
+    costmodifier: number = 1.75;
+    citymodifier: number = 2;
 
     constructor(id: string, props: CityProps) {
         this.id = id;
@@ -23,9 +24,11 @@ export class City {
         this.icon = <img className="city-icon" src={props.icon}/>;
     }
 
-    adjustBaseCost() {
-        // TODO: change cost so they are not relative and can be calculated later
-        this.cost += Math.floor(this.cost * this.costmodifier);
+    /**
+     * Update the cost of this city when you create a new outlet in a new city
+     */
+    updateCostOnNewCity() {
+        this.cost = Math.floor(Math.pow(this.citymodifier, Stats.citiesWithOutlets) * this.basecost);
     }
 
     /**
@@ -71,12 +74,8 @@ export class City {
      */
     newOutlet(company: Company): boolean {
         if (!this.hasOutletFor(company)) {
-            if (this.outletCount() == 0) {
-                Stats.citiesWithOutlets++;
-            }
             this.outlets[company.id] = new Outlet(company, this.outletCount());
             Stats.totalOutlets++;
-            console.log(this);
             this.cost = Math.floor(this.cost * this.costmodifier);
             return true;
         }

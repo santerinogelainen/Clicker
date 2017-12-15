@@ -344,17 +344,42 @@ $listitemheight: 50px;
 }
 
 .list-title {
-    @include parent-size();
+    height: $listitemheight;
     line-height: $listitemheight;
-    font-weight: 700;
-    padding-left: 20px;
+    padding-left: 10px;
+    float: left;
 }
 
 .list-number {
-    position: absolute;
-    left: 0;
-    top: 0;
+    line-height: $listitemheight;
+    padding-left: 10px;
+    float: left;
+    min-width: 51px;
+    height: $listitemheight;
     font-size: 30px;
     font-weight: 700;
-    opacity: 0.5;
+    opacity: 0.2;
+}
+
+.list-money {
+    float: right;
+    padding-right: 10px;
+    height: $listitemheight;
+    @include center-flex();
+}
+
+/*
+*   MONEY
+*/
+
+$moneyheight: 30px;
+
+.money {
+    height: $moneyheight;
+    line-height: $moneyheight;
+    border-bottom: 1px solid color('yellow');
+    display: inline-block;
+    text-align: center;
+    font-weight: 700;
+    min-width: 40px;
 }

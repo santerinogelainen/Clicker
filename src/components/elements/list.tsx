@@ -1,5 +1,5 @@
 import * as React from "react";
-import Format from "../other/format";
+import {Money} from "../elements/money";
 
 interface ListProps {
 	items: Array<ListItem>;
@@ -21,7 +21,7 @@ export class List extends React.Component<ListProps> {
 interface ListItemProps {
 	title: string;
 	number?: number;
-	cost?: number;
+	money?: number;
 	onClick?: (...args) => any;
 	key: any;
 }
@@ -34,9 +34,9 @@ export class ListItem extends React.Component<ListItemProps> {
 		}
 	}
 
-	private listCost() {
-		if (this.props.cost != null) {
-			return <span className="list-cost">{Format.abbriviate(this.props.cost)}</span>
+	private listMoney() {
+		if (this.props.money != null) {
+			return <div className="list-money"><Money amount={this.props.money}/></div>
 		}
 	}
 
@@ -45,7 +45,7 @@ export class ListItem extends React.Component<ListItemProps> {
 			<div className="list-item" onClick={this.props.onClick}>
 				{this.listNumber()}
 				<span className="list-title">{this.props.title}</span>
-				{this.listCost()}
+				{this.listMoney()}
 			</div>
 		);
 	}

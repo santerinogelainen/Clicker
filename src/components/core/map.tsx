@@ -2,6 +2,8 @@ import * as React from "react";
 import {City} from "./city";
 import * as $ from "jquery";
 import * as CityJSON from "../../json/cities.json";
+import { Company } from "./company";
+import Stats from "./stats";
 
 export class Map {
 
@@ -31,6 +33,25 @@ export class Map {
         } else {
             let city = this.findCityById(x);
             this.selected = city;
+        }
+    }
+
+    /**
+     * Creates a new outlet to a city
+     * @param company company of the outlet
+     * @param city city where to create the outlet, default = this.selected
+     */
+    newOutlet(company: Company, city: City = this.selected) {
+        let outlets = city.outletCount()
+        city.newOutlet(company);
+        if (outlets == 0) {
+            Stats.citiesWithOutlets++;
+            // recalculate cities without outlets cost
+            for(let i = 0; i < this.cities.length; i++) {
+                if (this.cities[i].outletCount() == 0) {
+                    this.cities[i].updateCostOnNewCity();
+                }
+            }
         }
     }
 

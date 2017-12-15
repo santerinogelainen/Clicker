@@ -327,16 +327,43 @@ body, html, #body, #main-frame, #game-frame {
     background-color: #bdc3c7; }
 
 .list-title {
-  width: 100%;
-  height: 100%;
+  height: 50px;
   line-height: 50px;
-  font-weight: 700;
-  padding-left: 20px; }
+  padding-left: 10px;
+  float: left; }
 
 .list-number {
-  position: absolute;
-  left: 0;
-  top: 0;
+  line-height: 50px;
+  padding-left: 10px;
+  float: left;
+  min-width: 51px;
+  height: 50px;
   font-size: 30px;
   font-weight: 700;
-  opacity: 0.5; }
+  opacity: 0.2; }
+
+.list-money {
+  float: right;
+  padding-right: 10px;
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+/*
+*   MONEY
+*/
+.money {
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid #f1c40f;
+  display: inline-block;
+  text-align: center;
+  font-weight: 700;
+  min-width: 40px; }
