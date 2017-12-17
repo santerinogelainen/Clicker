@@ -9,7 +9,8 @@ export class NavigationButton extends React.Component<NavigationButtonProps> {
 	render() {
 		return(
 			<div className="nav-button" onClick={this.props.onClick}>
-				{this.props.text}
+				<span className="nav-button-text">{this.props.text}</span>
+				{this.props.children}
 			</div>
 		);
 	}

@@ -1,6 +1,6 @@
 import * as numeral from "numeral";
 
-export default class Format {
+export class Format {
 
 	/**
 	 * Abbriviates a number (1000 => 1k)

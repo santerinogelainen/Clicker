@@ -26,7 +26,7 @@ export class MainFrame extends React.Component<MainFrameProps> {
                 <NewCompanyModal game={this.props.game} update={this.update}/>
 			    <NewOutletModal game={this.props.game} update={this.update}/>
                 <Frame frameId="game">
-                    <NavigationFrame/>
+                    <NavigationFrame game={this.props.game} update={this.update}/>
                     <WorkFrame game={this.props.game} update={this.update}/>
                     <StatsFrame game={this.props.game} update={this.update}/>
                     <MapFrame game={this.props.game} update={this.update}/>

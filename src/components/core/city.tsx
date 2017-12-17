@@ -1,5 +1,5 @@
 import { Outlet, Company } from "./company";
-import Stats from "./stats";
+import {Stats} from "./stats";
 import * as React from "react";
 
 interface CityProps {

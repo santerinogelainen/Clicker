@@ -1,8 +1,11 @@
 import * as React from "react";
 import {Frame} from "../elements/frame";
+import {Props} from "../other/props";
 import {NavigationButton} from "../elements/navigationbutton";
+import {DayClock} from "../elements/dayclock";
+import {Money} from "../elements/money";
 
-export class NavigationFrame extends React.Component {
+export class NavigationFrame extends React.Component<Props> {
 
 	showStats = () => {
 		$("#map-frame").hide();
@@ -22,10 +25,13 @@ export class NavigationFrame extends React.Component {
 	render() {
 		return (
 			<Frame frameId="navigation">
+				<DayClock {...this.props}/>
 				<div className="nav-buttons">
 					<NavigationButton text="Stats" onClick={this.showStats}/>
 					<NavigationButton text="Map" onClick={this.showMap}/>
-					<NavigationButton text="New company" onClick={this.showNewCompanyModal}/>
+					<NavigationButton text="New company" onClick={this.showNewCompanyModal}>
+						<Money amount={this.props.game.companycost}/>
+					</NavigationButton>
 				</div>
 			</Frame>
 		);

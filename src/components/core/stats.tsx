@@ -1,4 +1,4 @@
-export default class Stats {
+export class Stats {
 
 	static citiesWithOutlets: number = 0;
 	static totalCompanies: number = 0;

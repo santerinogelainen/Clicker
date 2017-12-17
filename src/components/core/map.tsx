@@ -3,7 +3,7 @@ import {City} from "./city";
 import * as $ from "jquery";
 import * as CityJSON from "../../json/cities.json";
 import { Company } from "./company";
-import Stats from "./stats";
+import {Stats} from "./stats";
 
 export class Map {
 
