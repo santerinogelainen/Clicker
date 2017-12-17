@@ -6,7 +6,6 @@ export class Clock {
 	
 	constructor() {
 		this.date = new Date();
-		this.start();
 	}
 
 	/**

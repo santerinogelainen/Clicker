@@ -5,7 +5,11 @@ import {NewCompanyModal} from "./newcompany";
 export class FirstCompanyModal extends NewCompanyModal {
 
 	protected createCompany() {
-		return super.createCompany("#first-company-name-input");
+		let created = super.createCompany("#first-company-name-input");
+		if (created) {
+			this.props.game.clock.start();
+		}
+		return created;
 	}
 
 	createCompanyEnter(e) {

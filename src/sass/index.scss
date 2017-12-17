@@ -291,8 +291,10 @@ $navbg: 'white';
 
 #navigation-frame {
     height: $barheight;
+    box-sizing: border-box;
     width: 100%;
     position: absolute;
+    padding: 0px 20px 0px 20px;
     top: 0;
     left: 0;
     background: color($navbg);
@@ -305,7 +307,6 @@ $navbg: 'white';
     flex-wrap: nowrap;
     width: auto;
     height: $barheight;
-    padding-right: 20px;
     @include no-selection();
 }
 
@@ -319,6 +320,12 @@ $navbg: 'white';
 
 #main-frame {
     padding-top: $barheight;
+}
+
+.day-clock {
+    float: left;
+    height: $barheight;
+    line-height: $barheight;
 }
 
 /*

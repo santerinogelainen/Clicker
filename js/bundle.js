@@ -675,7 +675,6 @@ var Clock = /** @class */ (function () {
             });
         };
         this.date = new Date();
-        this.start();
     }
     Object.defineProperty(Clock.prototype, "onNextDay", {
         /**
@@ -1171,7 +1170,11 @@ var FirstCompanyModal = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     FirstCompanyModal.prototype.createCompany = function () {
-        return _super.prototype.createCompany.call(this, "#first-company-name-input");
+        var created = _super.prototype.createCompany.call(this, "#first-company-name-input");
+        if (created) {
+            this.props.game.clock.start();
+        }
+        return created;
     };
     FirstCompanyModal.prototype.createCompanyEnter = function (e) {
         if (e.keyCode == 13) {

@@ -258,8 +258,10 @@ body, html, #body, #main-frame, #game-frame {
 */
 #navigation-frame {
   height: 50px;
+  box-sizing: border-box;
   width: 100%;
   position: absolute;
+  padding: 0px 20px 0px 20px;
   top: 0;
   left: 0;
   background: #ecf0f1; }
@@ -279,7 +281,6 @@ body, html, #body, #main-frame, #game-frame {
       flex-wrap: nowrap;
   width: auto;
   height: 50px;
-  padding-right: 20px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -297,6 +298,11 @@ body, html, #body, #main-frame, #game-frame {
 
 #main-frame {
   padding-top: 50px; }
+
+.day-clock {
+  float: left;
+  height: 50px;
+  line-height: 50px; }
 
 /*
 *   LISTS
