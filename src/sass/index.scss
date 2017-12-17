@@ -179,9 +179,22 @@ $totalframeheight: 200px;
 
 #total-frame {
     height: $totalframeheight;
-    line-height: $totalframeheight;
-    text-align: center;
+    @include center-flex();
+    flex-direction: column;
+}
+
+.total-money {
     font-size: 30px;
+}
+
+.total-mpd {
+    font-size: 12px;
+}
+
+#total-frame > div {
+    width: 100%;
+    text-align: center;
+    height: auto;
 }
 
 #work {

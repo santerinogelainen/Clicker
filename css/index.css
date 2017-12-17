@@ -154,9 +154,30 @@ body, html, #body, #main-frame, #game-frame {
 */
 #total-frame {
   height: 200px;
-  line-height: 200px;
-  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+
+.total-money {
   font-size: 30px; }
+
+.total-mpd {
+  font-size: 12px; }
+
+#total-frame > div {
+  width: 100%;
+  text-align: center;
+  height: auto; }
 
 #work {
   -webkit-user-select: none;
