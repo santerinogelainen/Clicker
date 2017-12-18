@@ -320,10 +320,23 @@ var Format = /** @class */ (function () {
      * @param n number to be abbriviated
      */
     Format.abbriviate = function (n) {
+        var num = numeral(n);
         if (n < 1000) {
-            return n.toString();
+            if (Format.isInteger(n)) {
+                return num.format("0");
+            }
+            return num.format("0.0");
         }
-        return numeral(n).format("0.0a");
+        return num.format("0.0a");
+    };
+    /**
+     * Check if a number is an integer
+     * @param value value to be checked
+     */
+    Format.isInteger = function (value) {
+        return typeof value === 'number' &&
+            isFinite(value) &&
+            Math.floor(value) === value;
     };
     return Format;
 }());
@@ -433,15 +446,30 @@ var map_1 = __webpack_require__(13);
 var clock_1 = __webpack_require__(17);
 var Game = /** @class */ (function () {
     function Game() {
+        var _this = this;
         this.companies = [];
         this.companycost = 100000;
         this.costmodifier = 10;
         this.perClick = 1;
-        this.mpd = 0;
         this.totalMoney = 0;
         this.clock = new clock_1.Clock();
+        this.clock.onNextDay = function () {
+            _this.totalMoney += _this.getTotalMpd();
+        };
         this.map = new map_1.Map();
     }
+    /**
+     * Returns the total mpd
+     */
+    Game.prototype.getTotalMpd = function () {
+        var total = 0;
+        this.map.cities.forEach(function (city) {
+            city.outlets.forEach(function (outlet) {
+                total += outlet.mpd;
+            });
+        });
+        return total;
+    };
     /**
      * "Work" (click) for money
      */
@@ -1216,11 +1244,14 @@ var format_1 = __webpack_require__(7);
 var frame_1 = __webpack_require__(1);
 var WorkFrame = /** @class */ (function (_super) {
     __extends(WorkFrame, _super);
-    function WorkFrame() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+    function WorkFrame(props) {
+        var _this = _super.call(this, props) || this;
         _this.work = function () {
             _this.props.game.work();
             _this.props.update();
+        };
+        _this.props.game.clock.onNextDay = function () {
+            _this.forceUpdate();
         };
         return _this;
     }
@@ -1229,8 +1260,8 @@ var WorkFrame = /** @class */ (function (_super) {
             React.createElement(frame_1.Frame, { frameId: "total" },
                 React.createElement("div", { className: "total-money" }, format_1.Format.abbriviate(this.props.game.totalMoney)),
                 React.createElement("div", { className: "total-mpd" },
-                    "+",
-                    format_1.Format.abbriviate(this.props.game.mpd),
+                    "+ ",
+                    format_1.Format.abbriviate(this.props.game.getTotalMpd()),
                     " MPD")),
             React.createElement(frame_1.Frame, { frameId: "click" },
                 React.createElement("img", { id: "work", src: "./img/placeholder.png", onClick: this.work }))));

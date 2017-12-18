@@ -8,9 +8,23 @@ export class Format {
 	 * @param n number to be abbriviated
 	 */
 	static abbriviate(n: number): string {
+		let num = numeral(n);
 		if (n < 1000) {
-			return n.toString();
+			if (Format.isInteger(n)) {
+				return num.format("0");
+			}
+			return num.format("0.0");
 		}
-		return numeral(n).format("0.0a");
+		return num.format("0.0a");
+	}
+
+	/**
+	 * Check if a number is an integer
+	 * @param value value to be checked
+	 */
+	private static isInteger(value): boolean {
+		return typeof value === 'number' && 
+		  isFinite(value) && 
+		  Math.floor(value) === value;
 	}
 }

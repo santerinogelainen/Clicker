@@ -10,15 +10,29 @@ export class Game {
     totalMoney: number;
     companycost: number = 100000;
     costmodifier: number = 10;
-    mpd: number;
     perClick: number = 1;
     map: Map;
     
     constructor() {
-        this.mpd = 0;
         this.totalMoney = 0;
         this.clock = new Clock();
+        this.clock.onNextDay = () => {
+            this.totalMoney += this.getTotalMpd();
+        }
         this.map = new Map();
+    }
+
+    /**
+     * Returns the total mpd
+     */
+    getTotalMpd() {
+        let total: number = 0;
+        this.map.cities.forEach(city => {
+            city.outlets.forEach(outlet => {
+                total += outlet.mpd;
+            });
+        });
+        return total;
     }
 
     /**
