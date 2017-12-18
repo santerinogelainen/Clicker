@@ -296,7 +296,9 @@ var Money = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Money.prototype.render = function () {
-        return (React.createElement("div", { className: "money" }, format_1.Format.abbriviate(this.props.amount)));
+        return (React.createElement("div", { className: "money" },
+            React.createElement("span", { className: "amount" }, format_1.Format.abbriviate(this.props.amount)),
+            React.createElement("img", { className: "money-pile", src: "./img/svg/money_pile_1.svg" })));
     };
     return Money;
 }(React.Component));

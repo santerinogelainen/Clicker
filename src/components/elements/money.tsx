@@ -10,7 +10,8 @@ export class Money extends React.Component<MoneyProps> {
 	render() {
 		return (
 			<div className="money">
-				{Format.abbriviate(this.props.amount)}
+				<span className="amount">{Format.abbriviate(this.props.amount)}</span>
+				<img className="money-pile" src="./img/svg/money_pile_1.svg"/>
 			</div>
 		);
 	}

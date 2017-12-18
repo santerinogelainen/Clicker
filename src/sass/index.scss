@@ -324,8 +324,8 @@ $navbg: 'white';
 }
 
 .nav-button {
-    display: inline-block;
-    line-height: $barheight;
+    @include center-flex();
+    flex-direction: row;
     padding: 0 20px 0 20px;
     cursor: pointer;
     @include dark-on-hover($navbg);
@@ -383,7 +383,6 @@ $listitemheight: 50px;
 
 .list-money {
     float: right;
-    padding-right: 10px;
     height: $listitemheight;
     @include center-flex();
 }
@@ -392,14 +391,29 @@ $listitemheight: 50px;
 *   MONEY
 */
 
-$moneyheight: 30px;
-
 .money {
-    height: $moneyheight;
-    line-height: $moneyheight;
-    border-bottom: 1px solid color('yellow');
-    display: inline-block;
+    margin: 0 10px 0 10px;
+    height: 100%;
+    @include center-flex();
     text-align: center;
     font-weight: 700;
-    min-width: 40px;
+    font-size: 18px;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    min-width: 50px;
+    position: relative;
+}
+
+.money > .amount {
+    position: relative;
+    z-index: 1;
+}
+
+.money-pile {
+    max-width: 100%;
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
