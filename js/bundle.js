@@ -1257,6 +1257,37 @@ var WorkFrame = /** @class */ (function (_super) {
         };
         return _this;
     }
+    WorkFrame.prototype.getMoneyPileImg = function () {
+        var first = 1000;
+        var second = 10000;
+        var third = 100000;
+        var fourth = 1000000;
+        var fifth = 10000000;
+        if (this.moneyIsBetween(first, second)) {
+            return React.createElement("img", { className: "work-money-pile", src: './img/money_pile_2.png' });
+        }
+        else if (this.moneyIsBetween(second, third)) {
+            return React.createElement("img", { className: "work-money-pile", src: './img/money_pile_3.png' });
+        }
+        else if (this.moneyIsBetween(third, fourth)) {
+            return React.createElement("img", { className: "work-money-pile", src: './img/money_pile_4.png' });
+        }
+        else if (this.moneyIsBetween(fourth, fifth)) {
+            return React.createElement("img", { className: "work-money-pile", src: './img/money_pile_5.png' });
+        }
+        else if (this.props.game.totalMoney >= fifth) {
+            return React.createElement("img", { className: "work-money-pile", src: './img/money_pile_6.png' });
+        }
+        return null;
+    };
+    /**
+     * checks if game total money is between min and max
+     * @param min inclusive min
+     * @param max exclusive max
+     */
+    WorkFrame.prototype.moneyIsBetween = function (min, max) {
+        return this.props.game.totalMoney >= min && this.props.game.totalMoney < max;
+    };
     WorkFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "work" },
             React.createElement(frame_1.Frame, { frameId: "total" },
@@ -1266,7 +1297,8 @@ var WorkFrame = /** @class */ (function (_super) {
                     format_1.Format.abbriviate(this.props.game.getTotalMpd()),
                     " MPD")),
             React.createElement(frame_1.Frame, { frameId: "click" },
-                React.createElement("img", { id: "work", src: "./img/placeholder.png", onClick: this.work }))));
+                React.createElement("img", { id: "work", src: "./img/placeholder.png", onClick: this.work }),
+                this.getMoneyPileImg())));
     };
     return WorkFrame;
 }(React.Component));

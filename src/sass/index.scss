@@ -175,10 +175,8 @@ $selected-city-padding: 0 5px 0 5px;
 * WORK FRAME
 */
 
-$totalframeheight: 200px;
-
 #total-frame {
-    height: $totalframeheight;
+    height: 30%;
     @include center-flex();
     flex-direction: column;
 }
@@ -206,8 +204,20 @@ $totalframeheight: 200px;
 }
 
 #click-frame {
+    height: 70%;
+    overflow: hidden;
     display: flex;
     justify-content: center;
+    position: relative;
+}
+
+.work-money-pile {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 215px;
+    width: auto;
 }
 
 /*
@@ -411,6 +421,7 @@ $listitemheight: 50px;
 
 .money-pile {
     max-width: 100%;
+    max-height: 70%;
     position: absolute;
     z-index: 0;
     bottom: 0;

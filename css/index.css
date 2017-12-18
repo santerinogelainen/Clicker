@@ -153,7 +153,7 @@ body, html, #body, #main-frame, #game-frame {
 * WORK FRAME
 */
 #total-frame {
-  height: 200px;
+  height: 30%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -190,12 +190,24 @@ body, html, #body, #main-frame, #game-frame {
   margin: 0 auto 0 auto; }
 
 #click-frame {
+  height: 70%;
+  overflow: hidden;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center; }
+          justify-content: center;
+  position: relative; }
+
+.work-money-pile {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  height: 215px;
+  width: auto; }
 
 /*
 *   MODALS
@@ -422,6 +434,7 @@ body, html, #body, #main-frame, #game-frame {
 
 .money-pile {
   max-width: 100%;
+  max-height: 70%;
   position: absolute;
   z-index: 0;
   bottom: 0;
