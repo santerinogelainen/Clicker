@@ -444,3 +444,26 @@ $listitemheight: 50px;
     left: 50%;
     transform: translateX(-50%);
 }
+
+/*
+*   DEBUG CONTROLS
+*/
+
+.debug-controls {
+    display: none;
+    position: absolute;
+    background-color: color('white');
+    top: 100px;
+    z-index: 100;
+    left: 0;
+}
+
+.debug-control {
+    @include no-selection();
+    padding: 5px;
+    cursor: pointer;
+}
+
+.debug-control:hover {
+    background-color: color('darkwhite');
+}

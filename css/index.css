@@ -455,3 +455,26 @@ body, html, #body, #main-frame, #game-frame {
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%); }
+
+/*
+*   DEBUG CONTROLS
+*/
+.debug-controls {
+  display: none;
+  position: absolute;
+  background-color: #ecf0f1;
+  top: 100px;
+  z-index: 100;
+  left: 0; }
+
+.debug-control {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-touch-callout: none;
+  padding: 5px;
+  cursor: pointer; }
+
+.debug-control:hover {
+  background-color: #bdc3c7; }

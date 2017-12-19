@@ -228,24 +228,38 @@ exports.Money = Money;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var numeral = __webpack_require__(24);
 var Format = /** @class */ (function () {
     function Format() {
     }
     /**
      * Abbriviates a number (1000 => 1k)
      * Anything less than 1000 wont be abbriviated
-     * @param n number to be abbriviated
+     * @param number number to be abbriviated
      */
-    Format.abbriviate = function (n) {
-        var num = numeral(n);
-        if (n < 1000) {
-            if (Format.isInteger(n)) {
-                return num.format("0");
+    Format.abbriviate = function (number) {
+        var n;
+        if (number < Math.pow(10, 3)) {
+            if (Format.isInteger(number)) {
+                n = Math.floor(number).toString();
             }
-            return num.format("0.0");
+            else {
+                n = number.toFixed(1).toString();
+            }
+            return n;
         }
-        return num.format("0.0a");
+        var pow = 3;
+        for (var i = 0; i < Format.largenumberabbr.length; i++) {
+            if (number >= Math.pow(10, pow) && number < Math.pow(10, pow + 3)) {
+                number /= Math.pow(10, pow);
+                n = number.toFixed(1).toString();
+                n += Format.largenumberabbr[i];
+                return n;
+            }
+            pow += 3;
+        }
+        number /= Math.pow(10, (Format.largenumberabbr.length * 3));
+        n = number.toFixed(1).toString();
+        return n + Format.largenumberabbr[Format.largenumberabbr.length - 1];
     };
     /**
      * Check if a number is an integer
@@ -256,6 +270,9 @@ var Format = /** @class */ (function () {
             isFinite(value) &&
             Math.floor(value) === value;
     };
+    Format.largenumberabbr = [
+        "k", "m", "b", "t", "q", "Q", "s", "S", "o", "n", "d", "u", "X"
+    ];
     return Format;
 }());
 exports.Format = Format;
@@ -741,11 +758,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var mapframe_1 = __webpack_require__(18);
 var frame_1 = __webpack_require__(1);
-var newcompany_1 = __webpack_require__(26);
-var workframe_1 = __webpack_require__(27);
-var navigationframe_1 = __webpack_require__(28);
-var statsframe_1 = __webpack_require__(31);
-var newoutlet_1 = __webpack_require__(32);
+var newcompany_1 = __webpack_require__(25);
+var workframe_1 = __webpack_require__(26);
+var navigationframe_1 = __webpack_require__(27);
+var statsframe_1 = __webpack_require__(30);
+var newoutlet_1 = __webpack_require__(31);
+var debugcontrols_1 = __webpack_require__(33);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -757,6 +775,7 @@ var MainFrame = /** @class */ (function (_super) {
     }
     MainFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "main" },
+            React.createElement(debugcontrols_1.DebugControls, { game: this.props.game, update: this.update }),
             React.createElement(newcompany_1.NewCompanyModal, { game: this.props.game, update: this.update }),
             React.createElement(newoutlet_1.NewOutletModal, { game: this.props.game, update: this.update }),
             React.createElement(frame_1.Frame, { frameId: "game" },
@@ -797,7 +816,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var selectedcityframe_1 = __webpack_require__(19);
-var mapcanvasframe_1 = __webpack_require__(25);
+var mapcanvasframe_1 = __webpack_require__(24);
 var frame_1 = __webpack_require__(1);
 var MapFrame = /** @class */ (function (_super) {
     __extends(MapFrame, _super);
@@ -1100,12 +1119,6 @@ exports.OutletList = OutletList;
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports) {
-
-module.exports = numeral;
-
-/***/ }),
-/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1137,7 +1150,7 @@ exports.MapCanvasFrame = MapCanvasFrame;
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1202,7 +1215,7 @@ exports.NewCompanyModal = NewCompanyModal;
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1280,7 +1293,7 @@ exports.WorkFrame = WorkFrame;
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1306,8 +1319,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var navigationbutton_1 = __webpack_require__(29);
-var dayclock_1 = __webpack_require__(30);
+var navigationbutton_1 = __webpack_require__(28);
+var dayclock_1 = __webpack_require__(29);
 var money_1 = __webpack_require__(5);
 var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
@@ -1344,7 +1357,7 @@ exports.NavigationFrame = NavigationFrame;
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1377,7 +1390,7 @@ exports.NavigationButton = NavigationButton;
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1417,7 +1430,7 @@ exports.DayClock = DayClock;
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1449,7 +1462,7 @@ exports.StatsFrame = StatsFrame;
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1475,7 +1488,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var modal_1 = __webpack_require__(7);
-var companylist_1 = __webpack_require__(33);
+var companylist_1 = __webpack_require__(32);
 var NewOutletModal = /** @class */ (function (_super) {
     __extends(NewOutletModal, _super);
     function NewOutletModal() {
@@ -1491,7 +1504,7 @@ exports.NewOutletModal = NewOutletModal;
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1563,6 +1576,82 @@ var CompanyListItem = /** @class */ (function (_super) {
     };
     return CompanyListItem;
 }(React.Component));
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var DebugControls = /** @class */ (function (_super) {
+    __extends(DebugControls, _super);
+    function DebugControls(props) {
+        var _this = _super.call(this, props) || this;
+        _this.visible = false;
+        _this.enableOnKeyCombo = function (e) {
+            if (e.ctrlKey && e.keyCode == 68) {
+                e.preventDefault();
+                if (_this.visible) {
+                    $(".debug-controls").hide();
+                }
+                else {
+                    $(".debug-controls").show();
+                }
+                _this.visible = !_this.visible;
+            }
+        };
+        _this.update = function () {
+            _this.props.update();
+        };
+        _this.add1k = function () {
+            _this.props.game.totalMoney += 1000;
+            _this.update();
+        };
+        _this.add100k = function () {
+            _this.props.game.totalMoney += 100000;
+            _this.update();
+        };
+        _this.printGame = function () {
+            console.log(_this.props.game);
+        };
+        document.addEventListener("keydown", _this.enableOnKeyCombo);
+        return _this;
+    }
+    DebugControls.prototype.render = function () {
+        return (React.createElement("div", { className: "debug-controls" },
+            React.createElement(DebugControl, { title: "Update", onClick: this.update }),
+            React.createElement(DebugControl, { title: "Add 1k", onClick: this.add1k }),
+            React.createElement(DebugControl, { title: "Add 100k", onClick: this.add100k }),
+            React.createElement(DebugControl, { title: "Console.log Game", onClick: this.printGame })));
+    };
+    return DebugControls;
+}(React.Component));
+exports.DebugControls = DebugControls;
+var DebugControl = /** @class */ (function (_super) {
+    __extends(DebugControl, _super);
+    function DebugControl() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    DebugControl.prototype.render = function () {
+        return (React.createElement("div", { className: "debug-control", onClick: this.props.onClick },
+            React.createElement("span", { className: "debug-control-title" }, this.props.title)));
+    };
+    return DebugControl;
+}(React.Component));
+exports.DebugControl = DebugControl;
 
 
 /***/ }),

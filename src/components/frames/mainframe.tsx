@@ -8,6 +8,7 @@ import {WorkFrame} from "./workframe";
 import {NavigationFrame} from "./navigationframe";
 import {StatsFrame} from "./statsframe";
 import {NewOutletModal} from "../modals/newoutlet";
+import {DebugControls} from "../elements/debugcontrols";
 
 export interface MainFrameProps {
     game: Game;
@@ -22,6 +23,7 @@ export class MainFrame extends React.Component<MainFrameProps> {
     render() {
         return (
             <Frame frameId="main">
+                <DebugControls game={this.props.game} update={this.update}/>
                 <NewCompanyModal game={this.props.game} update={this.update}/>
 			    <NewOutletModal game={this.props.game} update={this.update}/>
                 <Frame frameId="game">
