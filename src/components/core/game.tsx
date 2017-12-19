@@ -8,7 +8,7 @@ export class Game {
     clock: Clock;
     companies: Array<Company> = [];
     totalMoney: number;
-    companycost: number = 100000;
+    companycost: number = 50;
     costmodifier: number = 10;
     perClick: number = 1;
     map: Map;

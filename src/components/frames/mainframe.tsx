@@ -22,7 +22,6 @@ export class MainFrame extends React.Component<MainFrameProps> {
     render() {
         return (
             <Frame frameId="main">
-                <FirstCompanyModal game={this.props.game} update={this.update}/>
                 <NewCompanyModal game={this.props.game} update={this.update}/>
 			    <NewOutletModal game={this.props.game} update={this.update}/>
                 <Frame frameId="game">

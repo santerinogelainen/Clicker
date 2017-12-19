@@ -15,7 +15,7 @@ export class CitySelect extends React.Component<Props> {
     /**
      * Hides all the select options
      */
-    hideOptions() {
+    hideOptions = () => {
         $(".select-options").hide();
         $(".select-search").val("");
     }
@@ -67,6 +67,7 @@ export class CitySelect extends React.Component<Props> {
                     <span className="icon">&#9660;</span>
                 </div>
                 <div className="select-options">
+                    <div className="close-city-select" onClick={this.hideOptions}/>
                     <input type="text" className="select-search" placeholder="Search" onInput={(e) => this.searchInput(e)} onKeyDown={(e) => this.enterInput(e)}/>
                     {options}
                 </div>

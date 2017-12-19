@@ -82,7 +82,6 @@ $rightside: 70%;
 
 #city-info-frame {
     width: 40%;
-    position: relative;
     float: left;
 }
 
@@ -126,11 +125,12 @@ $selected-city-padding: 0 5px 0 5px;
 }
 
 .select-search {
-    height: $selected-city-height;
     width: 100%;
+    position: relative;
     font-size: $selected-city-font-size;
-    padding: $selected-city-padding;
+    padding: 1px 5px 1px 5px;
     border: none;
+    z-index: 1;
 }
 
 .select-options {
@@ -138,17 +138,18 @@ $selected-city-padding: 0 5px 0 5px;
     display: none;
     width: 100%;
     background-color: $select-color;
-    cursor: pointer;
-    position: absolute;
-    max-height: 100%;
-    overflow-y: auto;
+    max-height: 200px;
+    overflow-y: scroll;
     overflow-x: hidden;
 }
 
 .select-option {
     padding: 1px 5px 1px 5px;
+    position: relative;
+    cursor: pointer;
     width: 100%;
     text-overflow: ellipsis;
+    z-index: 1;
 }
 
 .select-option:nth-child(even) {
@@ -169,6 +170,14 @@ $selected-city-padding: 0 5px 0 5px;
     height: 100px;
     width: 100px;
     margin-top: 25px;
+}
+
+.close-city-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    @include parent-size();
 }
 
 /*
