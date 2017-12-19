@@ -6,22 +6,26 @@ import {Props} from "../other/props";
 export class NewCompanyModal extends React.Component<Props> {
 
 	protected createCompany(inputid: string = "#company-name-input") {
-        let nameinput = $(inputid);
-        // check if company name is empty
-        let cname = nameinput.val().toString();
-        if (cname.length == 0) {
-            alert("Company name cannot be empty.");
-            return false;
+        if (this.props.game.enoughMoneyFor(this.props.game.companycost)) {
+            let nameinput = $(inputid);
+            // check if company name is empty
+            let cname = nameinput.val().toString();
+            if (cname.length == 0) {
+                alert("Company name cannot be empty.");
+                return false;
+            }
+            // create new company
+            this.props.game.useMoney(this.props.game.companycost);
+            this.props.game.newCompany({
+                id: this.props.game.companies.length,
+                name: cname
+            });
+            // empty name input
+            nameinput.val("");
+            this.props.update();
+            return true;
         }
-        // create new company
-        this.props.game.newCompany({
-            id: this.props.game.companies.length,
-            name: cname
-        });
-        // empty name input
-        nameinput.val("");
-        this.props.update();
-        return true;
+        return false;
     }
 
     createCompanyEnter(e) {

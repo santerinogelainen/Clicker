@@ -36,6 +36,22 @@ export class Game {
     }
 
     /**
+     * Checks if you have enough money for something
+     * @param amount amount 
+     */
+    enoughMoneyFor(amount: number) {
+        return this.totalMoney >= amount;
+    }
+
+    /**
+     * Uses money
+     * @param amount the amount to use
+     */
+    useMoney(amount: number) {
+        this.totalMoney -= amount;
+    }
+
+    /**
      * "Work" (click) for money
      */
     work() {
@@ -48,9 +64,7 @@ export class Game {
      */
     public newCompany(company: Company){
         this.companies[company.id] = company;
-        if (this.companies.length > 1) {
-            this.companycost = this.companycost * this.costmodifier;
-        }
+        this.companycost = this.companycost * this.costmodifier;
         Stats.totalCompanies++;
     }
 

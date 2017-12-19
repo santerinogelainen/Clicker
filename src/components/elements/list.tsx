@@ -22,6 +22,7 @@ interface ListItemProps {
 	title: string;
 	number?: number;
 	money?: number;
+	total?: number;
 	onClick?: (...args) => any;
 	key: any;
 }
@@ -36,7 +37,7 @@ export class ListItem extends React.Component<ListItemProps> {
 
 	private listMoney() {
 		if (this.props.money != null) {
-			return <div className="list-money"><Money amount={this.props.money}/></div>
+			return <div className="list-money"><Money amount={this.props.money} total={this.props.total}/></div>
 		}
 	}
 

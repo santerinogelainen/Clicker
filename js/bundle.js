@@ -167,7 +167,7 @@ var ListItem = /** @class */ (function (_super) {
     ListItem.prototype.listMoney = function () {
         if (this.props.money != null) {
             return React.createElement("div", { className: "list-money" },
-                React.createElement(money_1.Money, { amount: this.props.money }));
+                React.createElement(money_1.Money, { amount: this.props.money, total: this.props.total }));
         }
     };
     ListItem.prototype.render = function () {
@@ -418,6 +418,20 @@ var Game = /** @class */ (function () {
         return total;
     };
     /**
+     * Checks if you have enough money for something
+     * @param amount amount
+     */
+    Game.prototype.enoughMoneyFor = function (amount) {
+        return this.totalMoney >= amount;
+    };
+    /**
+     * Uses money
+     * @param amount the amount to use
+     */
+    Game.prototype.useMoney = function (amount) {
+        this.totalMoney -= amount;
+    };
+    /**
      * "Work" (click) for money
      */
     Game.prototype.work = function () {
@@ -429,9 +443,7 @@ var Game = /** @class */ (function () {
      */
     Game.prototype.newCompany = function (company) {
         this.companies[company.id] = company;
-        if (this.companies.length > 1) {
-            this.companycost = this.companycost * this.costmodifier;
-        }
+        this.companycost = this.companycost * this.costmodifier;
         stats_1.Stats.totalCompanies++;
     };
     return Game;
@@ -1048,14 +1060,19 @@ var OutletList = /** @class */ (function (_super) {
          * Upgrades an outlet
          */
         _this.upgradeOutlet = function (e, outlet) {
-            outlet.upgrade();
-            _this.props.update();
+            if (_this.props.game.enoughMoneyFor(outlet.cost)) {
+                _this.props.game.useMoney(outlet.cost);
+                outlet.upgrade();
+                _this.props.update();
+            }
         };
         /**
          * Shows the new outlet modal
          */
         _this.showNewOutletModal = function () {
-            $("#new-outlet-modal").css("display", "flex");
+            if (_this.props.game.enoughMoneyFor(_this.props.game.map.selected.cost)) {
+                $("#new-outlet-modal").css("display", "flex");
+            }
         };
         return _this;
     }
@@ -1066,10 +1083,10 @@ var OutletList = /** @class */ (function (_super) {
         var _this = this;
         var items = [];
         this.props.game.map.selected.outlets.forEach(function (outlet, index) {
-            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.count, money: outlet.cost, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
+            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.count, money: outlet.cost, total: _this.props.game.totalMoney, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
         });
         if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {
-            items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal, money: this.props.game.map.selected.cost }));
+            items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal, money: this.props.game.map.selected.cost, total: this.props.game.totalMoney }));
         }
         return items;
     };
@@ -1145,22 +1162,26 @@ var NewCompanyModal = /** @class */ (function (_super) {
     }
     NewCompanyModal.prototype.createCompany = function (inputid) {
         if (inputid === void 0) { inputid = "#company-name-input"; }
-        var nameinput = $(inputid);
-        // check if company name is empty
-        var cname = nameinput.val().toString();
-        if (cname.length == 0) {
-            alert("Company name cannot be empty.");
-            return false;
+        if (this.props.game.enoughMoneyFor(this.props.game.companycost)) {
+            var nameinput = $(inputid);
+            // check if company name is empty
+            var cname = nameinput.val().toString();
+            if (cname.length == 0) {
+                alert("Company name cannot be empty.");
+                return false;
+            }
+            // create new company
+            this.props.game.useMoney(this.props.game.companycost);
+            this.props.game.newCompany({
+                id: this.props.game.companies.length,
+                name: cname
+            });
+            // empty name input
+            nameinput.val("");
+            this.props.update();
+            return true;
         }
-        // create new company
-        this.props.game.newCompany({
-            id: this.props.game.companies.length,
-            name: cname
-        });
-        // empty name input
-        nameinput.val("");
-        this.props.update();
-        return true;
+        return false;
     };
     NewCompanyModal.prototype.createCompanyEnter = function (e) {
         if (e.keyCode == 13) {
@@ -1528,14 +1549,17 @@ var CompanyListItem = /** @class */ (function (_super) {
          * Selects an item and creates a new outlet in selected city
          */
         _this.selectItem = function () {
-            _this.props.game.map.newOutlet(_this.props.company);
-            $("#new-outlet-modal").hide();
-            _this.props.update();
+            if (_this.props.game.enoughMoneyFor(_this.props.game.map.selected.cost)) {
+                _this.props.game.useMoney(_this.props.game.map.selected.cost);
+                _this.props.game.map.newOutlet(_this.props.company);
+                $("#new-outlet-modal").hide();
+                _this.props.update();
+            }
         };
         return _this;
     }
     CompanyListItem.prototype.render = function () {
-        return (React.createElement(list_1.ListItem, { title: this.props.company.name, key: this.props.index, onClick: this.selectItem }));
+        return (React.createElement(list_1.ListItem, { title: this.props.company.name, key: this.props.index, onClick: this.selectItem, money: this.props.game.map.selected.cost, total: this.props.game.totalMoney }));
     };
     return CompanyListItem;
 }(React.Component));
