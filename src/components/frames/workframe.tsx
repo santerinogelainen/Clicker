@@ -6,13 +6,6 @@ import {Props} from "../other/props";
 
 export class WorkFrame extends React.Component<Props> {
 
-    constructor(props: Props) {
-        super(props);
-        this.props.game.clock.onNextDay = () => {
-            this.forceUpdate();
-        }
-    }
-
     work = () => {
         this.props.game.work();
         this.props.update();

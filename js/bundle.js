@@ -205,9 +205,15 @@ var Money = /** @class */ (function (_super) {
     function Money() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    Money.prototype.getClassName = function () {
+        if (this.props.total >= this.props.amount) {
+            return 'enough';
+        }
+        return 'not-enough';
+    };
     Money.prototype.render = function () {
         return (React.createElement("div", { className: "money" },
-            React.createElement("span", { className: "amount" }, format_1.Format.abbriviate(this.props.amount)),
+            React.createElement("span", { className: "amount " + this.getClassName() }, format_1.Format.abbriviate(this.props.amount)),
             React.createElement("img", { className: "money-pile", src: "./img/svg/money_pile_1.svg" })));
     };
     return Money;
@@ -671,6 +677,7 @@ var Clock = /** @class */ (function () {
             });
         };
         this.date = new Date();
+        this.start();
     }
     Object.defineProperty(Clock.prototype, "onNextDay", {
         /**
@@ -1195,14 +1202,11 @@ var format_1 = __webpack_require__(6);
 var frame_1 = __webpack_require__(1);
 var WorkFrame = /** @class */ (function (_super) {
     __extends(WorkFrame, _super);
-    function WorkFrame(props) {
-        var _this = _super.call(this, props) || this;
+    function WorkFrame() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.work = function () {
             _this.props.game.work();
             _this.props.update();
-        };
-        _this.props.game.clock.onNextDay = function () {
-            _this.forceUpdate();
         };
         return _this;
     }
@@ -1297,8 +1301,10 @@ var NavigationFrame = /** @class */ (function (_super) {
             $("#stats-frame").hide();
         };
         _this.showNewCompanyModal = function () {
-            $("#new-company-modal").css("display", "flex");
-            $("#company-name-input").focus();
+            if (_this.props.game.totalMoney >= _this.props.game.companycost) {
+                $("#new-company-modal").css("display", "flex");
+                $("#company-name-input").focus();
+            }
         };
         return _this;
     }
@@ -1309,7 +1315,7 @@ var NavigationFrame = /** @class */ (function (_super) {
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Stats", onClick: this.showStats }),
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Map", onClick: this.showMap }),
                 React.createElement(navigationbutton_1.NavigationButton, { text: "New company", onClick: this.showNewCompanyModal },
-                    React.createElement(money_1.Money, { amount: this.props.game.companycost })))));
+                    React.createElement(money_1.Money, { amount: this.props.game.companycost, total: this.props.game.totalMoney })))));
     };
     return NavigationFrame;
 }(React.Component));
@@ -1372,7 +1378,7 @@ var DayClock = /** @class */ (function (_super) {
     function DayClock(props) {
         var _this = _super.call(this, props) || this;
         _this.props.game.clock.onNextDay = function () {
-            _this.forceUpdate();
+            _this.props.update();
         };
         return _this;
     }

@@ -6,7 +6,7 @@ export class DayClock extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
 		this.props.game.clock.onNextDay = () => {
-			this.forceUpdate();
+			this.props.update();
 		}
 	}
 
