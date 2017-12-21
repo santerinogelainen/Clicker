@@ -11,6 +11,25 @@ export class WorkFrame extends React.Component<Props> {
         this.props.update();
     }
 
+    rotate = (elem: string, startdeg: number, enddeg: number, length: number) => {
+        let angle;
+        $(elem).stop();
+        $({deg: startdeg}).animate({deg: enddeg}, {
+            duration: length,
+            step: function(now) {
+                $(elem).css("transform", "rotate(" + now + "deg)");
+            }
+        });
+    }
+
+    pickaxedown = () => {
+        this.rotate("#pickaxe", 0, -45, 50);
+    }
+
+    pickaxeup = () => {
+        this.rotate("#pickaxe", -45, 0, 50);
+    }
+
     getMoneyPileImg() {
         let first = 1000;
         let second = 10000;
@@ -48,7 +67,10 @@ export class WorkFrame extends React.Component<Props> {
                     <div className="total-mpd">+ {Format.abbriviate(this.props.game.getTotalMpd())} MPD</div>
                 </Frame>
                 <Frame frameId="click">
-                    <img id="work" src="./img/placeholder.png" onClick={this.work}/>
+                    <div id="work" onClick={this.work} onMouseDown={this.pickaxedown} onMouseUp={this.pickaxeup}>
+                        <img id="ore" src="./img/gold_ore.png"/>
+                        <img id="pickaxe" src="./img/pickaxe.png"/>
+                    </div>
                     {this.getMoneyPileImg()}
                 </Frame>
             </Frame>

@@ -40,6 +40,8 @@ body, html, #body, #main-frame, #game-frame {
     border: none;
     font-family: "Roboto", sans-serif;
     box-sizing: border-box;
+    background-color: color('black');
+    color: white;
 }
 
 /*
@@ -65,10 +67,12 @@ $rightside: 70%;
 
 #work-frame {
     width: $leftside;
+    border-right: 5px solid color('darkblack');
 }
 
 #selected-city-frame {
     height: 40%;
+    border-top: 5px solid color('darkblack');
 }
 
 #canvas-frame {
@@ -83,6 +87,7 @@ $rightside: 70%;
 #city-info-frame {
     width: 40%;
     float: left;
+    border-right: 5px solid color('darkblack');
 }
 
 #upgrade-info-frame {
@@ -95,8 +100,7 @@ $rightside: 70%;
 */
 
 $selected-city-height: 40px;
-$select-color: color('white');
-$select-secondary-color: color('darkwhite');
+$select-color: color('darkblack');
 $selected-city-font-size: 20px;
 $selected-city-padding: 0 5px 0 5px;
 
@@ -113,15 +117,11 @@ $selected-city-padding: 0 5px 0 5px;
     font-weight: 700;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .city-select {
     @include no-selection();
-}
-
-.selected-city:hover {
-    background-color: $select-secondary-color;
-    cursor: pointer;
 }
 
 .select-search {
@@ -152,10 +152,6 @@ $selected-city-padding: 0 5px 0 5px;
     z-index: 1;
 }
 
-.select-option:nth-child(even) {
-    background-color: $select-secondary-color;
-}
-
 .selected-city > .name {
     max-width: 100%;
     text-overflow: ellipsis;
@@ -184,6 +180,11 @@ $selected-city-padding: 0 5px 0 5px;
 * WORK FRAME
 */
 
+#work-frame {
+    background-color: color('black');
+    color: white;
+}
+
 #total-frame {
     height: 30%;
     @include center-flex();
@@ -206,10 +207,22 @@ $selected-city-padding: 0 5px 0 5px;
 
 #work {
     @include no-selection();
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
+    position: relative;
     margin: 0 auto 0 auto;
+}
 
+#ore {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+#pickaxe {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 #click-frame {
@@ -225,8 +238,6 @@ $selected-city-padding: 0 5px 0 5px;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    height: 215px;
-    width: auto;
 }
 
 /*
@@ -250,6 +261,7 @@ $modalpositive: 'green';
 
 .modal {
     background-color: $modalcolor;
+    color: black;
     box-sizing: border-box;
     padding: 10px;
     width: 500px;
@@ -318,7 +330,7 @@ $inputborder: color("darkwhite");
 */
 
 $barheight: 50px;
-$navbg: 'white';
+$navbg: 'darkblack';
 
 
 #navigation-frame {
@@ -347,7 +359,6 @@ $navbg: 'white';
     flex-direction: row;
     padding: 0 20px 0 20px;
     cursor: pointer;
-    @include dark-on-hover($navbg);
 }
 
 #main-frame {
@@ -364,7 +375,7 @@ $navbg: 'white';
 *   LISTS
 */
 
-$listitemcolor: 'white';
+$listitemcolor: 'darkblack';
 $listitemheight: 50px;
 
 .list {
@@ -411,7 +422,7 @@ $listitemheight: 50px;
     top: -50px;
     left: 0;
     width: 100%;
-    background-color: color('white');
+    background-color: color('darkblack');
     box-sizing: border-box;
     padding: 5px;
     z-index: 2;
@@ -419,11 +430,19 @@ $listitemheight: 50px;
 }
 
 .cannot-upgrade {
-    background-color: color('darkwhite');
+    background-color: color('darkblack');
 }
 
 .can-upgrade {
-    @include dark-on-hover($listitemcolor);
+    background-color: color('darkblack');
+}
+
+#company-list > .can-upgrade {
+    @include dark-on-hover('white');
+}
+
+#company-list > .cannot-upgrade {
+    background-color: color('darkwhite');
 }
 
 /*
@@ -472,7 +491,7 @@ $listitemheight: 50px;
 .debug-controls {
     display: none;
     position: absolute;
-    background-color: color('white');
+    background-color: color('darkblack');
     top: 100px;
     z-index: 100;
     left: 0;
@@ -482,8 +501,4 @@ $listitemheight: 50px;
     @include no-selection();
     padding: 5px;
     cursor: pointer;
-}
-
-.debug-control:hover {
-    background-color: color('darkwhite');
 }

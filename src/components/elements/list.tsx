@@ -11,7 +11,7 @@ export class List extends React.Component<ListProps> {
 
 	render() {
 		return (
-			<div className="list" id={this.props.id != null ? " " + this.props.id + "-list" : null}>
+			<div className="list" id={this.props.id != null ? this.props.id + "-list" : null}>
 				{this.props.items}
 			</div>
 		);

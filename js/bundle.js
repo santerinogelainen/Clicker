@@ -206,7 +206,7 @@ var List = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     List.prototype.render = function () {
-        return (React.createElement("div", { className: "list", id: this.props.id != null ? " " + this.props.id + "-list" : null }, this.props.items));
+        return (React.createElement("div", { className: "list", id: this.props.id != null ? this.props.id + "-list" : null }, this.props.items));
     };
     return List;
 }(React.Component));
@@ -1287,6 +1287,22 @@ var WorkFrame = /** @class */ (function (_super) {
             _this.props.game.work();
             _this.props.update();
         };
+        _this.rotate = function (elem, startdeg, enddeg, length) {
+            var angle;
+            $(elem).stop();
+            $({ deg: startdeg }).animate({ deg: enddeg }, {
+                duration: length,
+                step: function (now) {
+                    $(elem).css("transform", "rotate(" + now + "deg)");
+                }
+            });
+        };
+        _this.pickaxedown = function () {
+            _this.rotate("#pickaxe", 0, -45, 50);
+        };
+        _this.pickaxeup = function () {
+            _this.rotate("#pickaxe", -45, 0, 50);
+        };
         return _this;
     }
     WorkFrame.prototype.getMoneyPileImg = function () {
@@ -1329,7 +1345,9 @@ var WorkFrame = /** @class */ (function (_super) {
                     format_1.Format.abbriviate(this.props.game.getTotalMpd()),
                     " MPD")),
             React.createElement(frame_1.Frame, { frameId: "click" },
-                React.createElement("img", { id: "work", src: "./img/placeholder.png", onClick: this.work }),
+                React.createElement("div", { id: "work", onClick: this.work, onMouseDown: this.pickaxedown, onMouseUp: this.pickaxeup },
+                    React.createElement("img", { id: "ore", src: "./img/gold_ore.png" }),
+                    React.createElement("img", { id: "pickaxe", src: "./img/pickaxe.png" })),
                 this.getMoneyPileImg())));
     };
     return WorkFrame;
