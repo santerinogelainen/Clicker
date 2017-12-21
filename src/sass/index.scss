@@ -378,7 +378,6 @@ $listitemheight: 50px;
     width: 100%;
     height: $listitemheight;
     cursor: pointer;
-    @include dark-on-hover($listitemcolor);
     position: relative;
 }
 
@@ -404,6 +403,27 @@ $listitemheight: 50px;
     float: right;
     height: $listitemheight;
     @include center-flex();
+}
+
+.list-info {
+    position: absolute;
+    height: 50px;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    background-color: color('white');
+    box-sizing: border-box;
+    padding: 5px;
+    z-index: 2;
+    display: none;
+}
+
+.cannot-upgrade {
+    background-color: color('darkwhite');
+}
+
+.can-upgrade {
+    @include dark-on-hover($listitemcolor);
 }
 
 /*

@@ -120,109 +120,6 @@ exports.Stats = Stats;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-module.exports = $;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var money_1 = __webpack_require__(5);
-var List = /** @class */ (function (_super) {
-    __extends(List, _super);
-    function List() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    List.prototype.render = function () {
-        return (React.createElement("div", { className: "list", id: this.props.id != null ? " " + this.props.id + "-list" : null }, this.props.items));
-    };
-    return List;
-}(React.Component));
-exports.List = List;
-var ListItem = /** @class */ (function (_super) {
-    __extends(ListItem, _super);
-    function ListItem() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ListItem.prototype.listNumber = function () {
-        if (this.props.number != null) {
-            return React.createElement("span", { className: "list-number" }, this.props.number);
-        }
-    };
-    ListItem.prototype.listMoney = function () {
-        if (this.props.money != null) {
-            return React.createElement("div", { className: "list-money" },
-                React.createElement(money_1.Money, { amount: this.props.money, total: this.props.total }));
-        }
-    };
-    ListItem.prototype.render = function () {
-        return (React.createElement("div", { className: "list-item", onClick: this.props.onClick },
-            this.listNumber(),
-            React.createElement("span", { className: "list-title" }, this.props.title),
-            this.listMoney()));
-    };
-    return ListItem;
-}(React.Component));
-exports.ListItem = ListItem;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var format_1 = __webpack_require__(6);
-var Money = /** @class */ (function (_super) {
-    __extends(Money, _super);
-    function Money() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Money.prototype.getClassName = function () {
-        if (this.props.total >= this.props.amount) {
-            return 'enough';
-        }
-        return 'not-enough';
-    };
-    Money.prototype.render = function () {
-        return (React.createElement("div", { className: "money" },
-            React.createElement("span", { className: "amount " + this.getClassName() }, format_1.Format.abbriviate(this.props.amount)),
-            React.createElement("img", { className: "money-pile", src: "./img/svg/money_pile_1.svg" })));
-    };
-    return Money;
-}(React.Component));
-exports.Money = Money;
-
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -276,6 +173,146 @@ var Format = /** @class */ (function () {
     return Format;
 }());
 exports.Format = Format;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = $;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var money_1 = __webpack_require__(6);
+var List = /** @class */ (function (_super) {
+    __extends(List, _super);
+    function List() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    List.prototype.render = function () {
+        return (React.createElement("div", { className: "list", id: this.props.id != null ? " " + this.props.id + "-list" : null }, this.props.items));
+    };
+    return List;
+}(React.Component));
+exports.List = List;
+var ListItem = /** @class */ (function (_super) {
+    __extends(ListItem, _super);
+    function ListItem() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.showInfo = function (e) {
+            if (_this.props.info != null) {
+                $(e.currentTarget).find(".list-info").show();
+            }
+        };
+        _this.hideInfo = function (e) {
+            if (_this.props.info != null) {
+                $(e.currentTarget).find(".list-info").hide();
+            }
+        };
+        return _this;
+    }
+    ListItem.prototype.listNumber = function () {
+        if (this.props.number != null) {
+            return React.createElement("span", { className: "list-number" }, this.props.number);
+        }
+    };
+    ListItem.prototype.listMoney = function () {
+        if (this.props.money != null) {
+            return React.createElement("div", { className: "list-money" },
+                React.createElement(money_1.Money, { amount: this.props.money, total: this.props.total }));
+        }
+    };
+    ListItem.prototype.buyable = function () {
+        if (this.props.money != null) {
+            if (this.props.total >= this.props.money) {
+                return "can-upgrade";
+            }
+            return "cannot-upgrade";
+        }
+        return "";
+    };
+    ListItem.prototype.render = function () {
+        return (React.createElement("div", { className: "list-item " + this.buyable(), onClick: this.props.onClick, onMouseOver: this.showInfo, onMouseLeave: this.hideInfo },
+            this.props.info,
+            this.listNumber(),
+            React.createElement("span", { className: "list-title" }, this.props.title),
+            this.listMoney()));
+    };
+    return ListItem;
+}(React.Component));
+exports.ListItem = ListItem;
+var ListInfo = /** @class */ (function (_super) {
+    __extends(ListInfo, _super);
+    function ListInfo() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.hide = function (e) {
+            e.stopPropagation();
+            $(e.currentTarget).hide();
+        };
+        return _this;
+    }
+    ListInfo.prototype.render = function () {
+        return (React.createElement("div", { className: "list-info", onMouseOver: this.hide }, this.props.children));
+    };
+    return ListInfo;
+}(React.Component));
+exports.ListInfo = ListInfo;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var format_1 = __webpack_require__(3);
+var Money = /** @class */ (function (_super) {
+    __extends(Money, _super);
+    function Money() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Money.prototype.getClassName = function () {
+        if (this.props.total >= this.props.amount) {
+            return 'enough';
+        }
+        return 'not-enough';
+    };
+    Money.prototype.render = function () {
+        return (React.createElement("div", { className: "money" },
+            React.createElement("span", { className: "amount " + this.getClassName() }, format_1.Format.abbriviate(this.props.amount)),
+            React.createElement("img", { className: "money-pile", src: "./img/svg/money_pile_1.svg" })));
+    };
+    return Money;
+}(React.Component));
+exports.Money = Money;
 
 
 /***/ }),
@@ -385,7 +422,7 @@ module.exports = __webpack_require__(34);
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(10);
-var $ = __webpack_require__(3);
+var $ = __webpack_require__(4);
 var game_1 = __webpack_require__(11);
 var mainframe_1 = __webpack_require__(17);
 var game = new game_1.Game();
@@ -476,7 +513,7 @@ exports.Game = Game;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var city_1 = __webpack_require__(13);
-var $ = __webpack_require__(3);
+var $ = __webpack_require__(4);
 var CityJSON = __webpack_require__(15);
 var stats_1 = __webpack_require__(2);
 var Map = /** @class */ (function () {
@@ -1070,7 +1107,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var list_1 = __webpack_require__(4);
+var list_1 = __webpack_require__(5);
+var format_1 = __webpack_require__(3);
 var OutletList = /** @class */ (function (_super) {
     __extends(OutletList, _super);
     function OutletList() {
@@ -1102,7 +1140,14 @@ var OutletList = /** @class */ (function (_super) {
         var _this = this;
         var items = [];
         this.props.game.map.selected.outlets.forEach(function (outlet, index) {
-            items.push(React.createElement(list_1.ListItem, { title: outlet.name, key: index, number: outlet.count, money: outlet.cost, total: _this.props.game.totalMoney, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
+            var info = (React.createElement(list_1.ListInfo, null,
+                React.createElement("div", { className: "outlet-mpd" },
+                    React.createElement("span", { className: "outlet-mpd-text" }, "Mpd: "),
+                    React.createElement("span", { className: "outlet-mpd-number" }, format_1.Format.abbriviate(outlet.mpd))),
+                React.createElement("div", { className: "outlet-per-upgrade" },
+                    React.createElement("span", { className: "outlet-per-upgrade-text" }, "Per upgrade: "),
+                    React.createElement("span", { className: "outlet-per-upgrade-number" }, format_1.Format.abbriviate(outlet.basempd)))));
+            items.push(React.createElement(list_1.ListItem, { info: info, title: outlet.name, key: index, number: outlet.count, money: outlet.cost, total: _this.props.game.totalMoney, onClick: function (e, o) { return _this.upgradeOutlet(e, outlet); } }));
         });
         if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {
             items.push(React.createElement(list_1.ListItem, { title: "+ New outlet", key: "new-outlet", onClick: this.showNewOutletModal, money: this.props.game.map.selected.cost, total: this.props.game.totalMoney }));
@@ -1232,7 +1277,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var format_1 = __webpack_require__(6);
+var format_1 = __webpack_require__(3);
 var frame_1 = __webpack_require__(1);
 var WorkFrame = /** @class */ (function (_super) {
     __extends(WorkFrame, _super);
@@ -1321,7 +1366,7 @@ var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
 var navigationbutton_1 = __webpack_require__(28);
 var dayclock_1 = __webpack_require__(29);
-var money_1 = __webpack_require__(5);
+var money_1 = __webpack_require__(6);
 var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
     function NavigationFrame() {
@@ -1529,7 +1574,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var list_1 = __webpack_require__(4);
+var list_1 = __webpack_require__(5);
 var CompanyList = /** @class */ (function (_super) {
     __extends(CompanyList, _super);
     function CompanyList() {

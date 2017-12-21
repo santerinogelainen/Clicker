@@ -380,10 +380,7 @@ body, html, #body, #main-frame, #game-frame {
   width: 100%;
   height: 50px;
   cursor: pointer;
-  background-color: #ecf0f1;
   position: relative; }
-  .list-item:hover {
-    background-color: #bdc3c7; }
 
 .list-title {
   height: 50px;
@@ -413,6 +410,25 @@ body, html, #body, #main-frame, #game-frame {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center; }
+
+.list-info {
+  position: absolute;
+  height: 50px;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  background-color: #ecf0f1;
+  box-sizing: border-box;
+  padding: 5px;
+  z-index: 2; }
+
+.cannot-upgrade {
+  background-color: #bdc3c7; }
+
+.can-upgrade {
+  background-color: #ecf0f1; }
+  .can-upgrade:hover {
+    background-color: #bdc3c7; }
 
 /*
 *   MONEY
