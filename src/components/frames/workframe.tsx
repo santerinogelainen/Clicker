@@ -6,11 +6,6 @@ import {Props} from "../other/props";
 
 export class WorkFrame extends React.Component<Props> {
 
-    work = () => {
-        this.props.game.work();
-        this.props.update();
-    }
-
     rotate = (elem: string, startdeg: number, enddeg: number, length: number) => {
         let angle;
         $(elem).stop();
@@ -23,6 +18,8 @@ export class WorkFrame extends React.Component<Props> {
     }
 
     pickaxedown = () => {
+        this.props.game.work();
+        this.props.update();
         this.rotate("#pickaxe", 0, -45, 50);
     }
 
@@ -67,7 +64,7 @@ export class WorkFrame extends React.Component<Props> {
                     <div className="total-mpd">+ {Format.abbriviate(this.props.game.getTotalMpd())} MPD</div>
                 </Frame>
                 <Frame frameId="click">
-                    <div id="work" onClick={this.work} onMouseDown={this.pickaxedown} onMouseUp={this.pickaxeup}>
+                    <div id="work" onMouseDown={this.pickaxedown} onMouseUp={this.pickaxeup}>
                         <img id="ore" src="./img/gold_ore.png"/>
                         <img id="pickaxe" src="./img/pickaxe.png"/>
                     </div>

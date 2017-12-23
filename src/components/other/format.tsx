@@ -15,7 +15,7 @@ export class Format {
 			if (Format.isInteger(number)) {
 				n = Math.floor(number).toString();
 			} else {
-				n = number.toFixed(1).toString();
+				n = this.toFixed(number, 1);
 			}
 			return n;
 		}
@@ -24,7 +24,7 @@ export class Format {
 		for (let i = 0; i < Format.largenumberabbr.length; i++) {
 			if (number >= Math.pow(10, pow) && number < Math.pow(10, pow + 3)) {
 				number /= Math.pow(10, pow);
-				n = number.toFixed(1).toString();
+				n = this.toFixed(number, 1);
 				n += Format.largenumberabbr[i];
 				return n;
 			}
@@ -33,9 +33,19 @@ export class Format {
 
 		
 		number /= Math.pow(10, (Format.largenumberabbr.length * 3));
-		n = number.toFixed(1).toString();
+		n = this.toFixed(number, 1).toString();
 		return n + Format.largenumberabbr[Format.largenumberabbr.length-1];
 
+	}
+
+	/**
+	 * Fuck js https://stackoverflow.com/questions/4187146/display-two-decimal-places-no-rounding
+	 * @param num number to be cut
+	 * @param fixed round or no round
+	 */
+	private static toFixed(num, fixed) {
+		let re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
+		return num.toString().match(re)[0];
 	}
 
 	/**

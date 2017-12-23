@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -140,7 +140,7 @@ var Format = /** @class */ (function () {
                 n = Math.floor(number).toString();
             }
             else {
-                n = number.toFixed(1).toString();
+                n = this.toFixed(number, 1);
             }
             return n;
         }
@@ -148,15 +148,24 @@ var Format = /** @class */ (function () {
         for (var i = 0; i < Format.largenumberabbr.length; i++) {
             if (number >= Math.pow(10, pow) && number < Math.pow(10, pow + 3)) {
                 number /= Math.pow(10, pow);
-                n = number.toFixed(1).toString();
+                n = this.toFixed(number, 1);
                 n += Format.largenumberabbr[i];
                 return n;
             }
             pow += 3;
         }
         number /= Math.pow(10, (Format.largenumberabbr.length * 3));
-        n = number.toFixed(1).toString();
+        n = this.toFixed(number, 1).toString();
         return n + Format.largenumberabbr[Format.largenumberabbr.length - 1];
+    };
+    /**
+     * Fuck js https://stackoverflow.com/questions/4187146/display-two-decimal-places-no-rounding
+     * @param num number to be cut
+     * @param fixed round or no round
+     */
+    Format.toFixed = function (num, fixed) {
+        var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
+        return num.toString().match(re)[0];
     };
     /**
      * Check if a number is an integer
@@ -179,10 +188,16 @@ exports.Format = Format;
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = $;
+module.exports = ReactDOM;
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+module.exports = $;
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,7 +214,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var money_1 = __webpack_require__(6);
+var money_1 = __webpack_require__(7);
 var List = /** @class */ (function (_super) {
     __extends(List, _super);
     function List() {
@@ -276,7 +291,7 @@ exports.ListInfo = ListInfo;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -316,7 +331,7 @@ exports.Money = Money;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -406,34 +421,28 @@ exports.Modal = Modal;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(9);
-module.exports = __webpack_require__(34);
+__webpack_require__(10);
+module.exports = __webpack_require__(37);
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(10);
-var $ = __webpack_require__(4);
+var ReactDOM = __webpack_require__(4);
+var $ = __webpack_require__(5);
 var game_1 = __webpack_require__(11);
-var mainframe_1 = __webpack_require__(17);
+var mainframe_1 = __webpack_require__(18);
 var game = new game_1.Game();
 ReactDOM.render(React.createElement(mainframe_1.MainFrame, { game: game }), $("#body")[0]);
 
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-module.exports = ReactDOM;
 
 /***/ }),
 /* 11 */
@@ -445,13 +454,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var stats_1 = __webpack_require__(2);
 var map_1 = __webpack_require__(12);
 var clock_1 = __webpack_require__(16);
+var AchievementsJSON = __webpack_require__(17);
+var Achievements = AchievementsJSON;
 var Game = /** @class */ (function () {
     function Game() {
         var _this = this;
+        this.achievements = [];
         this.companies = [];
         this.companycost = 50;
         this.costmodifier = 10;
         this.perClick = 1;
+        //events
+        this.onAchievementEvents = [];
         this.totalMoney = 0;
         this.clock = new clock_1.Clock();
         this.clock.onNextDay = function () {
@@ -491,11 +505,38 @@ var Game = /** @class */ (function () {
     Game.prototype.work = function () {
         this.totalMoney += this.perClick;
     };
+    Object.defineProperty(Game.prototype, "onNewAchievement", {
+        /**
+         * Create a new event that triggers when a new achievement is achieved
+         */
+        set: function (func) {
+            this.onAchievementEvents.push(func);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Get new achievement
+     * @param achievement achievement
+     */
+    Game.prototype.newAchievement = function (achievement) {
+        this.achievements.push(achievement);
+        // run through all onNewAchievement events
+        this.onAchievementEvents.forEach(function (func) {
+            func(achievement);
+        });
+    };
     /**
      * adds a new company
      * @param company company that is added
      */
     Game.prototype.newCompany = function (company) {
+        if (company.id == 0) {
+            this.newAchievement(Achievements.firstcompany);
+        }
+        if (company.id == 4) {
+            this.newAchievement(Achievements.fifthcompany);
+        }
         this.companies[company.id] = company;
         this.companycost = this.companycost * this.costmodifier;
         stats_1.Stats.totalCompanies++;
@@ -513,7 +554,7 @@ exports.Game = Game;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var city_1 = __webpack_require__(13);
-var $ = __webpack_require__(4);
+var $ = __webpack_require__(5);
 var CityJSON = __webpack_require__(15);
 var stats_1 = __webpack_require__(2);
 var Map = /** @class */ (function () {
@@ -777,54 +818,9 @@ exports.Clock = Clock;
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var mapframe_1 = __webpack_require__(18);
-var frame_1 = __webpack_require__(1);
-var newcompany_1 = __webpack_require__(25);
-var workframe_1 = __webpack_require__(26);
-var navigationframe_1 = __webpack_require__(27);
-var statsframe_1 = __webpack_require__(30);
-var newoutlet_1 = __webpack_require__(31);
-var debugcontrols_1 = __webpack_require__(33);
-var MainFrame = /** @class */ (function (_super) {
-    __extends(MainFrame, _super);
-    function MainFrame() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.update = function () {
-            _this.forceUpdate();
-        };
-        return _this;
-    }
-    MainFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "main" },
-            React.createElement(debugcontrols_1.DebugControls, { game: this.props.game, update: this.update }),
-            React.createElement(newcompany_1.NewCompanyModal, { game: this.props.game, update: this.update }),
-            React.createElement(newoutlet_1.NewOutletModal, { game: this.props.game, update: this.update }),
-            React.createElement(frame_1.Frame, { frameId: "game" },
-                React.createElement(navigationframe_1.NavigationFrame, { game: this.props.game, update: this.update }),
-                React.createElement(workframe_1.WorkFrame, { game: this.props.game, update: this.update }),
-                React.createElement(statsframe_1.StatsFrame, { game: this.props.game, update: this.update }),
-                React.createElement(mapframe_1.MapFrame, { game: this.props.game, update: this.update }))));
-    };
-    return MainFrame;
-}(React.Component));
-exports.MainFrame = MainFrame;
-
+module.exports = {"firstcompany":{"title":"First steps","description":"Create your first company","icon":"./img/placeholder.svg"},"fifthcompany":{"title":"Small empire","description":"Create your fifth company","icon":"./img/placeholder.svg"}}
 
 /***/ }),
 /* 18 */
@@ -842,32 +838,41 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var selectedcityframe_1 = __webpack_require__(19);
-var mapcanvasframe_1 = __webpack_require__(24);
+var mapframe_1 = __webpack_require__(19);
 var frame_1 = __webpack_require__(1);
-var MapFrame = /** @class */ (function (_super) {
-    __extends(MapFrame, _super);
-    function MapFrame() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var newcompany_1 = __webpack_require__(26);
+var workframe_1 = __webpack_require__(27);
+var navigationframe_1 = __webpack_require__(28);
+var statsframe_1 = __webpack_require__(31);
+var newoutlet_1 = __webpack_require__(32);
+var debugcontrols_1 = __webpack_require__(34);
+var popupframe_1 = __webpack_require__(35);
+var MainFrame = /** @class */ (function (_super) {
+    __extends(MainFrame, _super);
+    function MainFrame() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.update = function () {
+            _this.forceUpdate();
+        };
+        return _this;
     }
-    MapFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "map" },
-            React.createElement(mapcanvasframe_1.MapCanvasFrame, __assign({}, this.props)),
-            React.createElement(selectedcityframe_1.SelectedCityFrame, __assign({}, this.props))));
+    MainFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "main" },
+            React.createElement(debugcontrols_1.DebugControls, { game: this.props.game, update: this.update }),
+            React.createElement(popupframe_1.PopUpFrame, { game: this.props.game, update: this.update }),
+            React.createElement(newcompany_1.NewCompanyModal, { game: this.props.game, update: this.update }),
+            React.createElement(newoutlet_1.NewOutletModal, { game: this.props.game, update: this.update }),
+            React.createElement(frame_1.Frame, { frameId: "game" },
+                React.createElement(navigationframe_1.NavigationFrame, { game: this.props.game, update: this.update }),
+                React.createElement(workframe_1.WorkFrame, { game: this.props.game, update: this.update }),
+                React.createElement(statsframe_1.StatsFrame, { game: this.props.game, update: this.update }),
+                React.createElement(mapframe_1.MapFrame, { game: this.props.game, update: this.update }))));
     };
-    return MapFrame;
+    return MainFrame;
 }(React.Component));
-exports.MapFrame = MapFrame;
+exports.MainFrame = MainFrame;
 
 
 /***/ }),
@@ -896,22 +901,22 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var selectedcityframe_1 = __webpack_require__(20);
+var mapcanvasframe_1 = __webpack_require__(25);
 var frame_1 = __webpack_require__(1);
-var cityinfoframe_1 = __webpack_require__(20);
-var upgradeinfoframe_1 = __webpack_require__(22);
-var SelectedCityFrame = /** @class */ (function (_super) {
-    __extends(SelectedCityFrame, _super);
-    function SelectedCityFrame() {
+var MapFrame = /** @class */ (function (_super) {
+    __extends(MapFrame, _super);
+    function MapFrame() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    SelectedCityFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "selected-city" },
-            React.createElement(cityinfoframe_1.CityInfoFrame, __assign({}, this.props)),
-            React.createElement(upgradeinfoframe_1.UpgradeInfoFrame, __assign({}, this.props))));
+    MapFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "map" },
+            React.createElement(mapcanvasframe_1.MapCanvasFrame, __assign({}, this.props)),
+            React.createElement(selectedcityframe_1.SelectedCityFrame, __assign({}, this.props))));
     };
-    return SelectedCityFrame;
+    return MapFrame;
 }(React.Component));
-exports.SelectedCityFrame = SelectedCityFrame;
+exports.MapFrame = MapFrame;
 
 
 /***/ }),
@@ -941,7 +946,51 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var cityselect_1 = __webpack_require__(21);
+var cityinfoframe_1 = __webpack_require__(21);
+var upgradeinfoframe_1 = __webpack_require__(23);
+var SelectedCityFrame = /** @class */ (function (_super) {
+    __extends(SelectedCityFrame, _super);
+    function SelectedCityFrame() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SelectedCityFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "selected-city" },
+            React.createElement(cityinfoframe_1.CityInfoFrame, __assign({}, this.props)),
+            React.createElement(upgradeinfoframe_1.UpgradeInfoFrame, __assign({}, this.props))));
+    };
+    return SelectedCityFrame;
+}(React.Component));
+exports.SelectedCityFrame = SelectedCityFrame;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var cityselect_1 = __webpack_require__(22);
 var CityInfoFrame = /** @class */ (function (_super) {
     __extends(CityInfoFrame, _super);
     function CityInfoFrame() {
@@ -958,7 +1007,7 @@ exports.CityInfoFrame = CityInfoFrame;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1048,7 +1097,7 @@ exports.CitySelect = CitySelect;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1074,7 +1123,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var outletlist_1 = __webpack_require__(23);
+var outletlist_1 = __webpack_require__(24);
 var UpgradeInfoFrame = /** @class */ (function (_super) {
     __extends(UpgradeInfoFrame, _super);
     function UpgradeInfoFrame() {
@@ -1090,7 +1139,7 @@ exports.UpgradeInfoFrame = UpgradeInfoFrame;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1107,7 +1156,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var list_1 = __webpack_require__(5);
+var list_1 = __webpack_require__(6);
 var format_1 = __webpack_require__(3);
 var OutletList = /** @class */ (function (_super) {
     __extends(OutletList, _super);
@@ -1163,7 +1212,7 @@ exports.OutletList = OutletList;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1195,7 +1244,7 @@ exports.MapCanvasFrame = MapCanvasFrame;
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1212,7 +1261,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(7);
+var modal_1 = __webpack_require__(8);
 var NewCompanyModal = /** @class */ (function (_super) {
     __extends(NewCompanyModal, _super);
     function NewCompanyModal() {
@@ -1260,7 +1309,7 @@ exports.NewCompanyModal = NewCompanyModal;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1283,10 +1332,6 @@ var WorkFrame = /** @class */ (function (_super) {
     __extends(WorkFrame, _super);
     function WorkFrame() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.work = function () {
-            _this.props.game.work();
-            _this.props.update();
-        };
         _this.rotate = function (elem, startdeg, enddeg, length) {
             var angle;
             $(elem).stop();
@@ -1298,6 +1343,8 @@ var WorkFrame = /** @class */ (function (_super) {
             });
         };
         _this.pickaxedown = function () {
+            _this.props.game.work();
+            _this.props.update();
             _this.rotate("#pickaxe", 0, -45, 50);
         };
         _this.pickaxeup = function () {
@@ -1345,7 +1392,7 @@ var WorkFrame = /** @class */ (function (_super) {
                     format_1.Format.abbriviate(this.props.game.getTotalMpd()),
                     " MPD")),
             React.createElement(frame_1.Frame, { frameId: "click" },
-                React.createElement("div", { id: "work", onClick: this.work, onMouseDown: this.pickaxedown, onMouseUp: this.pickaxeup },
+                React.createElement("div", { id: "work", onMouseDown: this.pickaxedown, onMouseUp: this.pickaxeup },
                     React.createElement("img", { id: "ore", src: "./img/gold_ore.png" }),
                     React.createElement("img", { id: "pickaxe", src: "./img/pickaxe.png" })),
                 this.getMoneyPileImg())));
@@ -1356,7 +1403,7 @@ exports.WorkFrame = WorkFrame;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1382,9 +1429,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var navigationbutton_1 = __webpack_require__(28);
-var dayclock_1 = __webpack_require__(29);
-var money_1 = __webpack_require__(6);
+var navigationbutton_1 = __webpack_require__(29);
+var dayclock_1 = __webpack_require__(30);
+var money_1 = __webpack_require__(7);
 var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
     function NavigationFrame() {
@@ -1420,7 +1467,7 @@ exports.NavigationFrame = NavigationFrame;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1453,7 +1500,7 @@ exports.NavigationButton = NavigationButton;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1493,7 +1540,7 @@ exports.DayClock = DayClock;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1525,48 +1572,6 @@ exports.StatsFrame = StatsFrame;
 
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(7);
-var companylist_1 = __webpack_require__(32);
-var NewOutletModal = /** @class */ (function (_super) {
-    __extends(NewOutletModal, _super);
-    function NewOutletModal() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NewOutletModal.prototype.render = function () {
-        return (React.createElement(modal_1.Modal, { type: modal_1.ModalType.Cancel, id: "new-outlet", onCancel: function () { return true; }, title: "New outlet in " + this.props.game.map.selected.name },
-            React.createElement(companylist_1.CompanyList, __assign({}, this.props))));
-    };
-    return NewOutletModal;
-}(React.Component));
-exports.NewOutletModal = NewOutletModal;
-
-
-/***/ }),
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1592,7 +1597,49 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var list_1 = __webpack_require__(5);
+var modal_1 = __webpack_require__(8);
+var companylist_1 = __webpack_require__(33);
+var NewOutletModal = /** @class */ (function (_super) {
+    __extends(NewOutletModal, _super);
+    function NewOutletModal() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    NewOutletModal.prototype.render = function () {
+        return (React.createElement(modal_1.Modal, { type: modal_1.ModalType.Cancel, id: "new-outlet", onCancel: function () { return true; }, title: "New outlet in " + this.props.game.map.selected.name },
+            React.createElement(companylist_1.CompanyList, __assign({}, this.props))));
+    };
+    return NewOutletModal;
+}(React.Component));
+exports.NewOutletModal = NewOutletModal;
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var list_1 = __webpack_require__(6);
 var CompanyList = /** @class */ (function (_super) {
     __extends(CompanyList, _super);
     function CompanyList() {
@@ -1642,7 +1689,7 @@ var CompanyListItem = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1718,7 +1765,98 @@ exports.DebugControl = DebugControl;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var popup_1 = __webpack_require__(36);
+var PopUpFrame = /** @class */ (function (_super) {
+    __extends(PopUpFrame, _super);
+    function PopUpFrame(props) {
+        var _this = _super.call(this, props) || this;
+        _this.popups = [];
+        _this.removePopUp = function (key) {
+            _this.popups.splice(key, 1);
+            _this.props.update();
+        };
+        _this.props.game.onNewAchievement = function (achievement) {
+            var key = _this.popups.length;
+            _this.popups.push(React.createElement(popup_1.PopUp, { title: achievement.title, description: achievement.description, onClose: function () { return _this.removePopUp(key); }, icon: achievement.icon, key: key }));
+        };
+        return _this;
+    }
+    PopUpFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "pop-up" }, this.popups));
+    };
+    return PopUpFrame;
+}(React.Component));
+exports.PopUpFrame = PopUpFrame;
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var react_dom_1 = __webpack_require__(4);
+var PopUp = /** @class */ (function (_super) {
+    __extends(PopUp, _super);
+    function PopUp() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.close = function () {
+            _this.props.onClose();
+        };
+        return _this;
+    }
+    PopUp.prototype.componentDidMount = function () {
+        var element = $(react_dom_1.findDOMNode(this));
+        element.animate({
+            opacity: 1
+        }, 200);
+    };
+    PopUp.prototype.render = function () {
+        return (React.createElement("div", { className: "pop-up" },
+            React.createElement("div", { className: "pop-up-close", onMouseDown: this.close }, "\u2715"),
+            React.createElement("div", { className: "pop-up-content" },
+                React.createElement("img", { className: "pop-up-icon", src: this.props.icon }),
+                React.createElement("div", { className: "pop-up-text" },
+                    React.createElement("div", { className: "pop-up-title" }, this.props.title),
+                    React.createElement("div", { className: "pop-up-description" }, this.props.description)))));
+    };
+    return PopUp;
+}(React.Component));
+exports.PopUp = PopUp;
+
+
+/***/ }),
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";

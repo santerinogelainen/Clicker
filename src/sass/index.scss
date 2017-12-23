@@ -502,3 +502,62 @@ $listitemheight: 50px;
     padding: 5px;
     cursor: pointer;
 }
+
+/*
+*   POPUPS
+*/
+
+#pop-up-frame {
+    z-index: 2;
+    position: absolute;
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: auto;
+    width: 320px;
+    bottom: 0;
+    left: 0;
+}
+
+.pop-up {
+    opacity: 0;
+    width: 300px;
+    font-size: 14px;
+    background-color: color('darkblack');
+    position: relative;
+    margin: 5px 0 5px 10px;
+}
+
+.pop-up-icon {
+    float: left;
+    height: 70px;
+    width: 70px;
+    flex: 0 0 auto;
+}
+
+.pop-up-text {
+    flex: 1 1 auto;
+    padding-left: 5px;
+}
+
+.pop-up-title {
+    font-size: 16px;
+}
+
+.pop-up-description {
+    font-size: 14px;
+}
+
+.pop-up-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 10px;
+}
+
+.pop-up-close {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    cursor: pointer;
+}
