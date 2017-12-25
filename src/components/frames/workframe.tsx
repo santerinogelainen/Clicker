@@ -1,8 +1,8 @@
 import * as React from "react";
-import {Format} from "../other/format";
+import {Format} from "../helpers/format";
 import {Frame} from "../elements/frame";
 import {Game} from "../core/game";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class WorkFrame extends React.Component<Props> {
 

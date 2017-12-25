@@ -7,6 +7,15 @@
 			"label": "webpack",
 			"command": "webpack",
 			"type": "shell"
+        },
+        {
+            "label": "mochatest",
+            "command": "npm",
+            "args": [
+                "run",
+                "test"
+            ],
+            "type": "shell"
         }
     ]
 }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Frame} from "../elements/frame";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 import {PopUp} from "../elements/popup";
 import {Achievement} from "../core/achievement";
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Map} from "../core/map";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class CitySelect extends React.Component<Props> {
     

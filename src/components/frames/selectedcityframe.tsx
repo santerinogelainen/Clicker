@@ -3,7 +3,7 @@ import {Frame} from "../elements/frame";
 import {Game} from "../core/game";
 import {CityInfoFrame} from "./cityinfoframe";
 import {UpgradeInfoFrame} from "./upgradeinfoframe";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class SelectedCityFrame extends React.Component<Props> {
     render() {

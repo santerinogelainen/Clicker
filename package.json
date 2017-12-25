@@ -4,7 +4,7 @@
   "description": "clicker game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register src/tests/*.ts"
   },
   "author": "",
   "license": "ISC",
@@ -18,14 +18,19 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.10",
+    "@types/mocha": "^2.2.45",
     "awesome-typescript-loader": "^3.4.0",
+    "chai": "^4.1.2",
     "css-loader": "^0.28.7",
     "extract-loader": "^1.0.1",
     "file-loader": "^1.1.5",
+    "mocha": "^4.0.1",
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.9",
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.3",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2",
     "webpack": "^3.9.1"
   }

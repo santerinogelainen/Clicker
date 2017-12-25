@@ -2,7 +2,7 @@ import * as React from "react";
 import {List, ListItem} from "../elements/list";
 import {Company} from "../core/company";
 import {City} from "../core/city";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class CompanyList extends React.Component<Props> {
 

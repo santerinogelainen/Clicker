@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Frame} from "../elements/frame";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 import {NavigationButton} from "../elements/navigationbutton";
 import {DayClock} from "../elements/dayclock";
 import {Money} from "../elements/money";

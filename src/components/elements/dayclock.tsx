@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class DayClock extends React.Component<Props> {
 

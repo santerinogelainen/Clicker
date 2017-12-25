@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Format} from "../other/format";
+import {Format} from "../helpers/format";
 
 interface MoneyProps {
 	amount: number;

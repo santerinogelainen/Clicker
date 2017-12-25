@@ -2,7 +2,7 @@ import * as React from "react";
 import {Modal, ModalType} from "../elements/modal";
 import { Game } from "../core/game";
 import {CompanyList} from "../lists/companylist";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class NewOutletModal extends React.Component<Props> {
 

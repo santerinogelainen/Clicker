@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Map} from "../core/map";
 import {Frame} from "../elements/frame";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class MapCanvasFrame extends React.Component<Props> {
 

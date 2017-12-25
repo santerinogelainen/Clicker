@@ -3,6 +3,7 @@ import {Stats} from "./stats";
 import {Map} from "./map";
 import {Clock} from "./clock";
 import { Achievement } from "./achievement";
+import {Dictionary} from "../helpers/dictionary";
 import * as AchievementsJSON from "../../json/achievements.json";
 
 let Achievements = AchievementsJSON as any;
@@ -10,7 +11,7 @@ let Achievements = AchievementsJSON as any;
 export class Game {
 
     clock: Clock;
-    achievements: Array<Achievement> = [];
+    achievements: Dictionary<Achievement>;
     companies: Array<Company> = [];
     totalMoney: number;
     companycost: number = 50;
@@ -25,6 +26,7 @@ export class Game {
     constructor() {
         this.totalMoney = 0;
         this.clock = new Clock();
+        this.achievements = new Dictionary<Achievement>();
         this.clock.onNextDay = () => {
             this.totalMoney += this.getTotalMpd();
         }
@@ -82,11 +84,19 @@ export class Game {
      * @param achievement achievement
      */
     newAchievement(achievement: Achievement) {
-        this.achievements.push(achievement);
+        this.achievements.set(achievement.key, achievement);
         // run through all onNewAchievement events
         this.onAchievementEvents.forEach(func => {
             func(achievement);
         });
+    }
+
+    /**
+     * Check if player has the achievement
+     * @param achievement achievement to check
+     */
+    hasAchievement(achievement: Achievement): boolean {
+        return this.achievements.hasKey(achievement.key);
     }
 
     /**

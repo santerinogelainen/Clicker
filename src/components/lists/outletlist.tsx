@@ -1,8 +1,8 @@
 import * as React from "react";
 import {List, ListItem, ListInfo} from "../elements/list";
 import {Outlet} from "../core/company";
-import {Props} from "../other/props";
-import {Format} from "../other/format";
+import {Props} from "../helpers/props";
+import {Format} from "../helpers/format";
 
 export class OutletList extends React.Component<Props> {
 

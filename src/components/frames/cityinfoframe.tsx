@@ -2,7 +2,7 @@ import * as React from "react";
 import {Frame} from "../elements/frame";
 import {Map} from "../core/map";
 import {CitySelect} from "../elements/cityselect";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class CityInfoFrame extends React.Component<Props> {
     render() {

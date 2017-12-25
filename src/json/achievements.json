@@ -1,10 +1,12 @@
 {
 	"firstcompany": {
+		"key": "firstcompany",
 		"title": "First steps",
 		"description": "Create your first company",
 		"icon": "./img/placeholder.svg"
 	},
 	"fifthcompany": {
+		"key": "fifthcompany",
 		"title": "Small empire",
 		"description": "Create your fifth company",
 		"icon": "./img/placeholder.svg"

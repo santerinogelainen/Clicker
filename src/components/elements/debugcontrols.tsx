@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 import { KeyboardEvent } from "react";
 
 export class DebugControls extends React.Component<Props> {

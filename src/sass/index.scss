@@ -72,6 +72,9 @@ $rightside: 70%;
 
 #selected-city-frame {
     height: 40%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     border-top: 5px solid color('darkblack');
 }
 
@@ -86,13 +89,11 @@ $rightside: 70%;
 
 #city-info-frame {
     width: 40%;
-    float: left;
     border-right: 5px solid color('darkblack');
 }
 
 #upgrade-info-frame {
     width: 60%;
-    float: right;
 }
 
 /*
@@ -530,8 +531,8 @@ $listitemheight: 50px;
 
 .pop-up-icon {
     float: left;
-    height: 70px;
-    width: 70px;
+    height: 75px;
+    width: 75px;
     flex: 0 0 auto;
 }
 
@@ -560,4 +561,72 @@ $listitemheight: 50px;
     top: 1px;
     right: 1px;
     cursor: pointer;
+}
+
+/*
+*   STATS
+*/
+
+.stat-item {
+    padding: 10px;
+}
+
+.stat-item-title {
+    margin: 10px 0 10px 0;
+    padding: 0;
+}
+
+.stat-item-description {
+    padding-bottom: 10px;
+}
+
+.stat-item-content {
+    display: inline-flex;
+    flex-direction: row;
+}
+
+/*
+*   ACHIEVEMENTS
+*/
+
+$achievementbg: color('darkblack');
+
+.achievement-icon, .achievement {
+    padding: 5px;
+    width: 75px;
+    height: 75px;
+}
+
+.achievement {
+    position: relative;
+}
+
+.achievement:hover > .achievement-hover {
+    display: inline-block;
+}
+
+.achievement-title {
+    font-weight: 700;
+}
+
+.achievement-triangle {
+    width: 20px;
+    height: 20px;
+    background-color: $achievementbg;
+    transform: rotate(-45deg) translateX(-50%);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+}
+
+.achievement-hover {
+    padding: 5px;
+    display: none;
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $achievementbg;
+    width: 200px;
+    height: 55px;
 }

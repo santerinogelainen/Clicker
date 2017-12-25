@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Money} from "../elements/money";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 interface ListProps {
 	items: Array<ListItem>;

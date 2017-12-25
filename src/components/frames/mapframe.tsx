@@ -3,7 +3,7 @@ import {Game} from "../core/game";
 import {SelectedCityFrame} from "./selectedcityframe";
 import {MapCanvasFrame} from "./mapcanvasframe";
 import {Frame} from "../elements/frame";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class MapFrame extends React.Component<Props> {
 

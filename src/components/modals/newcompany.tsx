@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Modal, ModalType} from "../elements/modal";
 import {Game} from "../core/game";
-import {Props} from "../other/props";
+import {Props} from "../helpers/props";
 
 export class NewCompanyModal extends React.Component<Props> {
 
