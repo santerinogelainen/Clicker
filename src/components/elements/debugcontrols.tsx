@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Props} from "../helpers/props";
 import { KeyboardEvent } from "react";
+import {Stats} from "../core/stats";
 
 export class DebugControls extends React.Component<Props> {
 
@@ -41,6 +42,10 @@ export class DebugControls extends React.Component<Props> {
 		console.log(this.props.game);
 	}
 
+	printStats = () => {
+		console.log(Stats);
+	}
+
 	render() {
 		return (
 			<div className="debug-controls">
@@ -48,6 +53,7 @@ export class DebugControls extends React.Component<Props> {
 				<DebugControl title="Add 1k" onClick={this.add1k}/>
 				<DebugControl title="Add 100k" onClick={this.add100k}/>
 				<DebugControl title="Console.log Game" onClick={this.printGame}/>
+				<DebugControl title="Console.log Stats" onClick={this.printStats}/>
 			</div>
 		);
 	}

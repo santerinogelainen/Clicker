@@ -112,6 +112,7 @@ var Stats = /** @class */ (function () {
     }
     Stats.citiesWithOutlets = 0;
     Stats.totalCompanies = 0;
+    Stats.totalClicks = 0;
     Stats.totalOutlets = 0;
     return Stats;
 }());
@@ -515,6 +516,7 @@ var Game = /** @class */ (function () {
      */
     Game.prototype.work = function () {
         this.totalMoney += this.perClick;
+        stats_1.Stats.totalClicks++;
     };
     Object.defineProperty(Game.prototype, "onNewAchievement", {
         /**
@@ -1892,6 +1894,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var stats_1 = __webpack_require__(2);
 var DebugControls = /** @class */ (function (_super) {
     __extends(DebugControls, _super);
     function DebugControls(props) {
@@ -1923,6 +1926,9 @@ var DebugControls = /** @class */ (function (_super) {
         _this.printGame = function () {
             console.log(_this.props.game);
         };
+        _this.printStats = function () {
+            console.log(stats_1.Stats);
+        };
         document.addEventListener("keydown", _this.enableOnKeyCombo);
         return _this;
     }
@@ -1931,7 +1937,8 @@ var DebugControls = /** @class */ (function (_super) {
             React.createElement(DebugControl, { title: "Update", onClick: this.update }),
             React.createElement(DebugControl, { title: "Add 1k", onClick: this.add1k }),
             React.createElement(DebugControl, { title: "Add 100k", onClick: this.add100k }),
-            React.createElement(DebugControl, { title: "Console.log Game", onClick: this.printGame })));
+            React.createElement(DebugControl, { title: "Console.log Game", onClick: this.printGame }),
+            React.createElement(DebugControl, { title: "Console.log Stats", onClick: this.printStats })));
     };
     return DebugControls;
 }(React.Component));

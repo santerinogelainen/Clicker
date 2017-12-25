@@ -70,6 +70,7 @@ export class Game {
      */
     work() {
         this.totalMoney += this.perClick;
+        Stats.totalClicks++;
     }
 
     /**
