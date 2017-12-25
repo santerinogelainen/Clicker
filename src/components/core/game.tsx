@@ -15,6 +15,7 @@ export class Game {
     totalMoney: number;
     companycost: number = 50;
     costmodifier: number = 10;
+    achievementmodifier: number = 0.1;
     perClick: number = 1;
     map: Map;
 
@@ -40,6 +41,9 @@ export class Game {
                 total += outlet.mpd;
             });
         });
+        // boost with achievements
+        let modifier = 1 + (this.achievements.length * this.achievementmodifier);
+        total *= modifier;
         return total;
     }
 
