@@ -595,7 +595,10 @@ body, html, #body, #main-frame, #game-frame {
 .stat-item-description {
   padding-bottom: 10px; }
 
-.stat-item-content {
+/*
+*   ACHIEVEMENTS
+*/
+.achievement-container {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -604,9 +607,6 @@ body, html, #body, #main-frame, #game-frame {
       -ms-flex-direction: row;
           flex-direction: row; }
 
-/*
-*   ACHIEVEMENTS
-*/
 .achievement-icon, .achievement {
   padding: 5px;
   width: 75px;

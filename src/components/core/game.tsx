@@ -28,7 +28,9 @@ export class Game {
         this.clock = new Clock();
         this.achievements = new Dictionary<Achievement>();
         this.clock.onNextDay = () => {
-            this.totalMoney += this.getTotalMpd();
+            let mpd = this.getTotalMpd();
+            this.totalMoney += mpd;
+            Stats.totalMoneyEarned += mpd;
         }
         this.map = new Map();
     }
@@ -70,6 +72,7 @@ export class Game {
      */
     work() {
         this.totalMoney += this.perClick;
+        Stats.totalMoneyEarned += this.perClick;
         Stats.totalClicks++;
     }
 

@@ -8,6 +8,7 @@ import {Stats} from "./stats";
 export class Map {
 
     cities: Array<City> = new Array<City>();
+    totalCities: number = 0;
     selected: City;
 
     constructor() {
@@ -83,6 +84,7 @@ export class Map {
     private initCities() {
         let data = CityJSON as any;
         $.each(data, (key, value) => {
+            this.totalCities++;
             this.addCity(new City(key, value));
         });
     }

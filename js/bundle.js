@@ -111,6 +111,7 @@ var Stats = /** @class */ (function () {
     function Stats() {
     }
     Stats.citiesWithOutlets = 0;
+    Stats.totalMoneyEarned = 0;
     Stats.totalCompanies = 0;
     Stats.totalClicks = 0;
     Stats.totalOutlets = 0;
@@ -432,7 +433,7 @@ exports.Modal = Modal;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(40);
+module.exports = __webpack_require__(41);
 
 
 /***/ }),
@@ -478,7 +479,9 @@ var Game = /** @class */ (function () {
         this.clock = new clock_1.Clock();
         this.achievements = new dictionary_1.Dictionary();
         this.clock.onNextDay = function () {
-            _this.totalMoney += _this.getTotalMpd();
+            var mpd = _this.getTotalMpd();
+            _this.totalMoney += mpd;
+            stats_1.Stats.totalMoneyEarned += mpd;
         };
         this.map = new map_1.Map();
     }
@@ -516,6 +519,7 @@ var Game = /** @class */ (function () {
      */
     Game.prototype.work = function () {
         this.totalMoney += this.perClick;
+        stats_1.Stats.totalMoneyEarned += this.perClick;
         stats_1.Stats.totalClicks++;
     };
     Object.defineProperty(Game.prototype, "onNewAchievement", {
@@ -580,6 +584,7 @@ var stats_1 = __webpack_require__(2);
 var Map = /** @class */ (function () {
     function Map() {
         this.cities = new Array();
+        this.totalCities = 0;
         this.initCities();
         // sort cities
         this.cities.sort(function (a, b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0; });
@@ -640,6 +645,7 @@ var Map = /** @class */ (function () {
         var _this = this;
         var data = CityJSON;
         $.each(data, function (key, value) {
+            _this.totalCities++;
             _this.addCity(new city_1.City(key, value));
         });
     };
@@ -941,9 +947,9 @@ var newcompany_1 = __webpack_require__(27);
 var workframe_1 = __webpack_require__(28);
 var navigationframe_1 = __webpack_require__(29);
 var statsframe_1 = __webpack_require__(32);
-var newoutlet_1 = __webpack_require__(35);
-var debugcontrols_1 = __webpack_require__(37);
-var popupframe_1 = __webpack_require__(38);
+var newoutlet_1 = __webpack_require__(36);
+var debugcontrols_1 = __webpack_require__(38);
+var popupframe_1 = __webpack_require__(39);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -1662,7 +1668,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
 var statitem_1 = __webpack_require__(33);
-var achievementitem_1 = __webpack_require__(34);
+var stats_1 = __webpack_require__(2);
+var stat_1 = __webpack_require__(34);
+var achievementitem_1 = __webpack_require__(35);
 var AchievementsJSON = __webpack_require__(6);
 var Achievements = AchievementsJSON;
 var StatsFrame = /** @class */ (function (_super) {
@@ -1670,6 +1678,17 @@ var StatsFrame = /** @class */ (function (_super) {
     function StatsFrame() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    StatsFrame.prototype.renderGeneral = function () {
+        return (React.createElement("div", null,
+            React.createElement(stat_1.Stat, { title: "Money per day (MPD): ", value: this.props.game.getTotalMpd() }),
+            React.createElement(stat_1.Stat, { title: "Money per click: ", value: this.props.game.perClick }),
+            React.createElement(stat_1.Stat, { title: "Total clicks: ", value: stats_1.Stats.totalClicks }),
+            React.createElement(stat_1.Stat, { title: "Total money earned: ", value: stats_1.Stats.totalMoneyEarned }),
+            React.createElement(stat_1.Stat, { title: "Cities with outlets: ", value: stats_1.Stats.citiesWithOutlets }),
+            React.createElement(stat_1.Stat, { title: "Empty cities: ", value: this.props.game.map.totalCities - stats_1.Stats.citiesWithOutlets }),
+            React.createElement(stat_1.Stat, { title: "Companies: ", value: stats_1.Stats.totalCompanies }),
+            React.createElement(stat_1.Stat, { title: "Outlets: ", value: stats_1.Stats.totalOutlets })));
+    };
     StatsFrame.prototype.renderAchievements = function () {
         var _this = this;
         var elements = [];
@@ -1680,7 +1699,10 @@ var StatsFrame = /** @class */ (function (_super) {
     };
     StatsFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "stats" },
-            React.createElement(statitem_1.StatItem, { title: "Achievements", description: "Each achievement will boost your MPD by 10%." }, this.renderAchievements())));
+            React.createElement(statitem_1.StatItem, { title: "General stats" }, this.renderGeneral()),
+            React.createElement(statitem_1.StatItem, { title: "Achievements", description: "Each achievement will boost your MPD by 10%." },
+                React.createElement(stat_1.Stat, { title: "Total achievements: ", value: this.props.game.achievements.length }),
+                React.createElement("div", { className: "achievement-container" }, this.renderAchievements()))));
     };
     return StatsFrame;
 }(React.Component));
@@ -1739,6 +1761,39 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var Stat = /** @class */ (function (_super) {
+    __extends(Stat, _super);
+    function Stat() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Stat.prototype.render = function () {
+        return (React.createElement("div", null,
+            React.createElement("span", { className: "stat-title" }, this.props.title),
+            React.createElement("span", { className: "stat-value" }, this.props.value)));
+    };
+    return Stat;
+}(React.Component));
+exports.Stat = Stat;
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
 var AchievementItem = /** @class */ (function (_super) {
     __extends(AchievementItem, _super);
     function AchievementItem() {
@@ -1760,7 +1815,7 @@ exports.AchievementItem = AchievementItem;
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1786,7 +1841,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var modal_1 = __webpack_require__(9);
-var companylist_1 = __webpack_require__(36);
+var companylist_1 = __webpack_require__(37);
 var NewOutletModal = /** @class */ (function (_super) {
     __extends(NewOutletModal, _super);
     function NewOutletModal() {
@@ -1802,7 +1857,7 @@ exports.NewOutletModal = NewOutletModal;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1877,7 +1932,7 @@ var CompanyListItem = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1958,7 +2013,7 @@ exports.DebugControl = DebugControl;
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1976,7 +2031,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var popup_1 = __webpack_require__(39);
+var popup_1 = __webpack_require__(40);
 var PopUpFrame = /** @class */ (function (_super) {
     __extends(PopUpFrame, _super);
     function PopUpFrame(props) {
@@ -2001,7 +2056,7 @@ exports.PopUpFrame = PopUpFrame;
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2049,7 +2104,7 @@ exports.PopUp = PopUp;
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";

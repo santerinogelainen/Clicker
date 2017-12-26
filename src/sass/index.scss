@@ -580,16 +580,16 @@ $listitemheight: 50px;
     padding-bottom: 10px;
 }
 
-.stat-item-content {
-    display: inline-flex;
-    flex-direction: row;
-}
-
 /*
 *   ACHIEVEMENTS
 */
 
 $achievementbg: color('darkblack');
+
+.achievement-container {
+    display: inline-flex;
+    flex-direction: row;
+}
 
 .achievement-icon, .achievement {
     padding: 5px;
