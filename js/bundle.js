@@ -1680,10 +1680,10 @@ var StatsFrame = /** @class */ (function (_super) {
     }
     StatsFrame.prototype.renderGeneral = function () {
         return (React.createElement("div", null,
-            React.createElement(stat_1.Stat, { title: "Money per day (MPD): ", value: this.props.game.getTotalMpd() }),
+            React.createElement(stat_1.Stat, { title: "Money per day (MPD): ", value: this.props.game.getTotalMpd(), format: true }),
             React.createElement(stat_1.Stat, { title: "Money per click: ", value: this.props.game.perClick }),
             React.createElement(stat_1.Stat, { title: "Total clicks: ", value: stats_1.Stats.totalClicks }),
-            React.createElement(stat_1.Stat, { title: "Total money earned: ", value: stats_1.Stats.totalMoneyEarned }),
+            React.createElement(stat_1.Stat, { title: "Total money earned: ", value: stats_1.Stats.totalMoneyEarned, format: true }),
             React.createElement(stat_1.Stat, { title: "Cities with outlets: ", value: stats_1.Stats.citiesWithOutlets }),
             React.createElement(stat_1.Stat, { title: "Empty cities: ", value: this.props.game.map.totalCities - stats_1.Stats.citiesWithOutlets }),
             React.createElement(stat_1.Stat, { title: "Companies: ", value: stats_1.Stats.totalCompanies }),
@@ -1761,6 +1761,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var format_1 = __webpack_require__(3);
 var Stat = /** @class */ (function (_super) {
     __extends(Stat, _super);
     function Stat() {
@@ -1769,7 +1770,7 @@ var Stat = /** @class */ (function (_super) {
     Stat.prototype.render = function () {
         return (React.createElement("div", null,
             React.createElement("span", { className: "stat-title" }, this.props.title),
-            React.createElement("span", { className: "stat-value" }, this.props.value)));
+            React.createElement("span", { className: "stat-value" }, this.props.format ? format_1.Format.abbriviate(this.props.value) : this.props.value)));
     };
     return Stat;
 }(React.Component));
