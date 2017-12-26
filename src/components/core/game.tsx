@@ -111,6 +111,15 @@ export class Game {
         if (company.id == 0) {
             this.newAchievement(Achievements.firstcompany);
         }
+        if (company.id == 1) {
+            this.newAchievement(Achievements.secondcompany);
+        }
+        if (company.id == 2) {
+            this.newAchievement(Achievements.thirdcompany);
+        }
+        if (company.id == 3) {
+            this.newAchievement(Achievements.fourthcompany);
+        }
         if (company.id == 4) {
             this.newAchievement(Achievements.fifthcompany);
         }

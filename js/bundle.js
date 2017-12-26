@@ -202,7 +202,7 @@ module.exports = $;
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = {"firstcompany":{"key":"firstcompany","title":"First steps","description":"Create your first company","icon":"./img/placeholder.svg"},"fifthcompany":{"key":"fifthcompany","title":"Small empire","description":"Create your fifth company","icon":"./img/placeholder.svg"}}
+module.exports = {"firstcompany":{"key":"firstcompany","title":"First steps","description":"Create your first company","icon":"./img/placeholder.svg"},"secondcompany":{"key":"secondcompany","title":"Expanding!","description":"Create your second company","icon":"./img/placeholder.svg"},"thirdcompany":{"key":"thirdcompany","title":"Small empire","description":"Create your third company","icon":"./img/placeholder.svg"},"fourthcompany":{"key":"fourthcompany","title":"Slightly larger empire","description":"Create your fourth company","icon":"./img/placeholder.svg"},"fifthcompany":{"key":"fifthcompany","title":"Large empire","description":"Create your fifth company","icon":"./img/placeholder.svg"}}
 
 /***/ }),
 /* 7 */
@@ -557,6 +557,15 @@ var Game = /** @class */ (function () {
     Game.prototype.newCompany = function (company) {
         if (company.id == 0) {
             this.newAchievement(Achievements.firstcompany);
+        }
+        if (company.id == 1) {
+            this.newAchievement(Achievements.secondcompany);
+        }
+        if (company.id == 2) {
+            this.newAchievement(Achievements.thirdcompany);
+        }
+        if (company.id == 3) {
+            this.newAchievement(Achievements.fourthcompany);
         }
         if (company.id == 4) {
             this.newAchievement(Achievements.fifthcompany);

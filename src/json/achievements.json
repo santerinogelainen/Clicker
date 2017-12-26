@@ -5,9 +5,27 @@
 		"description": "Create your first company",
 		"icon": "./img/placeholder.svg"
 	},
+	"secondcompany": {
+		"key": "secondcompany",
+		"title": "Expanding!",
+		"description": "Create your second company",
+		"icon": "./img/placeholder.svg"
+	},
+	"thirdcompany": {
+		"key": "thirdcompany",
+		"title": "Small empire",
+		"description": "Create your third company",
+		"icon": "./img/placeholder.svg"
+	},
+	"fourthcompany": {
+		"key": "fourthcompany",
+		"title": "Slightly larger empire",
+		"description": "Create your fourth company",
+		"icon": "./img/placeholder.svg"
+	},
 	"fifthcompany": {
 		"key": "fifthcompany",
-		"title": "Small empire",
+		"title": "Large empire",
 		"description": "Create your fifth company",
 		"icon": "./img/placeholder.svg"
 	}
