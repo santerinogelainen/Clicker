@@ -36,10 +36,7 @@ export class NavigationFrame extends React.Component<Props> {
 	}
 
 	showNewCompanyModal = () => {
-		if (this.props.game.totalMoney >= this.props.game.companycost) {
-			$("#new-company-modal").css("display", "flex");
-			$("#company-name-input").focus();
-		}
+		$("#new-company-modal").css("display", "flex");
 	}
 
 	render() {
@@ -51,9 +48,7 @@ export class NavigationFrame extends React.Component<Props> {
 					<NavigationButton text="Stats" onClick={this.showStats}/>
 					<NavigationButton text="Store" onClick={this.showStore}/>
 					<NavigationButton text="Map" onClick={this.showMap}/>
-					<NavigationButton text="New company" onClick={this.showNewCompanyModal}>
-						<Money amount={this.props.game.companycost} total={this.props.game.totalMoney}/>
-					</NavigationButton>
+					<NavigationButton text="New company" onClick={this.showNewCompanyModal}/>
 				</div>
 			</Frame>
 		);

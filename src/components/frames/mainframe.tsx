@@ -3,7 +3,6 @@ import * as React from "react";
 import {MapFrame} from "./mapframe";
 import {Frame} from "../elements/frame";
 import {NewCompanyModal} from "../modals/newcompany";
-import {FirstCompanyModal} from "../modals/firstcompany";
 import {WorkFrame} from "./workframe";
 import {NavigationFrame} from "./navigationframe";
 import {StatsFrame} from "./statsframe";

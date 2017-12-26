@@ -636,3 +636,44 @@ $achievementbg: color('darkblack');
     width: 200px;
     height: 55px;
 }
+
+/*
+*   NEW COMPANY MODAL
+*/
+
+.company-type-icon {
+    width: 63px;
+    height: 63px;
+}
+
+.company-types {
+    margin-bottom: 10px;
+}
+
+.company-type {
+    cursor: pointer;
+    padding: 5px;
+}
+
+.company-type-title {
+    font-size: 12px;
+    max-width: 63px;
+    text-align: center;
+}
+
+.company-type > input + img {
+    border: 2px solid transparent;
+}
+
+.company-type > input:checked + img {
+    border: 2px solid color('red');
+}
+
+.company-type-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.company-type-input {
+    display: none;
+}

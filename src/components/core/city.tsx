@@ -37,7 +37,7 @@ export class City {
      * @returns true is outlet exists
      */
     hasOutletFor(company: Company): boolean {
-        return company.id in this.outlets;
+        return company.nth in this.outlets;
     }
 
     /**
@@ -74,7 +74,7 @@ export class City {
      */
     newOutlet(company: Company): boolean {
         if (!this.hasOutletFor(company)) {
-            this.outlets[company.id] = new Outlet(company, this.outletCount());
+            this.outlets[company.nth] = new Outlet(company);
             Stats.totalOutlets++;
             this.cost = Math.floor(this.cost * this.costmodifier);
             return true;

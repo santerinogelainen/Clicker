@@ -1,0 +1,37 @@
+{
+	"store": {
+		"key": "store",
+		"title": "Store",
+		"icon": "./img/placeholder.svg",
+		"basempd": 0.1,
+		"companycost": 50
+	},
+	"restaurant": {
+		"key": "restaurant",
+		"title": "Restaurant",
+		"icon": "./img/placeholder.svg",
+		"basempd": 1,
+		"companycost": 500
+	},
+	"farm": {
+		"key": "farm",
+		"title": "Farm",
+		"icon": "./img/placeholder.svg",
+		"basempd": 10,
+		"companycost": 5000
+	},
+	"factory": {
+		"key": "factory",
+		"title": "Factory",
+		"icon": "./img/placeholder.svg",
+		"basempd": 100,
+		"companycost": 50000
+	},
+	"bank": {
+		"key": "bank",
+		"title": "Bank",
+		"icon": "./img/placeholder.svg",
+		"basempd": 1000,
+		"companycost": 500000
+	}
+}

@@ -1,10 +1,37 @@
-export interface Company {
-    id: number; //THIS HAS TO BE UNIQUE
-    name: string;
+import * as CompanyTypeJSON from "../../json/companytypes.json";
+
+export enum CompanyType {
+    Store = "store",
+    Restaurant = "restaurant",
+    Farm = "farm",
+    Factory = "factory",
+    Bank = "bank"
 }
 
-export class Outlet {
+export interface ICompany {
+    nth: number; //THIS HAS TO BE UNIQUE
     name: string;
+    type: CompanyType;
+}
+
+export class Company implements ICompany {
+
+    static typeinfo = CompanyTypeJSON as any;
+
+    nth: number;
+    name: string;
+    type: CompanyType;
+
+    constructor(data: ICompany) {
+        this.nth = data.nth;
+        this.name = data.name;
+        this.type = data.type;
+    }
+
+}
+
+export class Outlet extends Company {
+
     count: number;
     mpd: number = 0.1;
     basempd: number = 0.1;
@@ -12,18 +39,14 @@ export class Outlet {
     cost: number = 15;
     costmodifier: number = 1.15;
 
-    constructor(props: Company, nth: number = 0) {
-        this.name = props.name;
+    constructor(data: ICompany) {
+        super(data);
+        this.setBaseMpd();
         this.count = 1;
-        this.adjustBaseMpd(nth);
     }
 
-    /**
-     * Adjust the base mpd of this outlet
-     * @param nth the nth outlet in the city
-     */
-    adjustBaseMpd(nth: number) {
-        this.basempd = this.basempd * Math.pow(10, nth);
+    setBaseMpd() {
+        this.basempd = Company.typeinfo[this.type].basempd;
         this.mpd = this.basempd;
     }
 

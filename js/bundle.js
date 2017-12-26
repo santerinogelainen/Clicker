@@ -237,18 +237,94 @@ exports.Format = Format;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = ReactDOM;
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var CompanyTypeJSON = __webpack_require__(13);
+var CompanyType;
+(function (CompanyType) {
+    CompanyType["Store"] = "store";
+    CompanyType["Restaurant"] = "restaurant";
+    CompanyType["Farm"] = "farm";
+    CompanyType["Factory"] = "factory";
+    CompanyType["Bank"] = "bank";
+})(CompanyType = exports.CompanyType || (exports.CompanyType = {}));
+var Company = /** @class */ (function () {
+    function Company(data) {
+        this.nth = data.nth;
+        this.name = data.name;
+        this.type = data.type;
+    }
+    Company.typeinfo = CompanyTypeJSON;
+    return Company;
+}());
+exports.Company = Company;
+var Outlet = /** @class */ (function (_super) {
+    __extends(Outlet, _super);
+    function Outlet(data) {
+        var _this = _super.call(this, data) || this;
+        _this.mpd = 0.1;
+        _this.basempd = 0.1;
+        _this.basecost = 15;
+        _this.cost = 15;
+        _this.costmodifier = 1.15;
+        _this.setBaseMpd();
+        _this.count = 1;
+        return _this;
+    }
+    Outlet.prototype.setBaseMpd = function () {
+        this.basempd = Company.typeinfo[this.type].basempd;
+        this.mpd = this.basempd;
+    };
+    /**
+     * Calculate mpd of this outlet
+     * Use this everytime you update something
+     */
+    Outlet.prototype.calculateMpd = function () {
+        this.mpd = this.basempd * this.count;
+    };
+    Outlet.prototype.calculateCost = function () {
+        this.cost = Math.floor(Math.pow(this.costmodifier, this.count) * this.basecost);
+    };
+    /**
+     * Upgrade the outlet
+     */
+    Outlet.prototype.upgrade = function () {
+        this.count += 1;
+        this.calculateCost();
+        this.calculateMpd();
+    };
+    return Outlet;
+}(Company));
+exports.Outlet = Outlet;
+
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = $;
+module.exports = ReactDOM;
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports) {
+
+module.exports = $;
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -265,7 +341,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var money_1 = __webpack_require__(8);
+var money_1 = __webpack_require__(27);
 var List = /** @class */ (function (_super) {
     __extends(List, _super);
     function List() {
@@ -339,46 +415,6 @@ var ListInfo = /** @class */ (function (_super) {
     return ListInfo;
 }(React.Component));
 exports.ListInfo = ListInfo;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var format_1 = __webpack_require__(4);
-var Money = /** @class */ (function (_super) {
-    __extends(Money, _super);
-    function Money() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Money.prototype.getClassName = function () {
-        if (this.props.total >= this.props.amount) {
-            return 'enough';
-        }
-        return 'not-enough';
-    };
-    Money.prototype.render = function () {
-        return (React.createElement("div", { className: "money" },
-            React.createElement("span", { className: "amount " + this.getClassName() }, format_1.Format.abbriviate(this.props.amount)),
-            React.createElement("img", { className: "money-pile", src: "./img/svg/money_pile_1.svg" })));
-    };
-    return Money;
-}(React.Component));
-exports.Money = Money;
 
 
 /***/ }),
@@ -476,7 +512,7 @@ exports.Modal = Modal;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(44);
+module.exports = __webpack_require__(46);
 
 
 /***/ }),
@@ -487,8 +523,8 @@ module.exports = __webpack_require__(44);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(5);
-var $ = __webpack_require__(6);
+var ReactDOM = __webpack_require__(6);
+var $ = __webpack_require__(7);
 var game_1 = __webpack_require__(12);
 var mainframe_1 = __webpack_require__(20);
 var game = new game_1.Game();
@@ -502,16 +538,15 @@ ReactDOM.render(React.createElement(mainframe_1.MainFrame, { game: game }), $("#
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var company_1 = __webpack_require__(5);
 var stats_1 = __webpack_require__(2);
-var map_1 = __webpack_require__(13);
+var map_1 = __webpack_require__(14);
 var clock_1 = __webpack_require__(19);
 var achievement_1 = __webpack_require__(3);
 var Game = /** @class */ (function () {
     function Game() {
         var _this = this;
         this.companies = [];
-        this.companycost = 50;
-        this.costmodifier = 10;
         this.achievementmodifier = 0.1;
         this.perClick = 1;
         this.totalMoney = 0;
@@ -539,6 +574,18 @@ var Game = /** @class */ (function () {
         return total;
     };
     /**
+     * Checks if the user has a company of a type
+     * @param type type of the company
+     */
+    Game.prototype.hasCompanyOfType = function (type) {
+        for (var i = 0; i < this.companies.length; i++) {
+            if (this.companies[i].type == type) {
+                return true;
+            }
+        }
+        return false;
+    };
+    /**
      * Checks if you have enough money for something
      * @param amount amount
      */
@@ -563,26 +610,32 @@ var Game = /** @class */ (function () {
     /**
      * adds a new company
      * @param company company that is added
+     * @returns boolean true if new company is created
      */
     Game.prototype.newCompany = function (company) {
-        if (company.id == 0) {
-            achievement_1.Achievements.new(achievement_1.Achievements.JSON.firstcompany);
+        if (this.enoughMoneyFor(company_1.Company.typeinfo[company.type].companycost)) {
+            switch (company.type) {
+                case company_1.CompanyType.Store:
+                    achievement_1.Achievements.new(achievement_1.Achievements.JSON.storecompany);
+                    break;
+                case company_1.CompanyType.Restaurant:
+                    achievement_1.Achievements.new(achievement_1.Achievements.JSON.restaurantcompany);
+                    break;
+                case company_1.CompanyType.Farm:
+                    achievement_1.Achievements.new(achievement_1.Achievements.JSON.farmcompany);
+                    break;
+                case company_1.CompanyType.Factory:
+                    achievement_1.Achievements.new(achievement_1.Achievements.JSON.factorycompany);
+                    break;
+                case company_1.CompanyType.Bank:
+                    achievement_1.Achievements.new(achievement_1.Achievements.JSON.bankcompany);
+                    break;
+            }
+            this.companies[company.nth] = new company_1.Company(company);
+            stats_1.Stats.totalCompanies++;
+            return true;
         }
-        if (company.id == 1) {
-            achievement_1.Achievements.new(achievement_1.Achievements.JSON.secondcompany);
-        }
-        if (company.id == 2) {
-            achievement_1.Achievements.new(achievement_1.Achievements.JSON.thirdcompany);
-        }
-        if (company.id == 3) {
-            achievement_1.Achievements.new(achievement_1.Achievements.JSON.fourthcompany);
-        }
-        if (company.id == 4) {
-            achievement_1.Achievements.new(achievement_1.Achievements.JSON.fifthcompany);
-        }
-        this.companies[company.id] = company;
-        this.companycost = this.companycost * this.costmodifier;
-        stats_1.Stats.totalCompanies++;
+        return false;
     };
     return Game;
 }());
@@ -591,13 +644,19 @@ exports.Game = Game;
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports) {
+
+module.exports = {"store":{"key":"store","title":"Store","icon":"./img/placeholder.svg","basempd":0.1,"companycost":50},"restaurant":{"key":"restaurant","title":"Restaurant","icon":"./img/placeholder.svg","basempd":1,"companycost":500},"farm":{"key":"farm","title":"Farm","icon":"./img/placeholder.svg","basempd":10,"companycost":5000},"factory":{"key":"factory","title":"Factory","icon":"./img/placeholder.svg","basempd":100,"companycost":50000},"bank":{"key":"bank","title":"Bank","icon":"./img/placeholder.svg","basempd":1000,"companycost":500000}}
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var city_1 = __webpack_require__(14);
-var $ = __webpack_require__(6);
+var city_1 = __webpack_require__(15);
+var $ = __webpack_require__(7);
 var CityJSON = __webpack_require__(16);
 var stats_1 = __webpack_require__(2);
 var achievement_1 = __webpack_require__(3);
@@ -678,13 +737,13 @@ exports.Map = Map;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var company_1 = __webpack_require__(15);
+var company_1 = __webpack_require__(5);
 var stats_1 = __webpack_require__(2);
 var React = __webpack_require__(0);
 var City = /** @class */ (function () {
@@ -710,7 +769,7 @@ var City = /** @class */ (function () {
      * @returns true is outlet exists
      */
     City.prototype.hasOutletFor = function (company) {
-        return company.id in this.outlets;
+        return company.nth in this.outlets;
     };
     /**
      * Returns the number of outlets in this city
@@ -744,7 +803,7 @@ var City = /** @class */ (function () {
      */
     City.prototype.newOutlet = function (company) {
         if (!this.hasOutletFor(company)) {
-            this.outlets[company.id] = new company_1.Outlet(company, this.outletCount());
+            this.outlets[company.nth] = new company_1.Outlet(company);
             stats_1.Stats.totalOutlets++;
             this.cost = Math.floor(this.cost * this.costmodifier);
             return true;
@@ -754,56 +813,6 @@ var City = /** @class */ (function () {
     return City;
 }());
 exports.City = City;
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Outlet = /** @class */ (function () {
-    function Outlet(props, nth) {
-        if (nth === void 0) { nth = 0; }
-        this.mpd = 0.1;
-        this.basempd = 0.1;
-        this.basecost = 15;
-        this.cost = 15;
-        this.costmodifier = 1.15;
-        this.name = props.name;
-        this.count = 1;
-        this.adjustBaseMpd(nth);
-    }
-    /**
-     * Adjust the base mpd of this outlet
-     * @param nth the nth outlet in the city
-     */
-    Outlet.prototype.adjustBaseMpd = function (nth) {
-        this.basempd = this.basempd * Math.pow(10, nth);
-        this.mpd = this.basempd;
-    };
-    /**
-     * Calculate mpd of this outlet
-     * Use this everytime you update something
-     */
-    Outlet.prototype.calculateMpd = function () {
-        this.mpd = this.basempd * this.count;
-    };
-    Outlet.prototype.calculateCost = function () {
-        this.cost = Math.floor(Math.pow(this.costmodifier, this.count) * this.basecost);
-    };
-    /**
-     * Upgrade the outlet
-     */
-    Outlet.prototype.upgrade = function () {
-        this.count += 1;
-        this.calculateCost();
-        this.calculateMpd();
-    };
-    return Outlet;
-}());
-exports.Outlet = Outlet;
 
 
 /***/ }),
@@ -897,7 +906,7 @@ exports.Dictionary = Dictionary;
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = {"firstcompany":{"key":"firstcompany","title":"First steps","description":"Create your first company","icon":"./img/placeholder.svg"},"secondcompany":{"key":"secondcompany","title":"Expanding!","description":"Create your second company","icon":"./img/placeholder.svg"},"thirdcompany":{"key":"thirdcompany","title":"Small empire","description":"Create your third company","icon":"./img/placeholder.svg"},"fourthcompany":{"key":"fourthcompany","title":"Slightly larger empire","description":"Create your fourth company","icon":"./img/placeholder.svg"},"fifthcompany":{"key":"fifthcompany","title":"Large empire","description":"Create your fifth company","icon":"./img/placeholder.svg"},"outletinallcities":{"key":"outletinallcities","title":"Globalization","description":"Have an outlet in all cities.","icon":"./img/placeholder.svg"}}
+module.exports = {"storecompany":{"key":"storecompany","title":"Local store","description":"Create a store company","icon":"./img/placeholder.svg"},"restaurantcompany":{"key":"restaurantcompany","title":"Local restaurant","description":"Create a restaurant company","icon":"./img/placeholder.svg"},"farmcompany":{"key":"farmcompany","title":"Local farmer","description":"Create a farm company","icon":"./img/placeholder.svg"},"factorycompany":{"key":"factorycompany","title":"Local factory","description":"Create a factory company","icon":"./img/placeholder.svg"},"bankcompany":{"key":"bankcompany","title":"Local bank","description":"Create a bank company","icon":"./img/placeholder.svg"},"outletinallcities":{"key":"outletinallcities","title":"Globalization","description":"Have an outlet in all cities.","icon":"./img/placeholder.svg"}}
 
 /***/ }),
 /* 19 */
@@ -972,15 +981,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var mapframe_1 = __webpack_require__(21);
 var frame_1 = __webpack_require__(1);
-var newcompany_1 = __webpack_require__(28);
-var workframe_1 = __webpack_require__(29);
-var navigationframe_1 = __webpack_require__(30);
-var statsframe_1 = __webpack_require__(33);
-var newoutlet_1 = __webpack_require__(37);
-var debugcontrols_1 = __webpack_require__(39);
-var popupframe_1 = __webpack_require__(40);
-var settingsframe_1 = __webpack_require__(42);
-var storeframe_1 = __webpack_require__(43);
+var newcompany_1 = __webpack_require__(29);
+var workframe_1 = __webpack_require__(31);
+var navigationframe_1 = __webpack_require__(32);
+var statsframe_1 = __webpack_require__(35);
+var newoutlet_1 = __webpack_require__(39);
+var debugcontrols_1 = __webpack_require__(41);
+var popupframe_1 = __webpack_require__(42);
+var settingsframe_1 = __webpack_require__(44);
+var storeframe_1 = __webpack_require__(45);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -1036,7 +1045,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var selectedcityframe_1 = __webpack_require__(22);
-var mapcanvasframe_1 = __webpack_require__(27);
+var mapcanvasframe_1 = __webpack_require__(28);
 var frame_1 = __webpack_require__(1);
 var MapFrame = /** @class */ (function (_super) {
     __extends(MapFrame, _super);
@@ -1290,7 +1299,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var list_1 = __webpack_require__(7);
+var list_1 = __webpack_require__(8);
 var format_1 = __webpack_require__(4);
 var OutletList = /** @class */ (function (_super) {
     __extends(OutletList, _super);
@@ -1363,18 +1372,26 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var frame_1 = __webpack_require__(1);
-var MapCanvasFrame = /** @class */ (function (_super) {
-    __extends(MapCanvasFrame, _super);
-    function MapCanvasFrame() {
+var format_1 = __webpack_require__(4);
+var Money = /** @class */ (function (_super) {
+    __extends(Money, _super);
+    function Money() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    MapCanvasFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "canvas" }));
+    Money.prototype.getClassName = function () {
+        if (this.props.total >= this.props.amount) {
+            return 'enough';
+        }
+        return 'not-enough';
     };
-    return MapCanvasFrame;
+    Money.prototype.render = function () {
+        return (React.createElement("div", { className: "money" },
+            React.createElement("span", { className: "amount " + this.getClassName() }, format_1.Format.abbriviate(this.props.amount)),
+            React.createElement("img", { className: "money-pile", src: "./img/svg/money_pile_1.svg" })));
+    };
+    return Money;
 }(React.Component));
-exports.MapCanvasFrame = MapCanvasFrame;
+exports.Money = Money;
 
 
 /***/ }),
@@ -1395,27 +1412,66 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var MapCanvasFrame = /** @class */ (function (_super) {
+    __extends(MapCanvasFrame, _super);
+    function MapCanvasFrame() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    MapCanvasFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "canvas" }));
+    };
+    return MapCanvasFrame;
+}(React.Component));
+exports.MapCanvasFrame = MapCanvasFrame;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
 var modal_1 = __webpack_require__(9);
+var company_1 = __webpack_require__(5);
+var companytype_1 = __webpack_require__(30);
 var NewCompanyModal = /** @class */ (function (_super) {
     __extends(NewCompanyModal, _super);
     function NewCompanyModal() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.updateSelectedType = function (e) {
+            var selected = $(e.currentTarget).val();
+            _this.checked = company_1.Company.typeinfo[selected].title;
+            _this.forceUpdate();
+        };
+        return _this;
     }
-    NewCompanyModal.prototype.createCompany = function (inputid) {
-        if (inputid === void 0) { inputid = "#company-name-input"; }
-        if (this.props.game.enoughMoneyFor(this.props.game.companycost)) {
-            var nameinput = $(inputid);
-            // check if company name is empty
-            var cname = nameinput.val().toString();
-            if (cname.length == 0) {
-                alert("Company name cannot be empty.");
-                return false;
+    NewCompanyModal.prototype.createCompany = function () {
+        var nameinput = $("#company-name-input");
+        var chosentype = $(".company-type-input:checked").val();
+        if (this.props.game.enoughMoneyFor(company_1.Company.typeinfo[chosentype].companycost)) {
+            var name_1 = nameinput.val();
+            if (name_1 == "") {
+                name_1 = nameinput.prop("placeholder");
             }
             // create new company
-            this.props.game.useMoney(this.props.game.companycost);
+            this.props.game.useMoney(company_1.Company.typeinfo[chosentype].companycost);
             this.props.game.newCompany({
-                id: this.props.game.companies.length,
-                name: cname
+                nth: this.props.game.companies.length,
+                name: name_1,
+                type: chosentype
             });
             // empty name input
             nameinput.val("");
@@ -1431,11 +1487,30 @@ var NewCompanyModal = /** @class */ (function (_super) {
             }
         }
     };
+    NewCompanyModal.prototype.listTypes = function () {
+        var _this = this;
+        var elems = [];
+        var nth = 0;
+        $.each(company_1.Company.typeinfo, function (key, value) {
+            console.log(nth);
+            if (!_this.props.game.hasCompanyOfType(key)) {
+                elems.push(React.createElement(companytype_1.CompanyTypeRadio, { key: key, keyprop: key, title: value.title, icon: value.icon, nth: nth, update: _this.updateSelectedType }));
+                if (nth == 0 && _this.checked == null) {
+                    _this.checked = value.title;
+                }
+                nth++;
+            }
+        });
+        return elems;
+    };
     NewCompanyModal.prototype.render = function () {
         var _this = this;
         return (React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OKCancel, onCancel: function () { return true; }, onOK: function () { return _this.createCompany(); }, title: "New company" },
-            React.createElement("div", { className: "input-title" }, "Name: "),
-            React.createElement("input", { type: "text", id: "company-name-input", className: "text-input", onKeyDown: function (e) { return _this.createCompanyEnter(e); } })));
+            React.createElement("div", { className: "company-types" },
+                React.createElement("div", { className: "input-title" }, "Type: "),
+                React.createElement("div", { className: "company-type-container" }, this.listTypes())),
+            React.createElement("div", { className: "input-title" }, "Name (optional): "),
+            React.createElement("input", { type: "text", id: "company-name-input", className: "text-input", placeholder: this.checked, onKeyDown: function (e) { return _this.createCompanyEnter(e); } })));
     };
     return NewCompanyModal;
 }(React.Component));
@@ -1443,7 +1518,42 @@ exports.NewCompanyModal = NewCompanyModal;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var CompanyTypeRadio = /** @class */ (function (_super) {
+    __extends(CompanyTypeRadio, _super);
+    function CompanyTypeRadio() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    CompanyTypeRadio.prototype.render = function () {
+        var _this = this;
+        return (React.createElement("label", { className: "company-type" },
+            React.createElement("input", { type: "radio", className: "company-type-input", onChange: function (e) { return _this.props.update(e); }, name: "companytype", value: this.props.keyprop, defaultChecked: this.props.nth == 0 ? true : null }),
+            React.createElement("img", { className: "company-type-icon", src: this.props.icon }),
+            React.createElement("div", { className: "company-type-title" }, this.props.title)));
+    };
+    return CompanyTypeRadio;
+}(React.Component));
+exports.CompanyTypeRadio = CompanyTypeRadio;
+
+
+/***/ }),
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1537,7 +1647,7 @@ exports.WorkFrame = WorkFrame;
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1563,9 +1673,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var navigationbutton_1 = __webpack_require__(31);
-var dayclock_1 = __webpack_require__(32);
-var money_1 = __webpack_require__(8);
+var navigationbutton_1 = __webpack_require__(33);
+var dayclock_1 = __webpack_require__(34);
 var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
     function NavigationFrame() {
@@ -1595,10 +1704,7 @@ var NavigationFrame = /** @class */ (function (_super) {
             $("#stats-frame").hide();
         };
         _this.showNewCompanyModal = function () {
-            if (_this.props.game.totalMoney >= _this.props.game.companycost) {
-                $("#new-company-modal").css("display", "flex");
-                $("#company-name-input").focus();
-            }
+            $("#new-company-modal").css("display", "flex");
         };
         return _this;
     }
@@ -1610,8 +1716,7 @@ var NavigationFrame = /** @class */ (function (_super) {
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Stats", onClick: this.showStats }),
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Store", onClick: this.showStore }),
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Map", onClick: this.showMap }),
-                React.createElement(navigationbutton_1.NavigationButton, { text: "New company", onClick: this.showNewCompanyModal },
-                    React.createElement(money_1.Money, { amount: this.props.game.companycost, total: this.props.game.totalMoney })))));
+                React.createElement(navigationbutton_1.NavigationButton, { text: "New company", onClick: this.showNewCompanyModal }))));
     };
     return NavigationFrame;
 }(React.Component));
@@ -1619,7 +1724,7 @@ exports.NavigationFrame = NavigationFrame;
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1652,7 +1757,7 @@ exports.NavigationButton = NavigationButton;
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1692,7 +1797,7 @@ exports.DayClock = DayClock;
 
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1718,10 +1823,10 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var statitem_1 = __webpack_require__(34);
+var statitem_1 = __webpack_require__(36);
 var stats_1 = __webpack_require__(2);
-var stat_1 = __webpack_require__(35);
-var achievementitem_1 = __webpack_require__(36);
+var stat_1 = __webpack_require__(37);
+var achievementitem_1 = __webpack_require__(38);
 var achievement_1 = __webpack_require__(3);
 var StatsFrame = /** @class */ (function (_super) {
     __extends(StatsFrame, _super);
@@ -1759,7 +1864,7 @@ exports.StatsFrame = StatsFrame;
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1793,7 +1898,7 @@ exports.StatItem = StatItem;
 
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1827,7 +1932,7 @@ exports.Stat = Stat;
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1865,7 +1970,7 @@ exports.AchievementItem = AchievementItem;
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1891,7 +1996,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var modal_1 = __webpack_require__(9);
-var companylist_1 = __webpack_require__(38);
+var companylist_1 = __webpack_require__(40);
 var NewOutletModal = /** @class */ (function (_super) {
     __extends(NewOutletModal, _super);
     function NewOutletModal() {
@@ -1907,7 +2012,7 @@ exports.NewOutletModal = NewOutletModal;
 
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1932,7 +2037,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var list_1 = __webpack_require__(7);
+var list_1 = __webpack_require__(8);
 var CompanyList = /** @class */ (function (_super) {
     __extends(CompanyList, _super);
     function CompanyList() {
@@ -1982,7 +2087,7 @@ var CompanyListItem = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2063,7 +2168,7 @@ exports.DebugControl = DebugControl;
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2081,7 +2186,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var popup_1 = __webpack_require__(41);
+var popup_1 = __webpack_require__(43);
 var achievement_1 = __webpack_require__(3);
 var PopUpFrame = /** @class */ (function (_super) {
     __extends(PopUpFrame, _super);
@@ -2107,7 +2212,7 @@ exports.PopUpFrame = PopUpFrame;
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2124,7 +2229,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var react_dom_1 = __webpack_require__(5);
+var react_dom_1 = __webpack_require__(6);
 var PopUp = /** @class */ (function (_super) {
     __extends(PopUp, _super);
     function PopUp() {
@@ -2155,7 +2260,7 @@ exports.PopUp = PopUp;
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2187,7 +2292,7 @@ exports.SettingsFrame = SettingsFrame;
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2219,7 +2324,7 @@ exports.StoreFrame = StoreFrame;
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";

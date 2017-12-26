@@ -1,32 +1,32 @@
 {
-	"firstcompany": {
-		"key": "firstcompany",
-		"title": "First steps",
-		"description": "Create your first company",
+	"storecompany": {
+		"key": "storecompany",
+		"title": "Local store",
+		"description": "Create a store company",
 		"icon": "./img/placeholder.svg"
 	},
-	"secondcompany": {
-		"key": "secondcompany",
-		"title": "Expanding!",
-		"description": "Create your second company",
+	"restaurantcompany": {
+		"key": "restaurantcompany",
+		"title": "Local restaurant",
+		"description": "Create a restaurant company",
 		"icon": "./img/placeholder.svg"
 	},
-	"thirdcompany": {
-		"key": "thirdcompany",
-		"title": "Small empire",
-		"description": "Create your third company",
+	"farmcompany": {
+		"key": "farmcompany",
+		"title": "Local farmer",
+		"description": "Create a farm company",
 		"icon": "./img/placeholder.svg"
 	},
-	"fourthcompany": {
-		"key": "fourthcompany",
-		"title": "Slightly larger empire",
-		"description": "Create your fourth company",
+	"factorycompany": {
+		"key": "factorycompany",
+		"title": "Local factory",
+		"description": "Create a factory company",
 		"icon": "./img/placeholder.svg"
 	},
-	"fifthcompany": {
-		"key": "fifthcompany",
-		"title": "Large empire",
-		"description": "Create your fifth company",
+	"bankcompany": {
+		"key": "bankcompany",
+		"title": "Local bank",
+		"description": "Create a bank company",
 		"icon": "./img/placeholder.svg"
 	},
 	"outletinallcities": {
