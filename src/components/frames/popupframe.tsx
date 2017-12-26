@@ -2,7 +2,7 @@ import * as React from "react";
 import {Frame} from "../elements/frame";
 import {Props} from "../helpers/props";
 import {PopUp} from "../elements/popup";
-import {Achievement} from "../core/achievement";
+import {Achievement, Achievements} from "../core/achievement";
 
 export class PopUpFrame extends React.Component<Props> {
 
@@ -10,7 +10,7 @@ export class PopUpFrame extends React.Component<Props> {
 
 	constructor(props: Props) {
         super(props);
-        this.props.game.onNewAchievement = (achievement: Achievement) => {
+        Achievements.onNewAchievement = (achievement: Achievement) => {
 			let key = this.popups.length;
             this.popups.push(
                 <PopUp title={achievement.title} description={achievement.description} onClose={() => this.removePopUp(key)} icon={achievement.icon} key={key}/>

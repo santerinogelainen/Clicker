@@ -28,5 +28,11 @@
 		"title": "Large empire",
 		"description": "Create your fifth company",
 		"icon": "./img/placeholder.svg"
+	},
+	"outletinallcities": {
+		"key": "outletinallcities",
+		"title": "Globalization",
+		"description": "Have an outlet in all cities.",
+		"icon": "./img/placeholder.svg"
 	}
 }

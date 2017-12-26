@@ -4,6 +4,7 @@ import * as $ from "jquery";
 import * as CityJSON from "../../json/cities.json";
 import { Company } from "./company";
 import {Stats} from "./stats";
+import {Achievements} from "./achievement";
 
 export class Map {
 
@@ -47,6 +48,9 @@ export class Map {
         city.newOutlet(company);
         if (outlets == 0) {
             Stats.citiesWithOutlets++;
+            if (Stats.citiesWithOutlets == this.totalCities) {
+                Achievements.new(Achievements.JSON.outletinallcities);
+            }
             // recalculate cities without outlets cost
             for(let i = 0; i < this.cities.length; i++) {
                 if (this.cities[i].outletCount() == 0) {

@@ -6,9 +6,7 @@ import {StatItem} from "../elements/statitem";
 import {Stats} from "../core/stats";
 import {Stat} from "../elements/stat";
 import {AchievementItem} from "../elements/achievementitem";
-import * as AchievementsJSON from "../../json/achievements.json";
-
-let Achievements = AchievementsJSON as any;
+import {Achievements} from "../core/achievement";
 
 export class StatsFrame extends React.Component<Props> {
 
@@ -29,8 +27,8 @@ export class StatsFrame extends React.Component<Props> {
 
 	renderAchievements() {
 		let elements: Array<JSX.Element> = [];
-		$.each(Achievements, (key, achievement) => {
-			elements.push(<AchievementItem {...achievement} isOpened={this.props.game.hasAchievement(achievement)}/>);
+		$.each(Achievements.JSON, (key, achievement) => {
+			elements.push(<AchievementItem {...achievement} isOpened={Achievements.hasAchievement(achievement)}/>);
 		});
 		return elements;
 	}
@@ -42,7 +40,7 @@ export class StatsFrame extends React.Component<Props> {
 					{this.renderGeneral()}
 				</StatItem>
 				<StatItem title="Achievements" description="Each achievement will boost your MPD by 10%.">
-					<Stat title="Total achievements: " value={this.props.game.achievements.length}/>
+					<Stat title="Total achievements: " value={Achievements.all.length}/>
 					<div className="achievement-container">
 						{this.renderAchievements()}
 					</div>
