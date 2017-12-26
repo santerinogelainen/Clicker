@@ -1799,7 +1799,7 @@ var AchievementItem = /** @class */ (function (_super) {
     __extends(AchievementItem, _super);
     function AchievementItem() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.defaultimg = "./img/placeholder.svg";
+        _this.defaultimg = "./img/svg/achievement_locked.svg";
         return _this;
     }
     AchievementItem.prototype.render = function () {

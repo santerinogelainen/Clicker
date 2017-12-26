@@ -609,8 +609,8 @@ body, html, #body, #main-frame, #game-frame {
 
 .achievement-icon, .achievement {
   padding: 5px;
-  width: 75px;
-  height: 75px; }
+  width: 63px;
+  height: 63px; }
 
 .achievement {
   position: relative; }

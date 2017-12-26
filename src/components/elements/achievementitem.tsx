@@ -10,7 +10,7 @@ interface AchievementItemProps {
 
 export class AchievementItem extends React.Component<AchievementItemProps> {
 
-	defaultimg: string = "./img/placeholder.svg";
+	defaultimg: string = "./img/svg/achievement_locked.svg";
 
 	render() {
 		return (
