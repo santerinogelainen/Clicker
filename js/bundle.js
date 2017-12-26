@@ -433,7 +433,7 @@ exports.Modal = Modal;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(41);
+module.exports = __webpack_require__(43);
 
 
 /***/ }),
@@ -950,6 +950,8 @@ var statsframe_1 = __webpack_require__(32);
 var newoutlet_1 = __webpack_require__(36);
 var debugcontrols_1 = __webpack_require__(38);
 var popupframe_1 = __webpack_require__(39);
+var settingsframe_1 = __webpack_require__(41);
+var storeframe_1 = __webpack_require__(42);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -968,6 +970,8 @@ var MainFrame = /** @class */ (function (_super) {
             React.createElement(frame_1.Frame, { frameId: "game" },
                 React.createElement(navigationframe_1.NavigationFrame, { game: this.props.game, update: this.update }),
                 React.createElement(workframe_1.WorkFrame, { game: this.props.game, update: this.update }),
+                React.createElement(storeframe_1.StoreFrame, { game: this.props.game, update: this.update }),
+                React.createElement(settingsframe_1.SettingsFrame, { game: this.props.game, update: this.update }),
                 React.createElement(statsframe_1.StatsFrame, { game: this.props.game, update: this.update }),
                 React.createElement(mapframe_1.MapFrame, { game: this.props.game, update: this.update }))));
     };
@@ -1537,11 +1541,27 @@ var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
     function NavigationFrame() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.showStore = function () {
+            $("#settings-frame").hide();
+            $("#store-frame").show();
+            $("#map-frame").hide();
+            $("#stats-frame").hide();
+        };
+        _this.showSettings = function () {
+            $("#settings-frame").show();
+            $("#store-frame").hide();
+            $("#map-frame").hide();
+            $("#stats-frame").hide();
+        };
         _this.showStats = function () {
+            $("#settings-frame").hide();
+            $("#store-frame").hide();
             $("#map-frame").hide();
             $("#stats-frame").show();
         };
         _this.showMap = function () {
+            $("#settings-frame").hide();
+            $("#store-frame").hide();
             $("#map-frame").show();
             $("#stats-frame").hide();
         };
@@ -1557,7 +1577,9 @@ var NavigationFrame = /** @class */ (function (_super) {
         return (React.createElement(frame_1.Frame, { frameId: "navigation" },
             React.createElement(dayclock_1.DayClock, __assign({}, this.props)),
             React.createElement("div", { className: "nav-buttons" },
+                React.createElement(navigationbutton_1.NavigationButton, { text: "Settings", onClick: this.showSettings }),
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Stats", onClick: this.showStats }),
+                React.createElement(navigationbutton_1.NavigationButton, { text: "Store", onClick: this.showStore }),
                 React.createElement(navigationbutton_1.NavigationButton, { text: "Map", onClick: this.showMap }),
                 React.createElement(navigationbutton_1.NavigationButton, { text: "New company", onClick: this.showNewCompanyModal },
                     React.createElement(money_1.Money, { amount: this.props.game.companycost, total: this.props.game.totalMoney })))));
@@ -2106,6 +2128,70 @@ exports.PopUp = PopUp;
 
 /***/ }),
 /* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var SettingsFrame = /** @class */ (function (_super) {
+    __extends(SettingsFrame, _super);
+    function SettingsFrame() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SettingsFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "settings" }));
+    };
+    return SettingsFrame;
+}(React.Component));
+exports.SettingsFrame = SettingsFrame;
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var frame_1 = __webpack_require__(1);
+var StoreFrame = /** @class */ (function (_super) {
+    __extends(StoreFrame, _super);
+    function StoreFrame() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    StoreFrame.prototype.render = function () {
+        return (React.createElement(frame_1.Frame, { frameId: "store" }));
+    };
+    return StoreFrame;
+}(React.Component));
+exports.StoreFrame = StoreFrame;
+
+
+/***/ }),
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";

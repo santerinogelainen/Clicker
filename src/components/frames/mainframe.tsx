@@ -10,6 +10,8 @@ import {StatsFrame} from "./statsframe";
 import {NewOutletModal} from "../modals/newoutlet";
 import {DebugControls} from "../elements/debugcontrols";
 import {PopUpFrame} from "./popupframe";
+import {SettingsFrame} from "./settingsframe";
+import {StoreFrame} from "./storeframe";
 
 export interface MainFrameProps {
     game: Game;
@@ -31,6 +33,8 @@ export class MainFrame extends React.Component<MainFrameProps> {
                 <Frame frameId="game">
                     <NavigationFrame game={this.props.game} update={this.update}/>
                     <WorkFrame game={this.props.game} update={this.update}/>
+                    <StoreFrame game={this.props.game} update={this.update}/>
+                    <SettingsFrame game={this.props.game} update={this.update}/>
                     <StatsFrame game={this.props.game} update={this.update}/>
                     <MapFrame game={this.props.game} update={this.update}/>
                 </Frame>

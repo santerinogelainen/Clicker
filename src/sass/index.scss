@@ -82,7 +82,7 @@ $rightside: 70%;
     height: 60%;
 }
 
-#stats-frame {
+#stats-frame, #store-frame, #settings-frame {
     display: none;
     overflow-y: auto;
     width: $rightside;
