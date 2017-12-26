@@ -38,7 +38,7 @@ export class StatsFrame extends React.Component<Props> {
 	render() {
 		return(
 			<Frame frameId="stats">
-				<StatItem title="General stats">
+				<StatItem title="Generic stats">
 					{this.renderGeneral()}
 				</StatItem>
 				<StatItem title="Achievements" description="Each achievement will boost your MPD by 10%.">

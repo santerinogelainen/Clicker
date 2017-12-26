@@ -84,6 +84,7 @@ $rightside: 70%;
 
 #stats-frame {
     display: none;
+    overflow-y: auto;
     width: $rightside;
 }
 
@@ -93,6 +94,7 @@ $rightside: 70%;
 }
 
 #upgrade-info-frame {
+    overflow-y: auto;
     width: 60%;
 }
 
