@@ -78,6 +78,7 @@ body, html, #body, #main-frame, #game-frame {
 #stats-frame {
   display: none;
   overflow-y: auto;
+  overflow-x: visible;
   width: 70%; }
 
 #city-info-frame {
@@ -634,6 +635,7 @@ body, html, #body, #main-frame, #game-frame {
   left: 50%; }
 
 .achievement-hover {
+  z-index: 10;
   padding: 5px;
   display: none;
   position: absolute;

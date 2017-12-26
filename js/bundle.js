@@ -1699,7 +1699,7 @@ var StatsFrame = /** @class */ (function (_super) {
     };
     StatsFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "stats" },
-            React.createElement(statitem_1.StatItem, { title: "General stats" }, this.renderGeneral()),
+            React.createElement(statitem_1.StatItem, { title: "Generic stats" }, this.renderGeneral()),
             React.createElement(statitem_1.StatItem, { title: "Achievements", description: "Each achievement will boost your MPD by 10%." },
                 React.createElement(stat_1.Stat, { title: "Total achievements: ", value: this.props.game.achievements.length }),
                 React.createElement("div", { className: "achievement-container" }, this.renderAchievements()))));
