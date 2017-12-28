@@ -18,15 +18,6 @@ export class OutletList extends React.Component<Props> {
 	}
 
 	/**
-	 * Shows the new outlet modal
-	 */
-	showNewOutletModal = () => {
-		if (this.props.game.enoughMoneyFor(this.props.game.map.selected.cost)) {
-			$("#new-outlet-modal").css("display", "flex");
-		}
-	}
-
-	/**
 	 * Turns outlets into JSX ListItems
 	 */
 	outletsToItems() {

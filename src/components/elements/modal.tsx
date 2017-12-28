@@ -10,6 +10,7 @@ export enum ModalType {
 interface ModalProps {
     type: ModalType;
     id: string;
+    money?: JSX.Element;
     title?: string;
     /**
      * Note! return true if you want to hide the modal after this event
@@ -31,10 +32,10 @@ interface ModalProps {
 
 export class Modal extends React.Component<ModalProps> {
 
-    okbutton = <input className="modal-button modal-button-ok" key="modal-ok" type="button" onClick={(e) => this.hide(e, this.props.onOK)} value="OK"/>;
-    cancelbutton = <input className="modal-button modal-button-cancel" key="modal-cancel" type="button" onClick={(e) => this.hide(e, this.props.onCancel)} value="Cancel"/>;
-    nobutton = <input className="modal-button modal-button-no" key="modal-no" type="button" onClick={(e) => this.hide(e, this.props.onNo)} value="No"/>;
-    yesbutton = <input className="modal-button modal-button-yes" key="modal-yes" type="button" onClick={(e) => this.hide(e, this.props.onYes)} value="Yes"/>;
+okbutton = <button className="modal-button modal-button-ok" key="modal-ok" onClick={(e) => this.hide(e, this.props.onOK)}>OK{this.props.money}</button>;
+    cancelbutton = <button className="modal-button modal-button-cancel" key="modal-cancel" onClick={(e) => this.hide(e, this.props.onCancel)}>Cancel</button>;
+    nobutton = <button className="modal-button modal-button-no" key="modal-no" onClick={(e) => this.hide(e, this.props.onNo)}>No</button>;
+    yesbutton = <button className="modal-button modal-button-yes" key="modal-yes" onClick={(e) => this.hide(e, this.props.onYes)}>Yes{this.props.money}</button>;
 
     /**
      * Hides the modal IF clickevent returns true

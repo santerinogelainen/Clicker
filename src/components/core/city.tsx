@@ -15,9 +15,6 @@ export class City {
     name: string;
     icon: string;
     outlets: Dictionary<Outlet>;
-    basecost: number = 15;
-    cost: number = 15;
-    costmodifier: number = 1.75;
     citymodifier: number = 2;
 
     constructor(props: CityProps) {
@@ -30,9 +27,9 @@ export class City {
     /**
      * Update the cost of this city when you create a new outlet in a new city
      */
-    updateCostOnNewCity() {
+    /*updateCostOnNewCity() {
         this.cost = Math.floor(Math.pow(this.citymodifier, Stats.citiesWithOutlets) * this.basecost);
-    }
+    }*/
 
     /**
      * checks if the company already has an outlet in the city
@@ -66,7 +63,6 @@ export class City {
         if (!this.hasOutletFor(company)) {
             this.outlets.set(company.key, new Outlet(company));
             Stats.totalOutlets++;
-            this.cost = Math.floor(this.cost * this.costmodifier);
             return true;
         }
         return false;

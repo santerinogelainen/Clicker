@@ -4,6 +4,7 @@ import {Game} from "../core/game";
 import {Props} from "../helpers/props";
 import {Company, CompanyType} from "../core/company";
 import {CompanyTypeRadio} from "../elements/companytyperadio";
+import { Money } from "../elements/money";
 
 export class NewCompanyModal extends React.Component<Props> {
 
@@ -50,6 +51,10 @@ export class NewCompanyModal extends React.Component<Props> {
         return types;
     }
 
+    getMoney() {
+        return <Money amount={Company.getTypeInfo(this.selected).companycost} total={this.props.game.mpd}/>
+    }
+
     updateSelectedType = (e) => {
         this.selected = $(e.currentTarget).val() as CompanyType;
         this.forceUpdate();
@@ -57,7 +62,7 @@ export class NewCompanyModal extends React.Component<Props> {
 
 	render() {
 		return (
-			<Modal id="new-company" type={ModalType.OKCancel} onCancel={() => {return true;}} onOK={() => this.createCompany()} title="New company">
+			<Modal id="new-company" money={this.getMoney()} type={ModalType.OKCancel} onCancel={() => {return true;}} onOK={() => this.createCompany()} title="New company">
                 <div className="company-types">
 				    <div className="input-title">Type: </div>
                     <div className="company-type-container">
