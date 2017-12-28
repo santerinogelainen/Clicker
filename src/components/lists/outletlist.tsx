@@ -31,22 +31,14 @@ export class OutletList extends React.Component<Props> {
 	 */
 	outletsToItems() {
 		let items = [];
-		this.props.game.map.selected.outlets.forEach((outlet, index) => {
-			let info = (
-				<ListInfo>
-					<div className="outlet-mpd"><span className="outlet-mpd-text">Mpd: </span><span className="outlet-mpd-number">{Format.abbriviate(outlet.mpd)}</span></div>
-					<div className="outlet-per-upgrade"><span className="outlet-per-upgrade-text">Per upgrade: </span><span className="outlet-per-upgrade-number">{Format.abbriviate(outlet.basempd)}</span></div>
-				</ListInfo>
-			);
+		this.props.game.companies.forEach((company) => {
+			// try creating new outlet
+			this.props.game.map.selected.newOutlet(company);
+			let outlet = this.props.game.map.selected.outlets.get(company.key);
 			items.push(
-				<ListItem info={info} title={outlet.name} key={index} number={outlet.count} money={outlet.cost} total={this.props.game.totalMoney} onClick={(e, o) => this.upgradeOutlet(e, outlet)}/>
+				<ListItem title={company.name} key={company.key} number={outlet.count} money={outlet.cost} total={this.props.game.totalMoney} onClick={(e, o) => this.upgradeOutlet(e, outlet)}/>
 			);
 		});
-		if (!this.props.game.map.selected.hasAllOutlets(this.props.game.companies)) {
-			items.push(
-				<ListItem title="+ New outlet" key="new-outlet" onClick={this.showNewOutletModal} money={this.props.game.map.selected.cost} total={this.props.game.totalMoney}/>
-			);
-		}
 		return items;
 	}
 

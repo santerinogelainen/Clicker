@@ -2,12 +2,26 @@ export class Dictionary<T> {
 
 	private items: Object = {};
 
-	constructor() {}
+	/**
+	 * Create a new dictionary
+	 * @param json copy dictionary from json
+	 */
+	constructor(json?: Object) {
+		if (json != null) {
+			this.items = json;
+		}
+	}
 
+	/**
+	 * Get the length of the dictionary
+	 */
 	get length() {
 		return Object.keys(this.items).length;
 	}
 
+	/**
+	 * Check if dictionary is empty
+	 */
 	get isEmpty(): boolean {
 		return this.length == 0;
 	}

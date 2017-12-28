@@ -24,7 +24,7 @@ export class CitySelect extends React.Component<Props> {
      * Selects an option, set e.target to specify which element to select
      */
     selectOption = (e) => {
-        let id = $(e.target).attr("data-id");
+        let id = $(e.target).attr("data-key");
         this.props.game.map.setSelected(id);
         $(".select-option").show();
         this.props.update();
@@ -58,11 +58,11 @@ export class CitySelect extends React.Component<Props> {
     render() {
         let options = new Array<JSX.Element>();
         this.props.game.map.cities.forEach((city, index) => {
-            options.push(<div key={index} className="select-option" data-id={city.id} onClick={(e) => this.selectOption(e)}>{city.name}</div>);
+            options.push(<div key={index} className="select-option" data-key={city.key} onClick={(e) => this.selectOption(e)}>{city.name}</div>);
         });
         return (
             <div className="city-select">
-                <div className="selected-city" onClick={this.showOptions} data-id={this.props.game.map.selected.id}>
+                <div className="selected-city" onClick={this.showOptions} data-key={this.props.game.map.selected.key}>
                     <span className="name">{this.props.game.map.selected.name}</span>
                     <span className="icon">&#9660;</span>
                 </div>

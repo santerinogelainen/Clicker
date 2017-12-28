@@ -1,27 +1,30 @@
 import { Outlet, Company } from "./company";
 import {Stats} from "./stats";
+import {Dictionary} from "../helpers/dictionary";
 import * as React from "react";
 
 interface CityProps {
+    key: string;
     name: string;
     icon: string;
 }
 
 export class City {
 
-    id: string;
+    key: string;
     name: string;
-    icon: JSX.Element;
-    outlets: Array<Outlet> = [];
+    icon: string;
+    outlets: Dictionary<Outlet>;
     basecost: number = 15;
     cost: number = 15;
     costmodifier: number = 1.75;
     citymodifier: number = 2;
 
-    constructor(id: string, props: CityProps) {
-        this.id = id;
+    constructor(props: CityProps) {
+        this.key = props.key;
         this.name = props.name;
-        this.icon = <img className="city-icon" src={props.icon}/>;
+        this.icon = props.icon;
+        this.outlets = new Dictionary<Outlet>();
     }
 
     /**
@@ -37,20 +40,7 @@ export class City {
      * @returns true is outlet exists
      */
     hasOutletFor(company: Company): boolean {
-        return company.nth in this.outlets;
-    }
-
-    /**
-     * Returns the number of outlets in this city
-     */
-    outletCount() {
-        let count = 0;
-        for (let i = 0; i < this.outlets.length; i++) {
-            if (this.outlets[i] != null) {
-                count++;
-            }
-        }
-        return count;
+        return this.outlets.hasKey(company.key);
     }
 
     /**
@@ -58,9 +48,9 @@ export class City {
      * @param companies list of companies
      * @returns true if this city has all outlets
      */
-    hasAllOutlets(companies: Array<Company>): boolean {
+    hasAllOutlets(companies: Dictionary<Company>): boolean {
         for (let i = 0; i < companies.length; i++) {
-            if (!this.hasOutletFor(companies[i])) {
+            if (!this.hasOutletFor(companies.get(i))) {
                 return false;
             }
         }
@@ -74,7 +64,7 @@ export class City {
      */
     newOutlet(company: Company): boolean {
         if (!this.hasOutletFor(company)) {
-            this.outlets[company.nth] = new Outlet(company);
+            this.outlets.set(company.key, new Outlet(company));
             Stats.totalOutlets++;
             this.cost = Math.floor(this.cost * this.costmodifier);
             return true;

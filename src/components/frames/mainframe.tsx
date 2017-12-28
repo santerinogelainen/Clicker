@@ -6,11 +6,10 @@ import {NewCompanyModal} from "../modals/newcompany";
 import {WorkFrame} from "./workframe";
 import {NavigationFrame} from "./navigationframe";
 import {StatsFrame} from "./statsframe";
-import {NewOutletModal} from "../modals/newoutlet";
 import {DebugControls} from "../elements/debugcontrols";
 import {PopUpFrame} from "./popupframe";
 import {SettingsFrame} from "./settingsframe";
-import {StoreFrame} from "./storeframe";
+import {UpgradeFrame} from "./upgradeframe";
 
 export interface MainFrameProps {
     game: Game;
@@ -28,11 +27,10 @@ export class MainFrame extends React.Component<MainFrameProps> {
                 <DebugControls game={this.props.game} update={this.update}/>
                 <PopUpFrame game={this.props.game} update={this.update}/>
                 <NewCompanyModal game={this.props.game} update={this.update}/>
-			    <NewOutletModal game={this.props.game} update={this.update}/>
                 <Frame frameId="game">
                     <NavigationFrame game={this.props.game} update={this.update}/>
                     <WorkFrame game={this.props.game} update={this.update}/>
-                    <StoreFrame game={this.props.game} update={this.update}/>
+                    <UpgradeFrame game={this.props.game} update={this.update}/>
                     <SettingsFrame game={this.props.game} update={this.update}/>
                     <StatsFrame game={this.props.game} update={this.update}/>
                     <MapFrame game={this.props.game} update={this.update}/>

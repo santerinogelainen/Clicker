@@ -2,7 +2,7 @@ import * as React from "react";
 import {Frame} from "../elements/frame";
 import {Game} from "../core/game";
 import {CityInfoFrame} from "./cityinfoframe";
-import {UpgradeInfoFrame} from "./upgradeinfoframe";
+import {OutletFrame} from "./outletframe";
 import {Props} from "../helpers/props";
 
 export class SelectedCityFrame extends React.Component<Props> {
@@ -10,7 +10,7 @@ export class SelectedCityFrame extends React.Component<Props> {
         return (
             <Frame frameId="selected-city">
                 <CityInfoFrame {...this.props}/>
-                <UpgradeInfoFrame {...this.props}/>
+                <OutletFrame {...this.props}/>
             </Frame>
         );
     }

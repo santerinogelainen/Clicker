@@ -1,5 +1,10 @@
 import * as CompanyTypeJSON from "../../json/companytypes.json";
+import { Dictionary } from "../helpers/dictionary";
 
+/**
+ * Contains all the company types that the game has
+ * string enum
+ */
 export enum CompanyType {
     Store = "store",
     Restaurant = "restaurant",
@@ -8,46 +13,64 @@ export enum CompanyType {
     Bank = "bank"
 }
 
-export interface ICompany {
-    nth: number; //THIS HAS TO BE UNIQUE
-    name: string;
-    type: CompanyType;
+/**
+ * Represents a single object in JSON, that contains the company types info
+ * See companytypes.json
+ */
+export interface CompanyTypeInfo {
+    key: string,
+    title: string,
+    icon: string,
+    basempd: number,
+    companycost: number
 }
 
-export class Company implements ICompany {
+/**
+ * Represents a single company, also contains static information of types
+ */
+export class Company {
 
-    static typeinfo = CompanyTypeJSON as any;
+    /**
+     * Static readonly information of company types
+     */
+    static readonly typeinfo: Dictionary<CompanyTypeInfo> = new Dictionary<CompanyTypeInfo>(CompanyTypeJSON); 
 
-    nth: number;
+    static getTypeInfo(type: CompanyType): CompanyTypeInfo {
+        return Company.typeinfo.get(type);
+    }
+
+    key: string;
     name: string;
     type: CompanyType;
 
-    constructor(data: ICompany) {
-        this.nth = data.nth;
-        this.name = data.name;
-        this.type = data.type;
+    constructor(name: string, type: CompanyType) {
+        this.key = type;
+        this.name = name;
+        this.type = type;
     }
 
 }
 
-export class Outlet extends Company {
+/**
+ * Represents a single outlet
+ */
+export class Outlet {
 
-    count: number;
-    mpd: number = 0.1;
+    company: Company;
+    count: number = 0;
+    mpd: number = 0;
     basempd: number = 0.1;
     basecost: number = 15;
     cost: number = 15;
     costmodifier: number = 1.15;
 
-    constructor(data: ICompany) {
-        super(data);
+    constructor(company: Company) {
+        this.company = company;
         this.setBaseMpd();
-        this.count = 1;
     }
 
     setBaseMpd() {
-        this.basempd = Company.typeinfo[this.type].basempd;
-        this.mpd = this.basempd;
+        this.basempd = Company.getTypeInfo(this.company.type).basempd;
     }
 
     /**

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {City} from "./city";
 import * as $ from "jquery";
+import {Dictionary} from "../helpers/dictionary";
 import * as CityJSON from "../../json/cities.json";
 import { Company } from "./company";
 import {Stats} from "./stats";
@@ -8,34 +9,28 @@ import {Achievements} from "./achievement";
 
 export class Map {
 
-    cities: Array<City> = new Array<City>();
+    cities: Dictionary<City>;
     totalCities: number = 0;
     selected: City;
 
     constructor() {
+        this.cities = new Dictionary<City>();
         this.initCities();
-        // sort cities
-        this.cities.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
         this.setSelected(0);
     }
 
     /**
-     * set selected city by it's id
-     * @param id city's id
+     * set selected city by it's key
+     * @param key city's key
      */
-    public setSelected(id: string);
+    public setSelected(key: string);
     /**
      * set selected city by it's index
      * @param index city's index
      */
     public setSelected(index: number);
     public setSelected(x) {
-        if (typeof x == "number") {
-            this.selected = this.cities[x];
-        } else {
-            let city = this.findCityById(x);
-            this.selected = city;
-        }
+        this.selected = this.cities.get(x);
     }
 
     /**
@@ -44,12 +39,12 @@ export class Map {
      * @param city city where to create the outlet, default = this.selected
      */
     newOutlet(company: Company, city: City = this.selected) {
-        let outlets = city.outletCount()
+        let outlets = city.outlets.length;
         city.newOutlet(company);
         if (outlets == 0) {
             Stats.citiesWithOutlets++;
             if (Stats.citiesWithOutlets == this.totalCities) {
-                Achievements.new(Achievements.JSON.outletinallcities);
+                Achievements.new(Achievements.all.get('outletinallcities'));
             }
             // recalculate cities without outlets cost
             for(let i = 0; i < this.cities.length; i++) {
@@ -61,25 +56,11 @@ export class Map {
     }
 
     /**
-     * Searches and returns a city by it's id
-     * @param id id of the city
-     * @returns city found or null if not found
-     */
-    public findCityById(id: string): City {
-        for (let i = 0; i < this.cities.length; i++) {
-            if (this.cities[i].id == id) {
-                return this.cities[i];
-            }
-        }
-        return null;
-    }
-
-    /**
      * Adds a city to the map
      * @param city the city to add
      */
     public addCity(city: City) {
-        this.cities.push(city);
+        this.cities.set(city.key, city);
     }
 
     /**
@@ -89,7 +70,7 @@ export class Map {
         let data = CityJSON as any;
         $.each(data, (key, value) => {
             this.totalCities++;
-            this.addCity(new City(key, value));
+            this.addCity(new City(value));
         });
     }
 }

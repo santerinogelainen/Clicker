@@ -10,7 +10,7 @@ export class CityInfoFrame extends React.Component<Props> {
             <Frame frameId="city-info">
                 <CitySelect {...this.props}/>
                 <Frame frameId="selected-city-icon">
-                    {this.props.game.map.selected.icon}
+                    <img src={this.props.game.map.selected.icon} className="city-icon"/>
                 </Frame>
             </Frame>
         );

@@ -93,7 +93,7 @@ $rightside: 70%;
     border-right: 5px solid color('darkblack');
 }
 
-#upgrade-info-frame {
+#outlet-frame {
     overflow-y: auto;
     width: 60%;
 }
@@ -229,6 +229,7 @@ $selected-city-padding: 0 5px 0 5px;
 }
 
 #click-frame {
+    @include no-selection();
     height: 70%;
     overflow: hidden;
     display: flex;
@@ -237,6 +238,7 @@ $selected-city-padding: 0 5px 0 5px;
 }
 
 .work-money-pile {
+    @include no-selection();
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -453,6 +455,7 @@ $listitemheight: 50px;
 */
 
 .money {
+    @include no-selection();
     margin: 0 10px 0 10px;
     height: 100%;
     @include center-flex();
@@ -478,6 +481,7 @@ $listitemheight: 50px;
 }
 
 .money-pile {
+    @include no-selection();
     max-width: 100%;
     max-height: 70%;
     position: absolute;
@@ -511,6 +515,7 @@ $listitemheight: 50px;
 */
 
 #pop-up-frame {
+    @include no-selection();
     z-index: 2;
     position: absolute;
     display: inline-flex;

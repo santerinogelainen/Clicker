@@ -1,4 +1,4 @@
-import {ICompany, CompanyType, Company} from "./company";
+import {CompanyType, Company} from "./company";
 import {Stats} from "./stats";
 import {Map} from "./map";
 import {Clock} from "./clock";
@@ -8,13 +8,15 @@ import {Dictionary} from "../helpers/dictionary";
 export class Game {
 
     clock: Clock;
-    companies: Array<Company> = [];
+    companies: Dictionary<Company>;
     totalMoney: number;
     achievementmodifier: number = 0.1;
     perClick: number = 1;
     map: Map;
     
     constructor() {
+        this.companies = new Dictionary<Company>();
+        this.map = new Map();
         this.totalMoney = 0;
         this.clock = new Clock();
         this.clock.onNextDay = () => {
@@ -22,11 +24,18 @@ export class Game {
             this.totalMoney += mpd;
             Stats.totalMoneyEarned += mpd;
         }
-        this.map = new Map();
     }
 
     /**
      * Returns the total mpd
+     */
+    get mpd() {
+        return this.getTotalMpd();
+    }
+
+    /**
+     * Returns the total mpd
+     * @deprecated use this.mpd / game.mpd
      */
     getTotalMpd() {
         let total: number = 0;
@@ -47,7 +56,7 @@ export class Game {
      */
     hasCompanyOfType(type: CompanyType) {
         for (let i = 0; i < this.companies.length; i++) {
-            if (this.companies[i].type == type) {
+            if (this.companies.get(i).type == type) {
                 return true;
             }
         }
@@ -84,26 +93,26 @@ export class Game {
      * @param company company that is added
      * @returns boolean true if new company is created
      */
-    public newCompany(company: ICompany): boolean {
-        if (this.enoughMoneyFor(Company.typeinfo[company.type].companycost)) {
+    public newCompany(company: Company): boolean {
+        if (this.enoughMoneyFor(Company.getTypeInfo(company.type).companycost)) {
             switch(company.type) {
                 case CompanyType.Store:
-                    Achievements.new(Achievements.JSON.storecompany);
+                    Achievements.new(Achievements.all.get('storecompany'));
                     break;
                 case CompanyType.Restaurant:
-                    Achievements.new(Achievements.JSON.restaurantcompany);
+                    Achievements.new(Achievements.all.get('restaurantcompany'));
                     break;
                 case CompanyType.Farm:
-                    Achievements.new(Achievements.JSON.farmcompany);
+                    Achievements.new(Achievements.all.get('farmcompany'));
                     break;
                 case CompanyType.Factory:
-                    Achievements.new(Achievements.JSON.factorycompany);
+                    Achievements.new(Achievements.all.get('factorycompany'));
                     break;
                 case CompanyType.Bank:
-                    Achievements.new(Achievements.JSON.bankcompany);
+                    Achievements.new(Achievements.all.get('bankcompany'));
                     break;
             }
-            this.companies[company.nth] = new Company(company);
+            this.companies.set(company.key, company);
             Stats.totalCompanies++;
             return true;
         }

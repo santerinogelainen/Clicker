@@ -2,9 +2,8 @@ import * as React from "react";
 import {Frame} from "../elements/frame";
 import {Game} from "../core/game";
 import {Props} from "../helpers/props";
-import {StatItem} from "../elements/statitem";
+import {StatItem, Stat} from "../elements/statitem";
 import {Stats} from "../core/stats";
-import {Stat} from "../elements/stat";
 import {AchievementItem} from "../elements/achievementitem";
 import {Achievements} from "../core/achievement";
 
@@ -27,7 +26,7 @@ export class StatsFrame extends React.Component<Props> {
 
 	renderAchievements() {
 		let elements: Array<JSX.Element> = [];
-		$.each(Achievements.JSON, (key, achievement) => {
+		Achievements.all.forEach((achievement) => {
 			elements.push(<AchievementItem {...achievement} isOpened={Achievements.hasAchievement(achievement)}/>);
 		});
 		return elements;

@@ -2,10 +2,13 @@
 import {Dictionary} from "../helpers/dictionary";
 import * as AchievementsJSON from "../../json/achievements.json";
 
+/**
+ * Wrapper class for ALL achievements and obtained achievements
+ */
 export class Achievements {
 
-	static JSON = AchievementsJSON as any;
-	static all: Dictionary<Achievement> = new Dictionary<Achievement>();
+	static all: Dictionary<Achievement> = new Dictionary<Achievement>(AchievementsJSON);
+	static obtained: Dictionary<Achievement> = new Dictionary<Achievement>();
 	
 	//events
 	static onNewEvents: Array<(achievement?: Achievement) => any> = [];
@@ -22,7 +25,7 @@ export class Achievements {
      * @param achievement achievement
      */
     static new(achievement: Achievement) {
-        Achievements.all.set(achievement.key, achievement);
+        Achievements.obtained.set(achievement.key, achievement);
         // run through all onNewAchievement events
         Achievements.onNewEvents.forEach(func => {
             func(achievement);
@@ -34,12 +37,14 @@ export class Achievements {
      * @param achievement achievement to check
      */
     static hasAchievement(achievement: Achievement): boolean {
-        return Achievements.all.hasKey(achievement.key);
+        return Achievements.obtained.hasKey(achievement.key);
     }
 
 }
 
-
+/**
+ * Represents a single JSON object that contains information of the achievement
+ */
 export interface Achievement {
 	key: string;
 	title: string;

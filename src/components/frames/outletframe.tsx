@@ -4,10 +4,10 @@ import {Game} from "../core/game";
 import {OutletList} from "../lists/outletlist";
 import {Props} from "../helpers/props";
 
-export class UpgradeInfoFrame extends React.Component<Props> {
+export class OutletFrame extends React.Component<Props> {
     render() {
         return (
-            <Frame frameId="upgrade-info">
+            <Frame frameId="outlet">
                 <OutletList {...this.props}/>
             </Frame>
         );
