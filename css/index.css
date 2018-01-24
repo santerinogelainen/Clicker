@@ -687,6 +687,9 @@ body, html, #body, #main-frame, #game-frame {
   cursor: pointer;
   padding: 5px; }
 
+.company-type-stats {
+  font-weight: 300; }
+
 .company-type-title {
   font-size: 12px;
   max-width: 63px;

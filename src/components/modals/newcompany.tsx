@@ -9,6 +9,7 @@ import { Money } from "../elements/money";
 export class NewCompanyModal extends React.Component<Props> {
 
     selected: CompanyType = CompanyType.Store;
+    typeinfo = Company.getTypeInfo(this.selected);
 
 	createCompany() {
         let nameinput = $("#company-name-input");
@@ -45,28 +46,35 @@ export class NewCompanyModal extends React.Component<Props> {
         let types = [];
         Company.typeinfo.forEach((value, key) => {
             if (!this.props.game.hasCompanyOfType(key as CompanyType)) {
-                types.push(<CompanyTypeRadio key={key} type={key as CompanyType} selected={this.selected} update={this.updateSelectedType}/>);
+                types.push(<CompanyTypeRadio key={key} type={key as CompanyType} selected={this.selected} update={this.updateSelectedTypeEvent}/>);
             }
         });
         return types;
     }
 
-    getMoney() {
-        return <Money amount={Company.getTypeInfo(this.selected).companycost} total={this.props.game.mpd}/>
+    updateSelectedType(type: CompanyType) {
+        this.selected = type;
+        this.typeinfo = Company.getTypeInfo(type);
+        this.props.update();
     }
 
-    updateSelectedType = (e) => {
-        this.selected = $(e.currentTarget).val() as CompanyType;
-        this.forceUpdate();
+    updateSelectedTypeEvent = (e) => {
+        this.updateSelectedType($(e.currentTarget).val() as CompanyType);
     }
 
 	render() {
 		return (
-			<Modal id="new-company" money={this.getMoney()} type={ModalType.OKCancel} onCancel={() => {return true;}} onOK={() => this.createCompany()} title="New company">
+			<Modal id="new-company" type={ModalType.OKCancel} onCancel={() => {return true;}} onOK={() => this.createCompany()} title="New company">
                 <div className="company-types">
 				    <div className="input-title">Type: </div>
                     <div className="company-type-container">
                         {this.listTypes()}
+                    </div>
+                    <div className="company-type-stats">
+                        <div className="input-title">Stats:</div>
+                        <div>MPD: {this.typeinfo.basempd}</div>
+                        <div>Cost: </div>
+                        <Money amount={this.typeinfo.companycost} total={this.props.game.totalMoney}/>
                     </div>
                 </div>
 				<div className="input-title">Name (optional): </div>

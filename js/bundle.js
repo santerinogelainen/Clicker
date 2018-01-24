@@ -267,7 +267,11 @@ var Outlet = /** @class */ (function () {
         this.costmodifier = 1.15;
         this.company = company;
         this.setBaseMpd();
+        this.setBaseCost();
     }
+    Outlet.prototype.setBaseCost = function () {
+        this.basecost = Company.getTypeInfo(this.company.type).basecost;
+    };
     Outlet.prototype.setBaseMpd = function () {
         this.basempd = Company.getTypeInfo(this.company.type).basempd;
     };
@@ -615,7 +619,7 @@ exports.Game = Game;
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = {"store":{"key":"store","title":"Store","icon":"./img/placeholder.svg","basempd":0.1,"companycost":50},"restaurant":{"key":"restaurant","title":"Restaurant","icon":"./img/placeholder.svg","basempd":1,"companycost":500},"farm":{"key":"farm","title":"Farm","icon":"./img/placeholder.svg","basempd":10,"companycost":5000},"factory":{"key":"factory","title":"Factory","icon":"./img/placeholder.svg","basempd":100,"companycost":50000},"bank":{"key":"bank","title":"Bank","icon":"./img/placeholder.svg","basempd":1000,"companycost":500000}}
+module.exports = {"store":{"key":"store","title":"Store","icon":"./img/placeholder.svg","basempd":0.1,"basecost":15,"companycost":50},"restaurant":{"key":"restaurant","title":"Restaurant","icon":"./img/placeholder.svg","basempd":1,"basecost":100,"companycost":500},"farm":{"key":"farm","title":"Farm","icon":"./img/placeholder.svg","basempd":10,"basecost":500,"companycost":5000},"factory":{"key":"factory","title":"Factory","icon":"./img/placeholder.svg","basempd":100,"basecost":1000,"companycost":50000},"bank":{"key":"bank","title":"Bank","icon":"./img/placeholder.svg","basempd":1000,"basecost":10000,"companycost":500000}}
 
 /***/ }),
 /* 14 */
@@ -1342,9 +1346,9 @@ var NewCompanyModal = /** @class */ (function (_super) {
     function NewCompanyModal() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.selected = company_1.CompanyType.Store;
-        _this.updateSelectedType = function (e) {
-            _this.selected = $(e.currentTarget).val();
-            _this.forceUpdate();
+        _this.typeinfo = company_1.Company.getTypeInfo(_this.selected);
+        _this.updateSelectedTypeEvent = function (e) {
+            _this.updateSelectedType($(e.currentTarget).val());
         };
         return _this;
     }
@@ -1379,20 +1383,29 @@ var NewCompanyModal = /** @class */ (function (_super) {
         var types = [];
         company_1.Company.typeinfo.forEach(function (value, key) {
             if (!_this.props.game.hasCompanyOfType(key)) {
-                types.push(React.createElement(companytyperadio_1.CompanyTypeRadio, { key: key, type: key, selected: _this.selected, update: _this.updateSelectedType }));
+                types.push(React.createElement(companytyperadio_1.CompanyTypeRadio, { key: key, type: key, selected: _this.selected, update: _this.updateSelectedTypeEvent }));
             }
         });
         return types;
     };
-    NewCompanyModal.prototype.getMoney = function () {
-        return React.createElement(money_1.Money, { amount: company_1.Company.getTypeInfo(this.selected).companycost, total: this.props.game.mpd });
+    NewCompanyModal.prototype.updateSelectedType = function (type) {
+        this.selected = type;
+        this.typeinfo = company_1.Company.getTypeInfo(type);
+        this.props.update();
     };
     NewCompanyModal.prototype.render = function () {
         var _this = this;
-        return (React.createElement(modal_1.Modal, { id: "new-company", money: this.getMoney(), type: modal_1.ModalType.OKCancel, onCancel: function () { return true; }, onOK: function () { return _this.createCompany(); }, title: "New company" },
+        return (React.createElement(modal_1.Modal, { id: "new-company", type: modal_1.ModalType.OKCancel, onCancel: function () { return true; }, onOK: function () { return _this.createCompany(); }, title: "New company" },
             React.createElement("div", { className: "company-types" },
                 React.createElement("div", { className: "input-title" }, "Type: "),
-                React.createElement("div", { className: "company-type-container" }, this.listTypes())),
+                React.createElement("div", { className: "company-type-container" }, this.listTypes()),
+                React.createElement("div", { className: "company-type-stats" },
+                    React.createElement("div", { className: "input-title" }, "Stats:"),
+                    React.createElement("div", null,
+                        "MPD: ",
+                        this.typeinfo.basempd),
+                    React.createElement("div", null, "Cost: "),
+                    React.createElement(money_1.Money, { amount: this.typeinfo.companycost, total: this.props.game.totalMoney }))),
             React.createElement("div", { className: "input-title" }, "Name (optional): "),
             React.createElement("input", { type: "text", id: "company-name-input", className: "text-input", placeholder: company_1.Company.getTypeInfo(this.selected).title, onKeyDown: function (e) { return _this.createCompanyEnter(e); } })));
     };
@@ -1430,14 +1443,10 @@ var Modal = /** @class */ (function (_super) {
     __extends(Modal, _super);
     function Modal() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.okbutton = React.createElement("button", { className: "modal-button modal-button-ok", key: "modal-ok", onClick: function (e) { return _this.hide(e, _this.props.onOK); } },
-            "OK",
-            _this.props.money);
+        _this.okbutton = React.createElement("button", { className: "modal-button modal-button-ok", key: "modal-ok", onClick: function (e) { return _this.hide(e, _this.props.onOK); } }, "OK");
         _this.cancelbutton = React.createElement("button", { className: "modal-button modal-button-cancel", key: "modal-cancel", onClick: function (e) { return _this.hide(e, _this.props.onCancel); } }, "Cancel");
         _this.nobutton = React.createElement("button", { className: "modal-button modal-button-no", key: "modal-no", onClick: function (e) { return _this.hide(e, _this.props.onNo); } }, "No");
-        _this.yesbutton = React.createElement("button", { className: "modal-button modal-button-yes", key: "modal-yes", onClick: function (e) { return _this.hide(e, _this.props.onYes); } },
-            "Yes",
-            _this.props.money);
+        _this.yesbutton = React.createElement("button", { className: "modal-button modal-button-yes", key: "modal-yes", onClick: function (e) { return _this.hide(e, _this.props.onYes); } }, "Yes");
         /**
          * Hides the modal IF clickevent returns true
          * @param clickevent Event to do when we click OK/No/Yes
@@ -1686,6 +1695,7 @@ var NavigationFrame = /** @class */ (function (_super) {
         };
         _this.showNewCompanyModal = function () {
             $("#new-company-modal").css("display", "flex");
+            $(".company-type-container > .company-type").first().trigger("click");
         };
         return _this;
     }

@@ -37,6 +37,7 @@ export class NavigationFrame extends React.Component<Props> {
 
 	showNewCompanyModal = () => {
 		$("#new-company-modal").css("display", "flex");
+		$(".company-type-container > .company-type").first().trigger("click");
 	}
 
 	render() {

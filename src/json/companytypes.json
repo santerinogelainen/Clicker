@@ -4,6 +4,7 @@
 		"title": "Store",
 		"icon": "./img/placeholder.svg",
 		"basempd": 0.1,
+		"basecost": 15,
 		"companycost": 50
 	},
 	"restaurant": {
@@ -11,6 +12,7 @@
 		"title": "Restaurant",
 		"icon": "./img/placeholder.svg",
 		"basempd": 1,
+		"basecost": 100,
 		"companycost": 500
 	},
 	"farm": {
@@ -18,6 +20,7 @@
 		"title": "Farm",
 		"icon": "./img/placeholder.svg",
 		"basempd": 10,
+		"basecost": 500,
 		"companycost": 5000
 	},
 	"factory": {
@@ -25,6 +28,7 @@
 		"title": "Factory",
 		"icon": "./img/placeholder.svg",
 		"basempd": 100,
+		"basecost": 1000,
 		"companycost": 50000
 	},
 	"bank": {
@@ -32,6 +36,7 @@
 		"title": "Bank",
 		"icon": "./img/placeholder.svg",
 		"basempd": 1000,
+		"basecost": 10000,
 		"companycost": 500000
 	}
 }

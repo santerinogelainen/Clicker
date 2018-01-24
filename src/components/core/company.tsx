@@ -22,6 +22,7 @@ export interface CompanyTypeInfo {
     title: string,
     icon: string,
     basempd: number,
+    basecost: number,
     companycost: number
 }
 
@@ -67,6 +68,11 @@ export class Outlet {
     constructor(company: Company) {
         this.company = company;
         this.setBaseMpd();
+        this.setBaseCost();
+    }
+
+    setBaseCost() {
+        this.basecost = Company.getTypeInfo(this.company.type).basecost;
     }
 
     setBaseMpd() {
