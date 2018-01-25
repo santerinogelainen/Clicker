@@ -42,6 +42,6 @@ module.exports = {
         "react-dom": "ReactDOM",
         "jquery": "jQuery",
         "jquery": "$",
-        "three": "Three"
+        "three": "THREE"
     }
 }
