@@ -36,6 +36,23 @@ export class Dictionary<T> {
 	}
 
 	/**
+	 * Returns an object of the dictionary
+	 */
+	toObject() {
+		return this.items;
+	}
+
+	/**
+	 * Returns an array of the dictionary
+	 */
+	toArray() {
+		let array = $.map(this.items, function(value, index) {
+			return value;
+		});
+		return array;
+	}
+
+	/**
 	 * Removes an item from the dictionary
 	 * @param key key of the item
 	 */

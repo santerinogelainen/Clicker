@@ -147,6 +147,21 @@ var Dictionary = /** @class */ (function () {
         this.items[key] = item;
     };
     /**
+     * Returns an object of the dictionary
+     */
+    Dictionary.prototype.toObject = function () {
+        return this.items;
+    };
+    /**
+     * Returns an array of the dictionary
+     */
+    Dictionary.prototype.toArray = function () {
+        var array = $.map(this.items, function (value, index) {
+            return value;
+        });
+        return array;
+    };
+    /**
      * Removes an item from the dictionary
      * @param key key of the item
      */
@@ -2041,24 +2056,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
 var popup_1 = __webpack_require__(40);
+var dictionary_1 = __webpack_require__(2);
 var achievement_1 = __webpack_require__(5);
 var PopUpFrame = /** @class */ (function (_super) {
     __extends(PopUpFrame, _super);
     function PopUpFrame(props) {
         var _this = _super.call(this, props) || this;
-        _this.popups = [];
+        _this.popups = new dictionary_1.Dictionary();
         _this.removePopUp = function (key) {
-            _this.popups.splice(key, 1);
+            _this.popups.remove(key);
             _this.props.update();
         };
         achievement_1.Achievements.onNewAchievement = function (achievement) {
-            var key = _this.popups.length;
-            _this.popups.push(React.createElement(popup_1.PopUp, { title: achievement.title, description: achievement.description, onClose: function () { return _this.removePopUp(key); }, icon: achievement.icon, key: key }));
+            var key = achievement.key;
+            _this.popups.set(key, React.createElement(popup_1.PopUp, { autoclose: true, title: achievement.title, description: achievement.description, onClose: function () { return _this.removePopUp(key); }, icon: achievement.icon, key: key }));
         };
         return _this;
     }
     PopUpFrame.prototype.render = function () {
-        return (React.createElement(frame_1.Frame, { frameId: "pop-up" }, this.popups));
+        return (React.createElement(frame_1.Frame, { frameId: "pop-up" }, this.popups.toArray()));
     };
     return PopUpFrame;
 }(React.Component));
@@ -2089,18 +2105,41 @@ var PopUp = /** @class */ (function (_super) {
     function PopUp() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.close = function () {
-            _this.props.onClose();
+            // animate close effect
+            $(_this.refs.popup).animate({
+                opacity: 0,
+                height: 0
+            }, 200, function () {
+                // do close event
+                _this.props.onClose();
+            });
         };
         return _this;
     }
     PopUp.prototype.componentDidMount = function () {
         var element = $(react_dom_1.findDOMNode(this));
+        var height = element.height();
+        element.css({
+            opacity: 0,
+            height: 0
+        });
         element.animate({
-            opacity: 1
+            opacity: 1,
+            height: height
         }, 200);
+        if (this.props.autoclose) {
+            this.setAutoclose();
+        }
+    };
+    PopUp.prototype.setAutoclose = function () {
+        var _this = this;
+        var length = this.props.autocloselength != null ? this.props.autocloselength : 5000;
+        setTimeout(function () {
+            _this.close();
+        }, length);
     };
     PopUp.prototype.render = function () {
-        return (React.createElement("div", { className: "pop-up" },
+        return (React.createElement("div", { className: "pop-up", ref: "popup" },
             React.createElement("div", { className: "pop-up-close", onMouseDown: this.close }, "\u2715"),
             React.createElement("div", { className: "pop-up-content" },
                 React.createElement("img", { className: "pop-up-icon", src: this.props.icon }),
