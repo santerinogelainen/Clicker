@@ -11,27 +11,24 @@ export class NewCompanyModal extends React.Component<Props> {
     selected: CompanyType = CompanyType.Store;
     typeinfo = Company.getTypeInfo(this.selected);
 
+    /**
+     * Creates a new company with the modals inputs. Returns true if the company was created.
+     */
 	createCompany() {
-        let nameinput = $("#company-name-input");
-        let chosentype = $(".company-type-input:checked").val() as CompanyType;
-        if (this.props.game.enoughMoneyFor(Company.getTypeInfo(chosentype).companycost)) {
-
-            let name = nameinput.val() as string;
-            if (name == "") {
-                name = nameinput.prop("placeholder") as string;
-            }
-
-            let company = new Company(name, chosentype);
-
-            // create new company
-            this.props.game.useMoney(Company.getTypeInfo(chosentype).companycost);
-            this.props.game.newCompany(company);
-            // empty name input
-            nameinput.val("");
-            this.props.update();
-            return true;
+        // get the name of the company
+        let name = $("#company-name-input").val() as string;
+        if (name == "") {
+            name = $("#company-name-input").prop("placeholder") as string;
         }
-        return false;
+        // get the chosen type of the company (store/restaurant/factory etc)
+        let chosentype = $(".company-type-input:checked").val() as CompanyType;
+        // create the company
+        let company = new Company(name, chosentype);
+        // add the company to the game
+        let created = this.props.game.newCompany(company);
+        // update view
+        this.props.update();
+        return created;
     }
 
     createCompanyEnter(e) {

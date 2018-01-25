@@ -605,6 +605,7 @@ var Game = /** @class */ (function () {
                     break;
             }
             this.companies.set(company.key, company);
+            this.useMoney(company_1.Company.getTypeInfo(company.type).companycost);
             stats_1.Stats.totalCompanies++;
             return true;
         }
@@ -1352,24 +1353,24 @@ var NewCompanyModal = /** @class */ (function (_super) {
         };
         return _this;
     }
+    /**
+     * Creates a new company with the modals inputs. Returns true if the company was created.
+     */
     NewCompanyModal.prototype.createCompany = function () {
-        var nameinput = $("#company-name-input");
-        var chosentype = $(".company-type-input:checked").val();
-        if (this.props.game.enoughMoneyFor(company_1.Company.getTypeInfo(chosentype).companycost)) {
-            var name_1 = nameinput.val();
-            if (name_1 == "") {
-                name_1 = nameinput.prop("placeholder");
-            }
-            var company = new company_1.Company(name_1, chosentype);
-            // create new company
-            this.props.game.useMoney(company_1.Company.getTypeInfo(chosentype).companycost);
-            this.props.game.newCompany(company);
-            // empty name input
-            nameinput.val("");
-            this.props.update();
-            return true;
+        // get the name of the company
+        var name = $("#company-name-input").val();
+        if (name == "") {
+            name = $("#company-name-input").prop("placeholder");
         }
-        return false;
+        // get the chosen type of the company (store/restaurant/factory etc)
+        var chosentype = $(".company-type-input:checked").val();
+        // create the company
+        var company = new company_1.Company(name, chosentype);
+        // add the company to the game
+        var created = this.props.game.newCompany(company);
+        // update view
+        this.props.update();
+        return created;
     };
     NewCompanyModal.prototype.createCompanyEnter = function (e) {
         if (e.keyCode == 13) {

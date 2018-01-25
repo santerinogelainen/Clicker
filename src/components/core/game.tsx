@@ -113,6 +113,7 @@ export class Game {
                     break;
             }
             this.companies.set(company.key, company);
+            this.useMoney(Company.getTypeInfo(company.type).companycost);
             Stats.totalCompanies++;
             return true;
         }
