@@ -286,6 +286,7 @@ var Outlet = /** @class */ (function () {
     }
     Outlet.prototype.setBaseCost = function () {
         this.basecost = Company.getTypeInfo(this.company.type).basecost;
+        this.cost = this.basecost;
     };
     Outlet.prototype.setBaseMpd = function () {
         this.basempd = Company.getTypeInfo(this.company.type).basempd;

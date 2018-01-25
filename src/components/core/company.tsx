@@ -73,6 +73,7 @@ export class Outlet {
 
     setBaseCost() {
         this.basecost = Company.getTypeInfo(this.company.type).basecost;
+        this.cost = this.basecost;
     }
 
     setBaseMpd() {
