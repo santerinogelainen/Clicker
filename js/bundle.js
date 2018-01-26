@@ -489,7 +489,7 @@ exports.Money = Money;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(43);
+module.exports = __webpack_require__(44);
 
 
 /***/ }),
@@ -854,14 +854,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var mapframe_1 = __webpack_require__(20);
 var frame_1 = __webpack_require__(1);
-var newcompany_1 = __webpack_require__(28);
-var workframe_1 = __webpack_require__(31);
-var navigationframe_1 = __webpack_require__(32);
-var statsframe_1 = __webpack_require__(35);
-var debugcontrols_1 = __webpack_require__(38);
-var popupframe_1 = __webpack_require__(39);
-var settingsframe_1 = __webpack_require__(41);
-var upgradeframe_1 = __webpack_require__(42);
+var newcompany_1 = __webpack_require__(29);
+var workframe_1 = __webpack_require__(32);
+var navigationframe_1 = __webpack_require__(33);
+var statsframe_1 = __webpack_require__(36);
+var debugcontrols_1 = __webpack_require__(39);
+var popupframe_1 = __webpack_require__(40);
+var settingsframe_1 = __webpack_require__(42);
+var upgradeframe_1 = __webpack_require__(43);
 var MainFrame = /** @class */ (function (_super) {
     __extends(MainFrame, _super);
     function MainFrame() {
@@ -1323,11 +1323,36 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
+var THREE = __webpack_require__(28);
 var MapCanvasFrame = /** @class */ (function (_super) {
     __extends(MapCanvasFrame, _super);
-    function MapCanvasFrame() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function MapCanvasFrame(props) {
+        var _this = _super.call(this, props) || this;
+        _this.onWindowResize = function (e) {
+            console.log("resizing");
+            console.log("width: " + _this.width);
+            console.log("height: " + _this.height);
+            _this.calcSize();
+            _this.renderer.setSize(_this.width, _this.height);
+            _this.camera.aspect = _this.width / _this.height;
+        };
+        return _this;
     }
+    MapCanvasFrame.prototype.calcSize = function () {
+        this.width = $("#canvas-frame")[0].clientWidth;
+        this.height = $("#canvas-frame")[0].clientHeight;
+    };
+    MapCanvasFrame.prototype.componentDidMount = function () {
+        this.calcSize();
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 1000);
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setSize(this.width, this.height);
+        $("#canvas-frame")[0].appendChild(this.renderer.domElement);
+        this.renderer.render(this.scene, this.camera);
+        // set window event listener
+        window.addEventListener("resize", this.onWindowResize);
+    };
     MapCanvasFrame.prototype.render = function () {
         return (React.createElement(frame_1.Frame, { frameId: "canvas" }));
     };
@@ -1338,6 +1363,12 @@ exports.MapCanvasFrame = MapCanvasFrame;
 
 /***/ }),
 /* 28 */
+/***/ (function(module, exports) {
+
+module.exports = THREE;
+
+/***/ }),
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1354,9 +1385,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(29);
+var modal_1 = __webpack_require__(30);
 var company_1 = __webpack_require__(4);
-var companytyperadio_1 = __webpack_require__(30);
+var companytyperadio_1 = __webpack_require__(31);
 var money_1 = __webpack_require__(9);
 var NewCompanyModal = /** @class */ (function (_super) {
     __extends(NewCompanyModal, _super);
@@ -1432,7 +1463,7 @@ exports.NewCompanyModal = NewCompanyModal;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1522,7 +1553,7 @@ exports.Modal = Modal;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1560,7 +1591,7 @@ exports.CompanyTypeRadio = CompanyTypeRadio;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1654,7 +1685,7 @@ exports.WorkFrame = WorkFrame;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1680,8 +1711,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var navigationbutton_1 = __webpack_require__(33);
-var dayclock_1 = __webpack_require__(34);
+var navigationbutton_1 = __webpack_require__(34);
+var dayclock_1 = __webpack_require__(35);
 var NavigationFrame = /** @class */ (function (_super) {
     __extends(NavigationFrame, _super);
     function NavigationFrame() {
@@ -1732,7 +1763,7 @@ exports.NavigationFrame = NavigationFrame;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1765,7 +1796,7 @@ exports.NavigationButton = NavigationButton;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1805,7 +1836,7 @@ exports.DayClock = DayClock;
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1831,9 +1862,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var statitem_1 = __webpack_require__(36);
+var statitem_1 = __webpack_require__(37);
 var stats_1 = __webpack_require__(3);
-var achievementitem_1 = __webpack_require__(37);
+var achievementitem_1 = __webpack_require__(38);
 var achievement_1 = __webpack_require__(5);
 var StatsFrame = /** @class */ (function (_super) {
     __extends(StatsFrame, _super);
@@ -1871,7 +1902,7 @@ exports.StatsFrame = StatsFrame;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1919,7 +1950,7 @@ exports.Stat = Stat;
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1957,7 +1988,7 @@ exports.AchievementItem = AchievementItem;
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2038,7 +2069,7 @@ exports.DebugControl = DebugControl;
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2056,7 +2087,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var frame_1 = __webpack_require__(1);
-var popup_1 = __webpack_require__(40);
+var popup_1 = __webpack_require__(41);
 var dictionary_1 = __webpack_require__(2);
 var achievement_1 = __webpack_require__(5);
 var PopUpFrame = /** @class */ (function (_super) {
@@ -2083,7 +2114,7 @@ exports.PopUpFrame = PopUpFrame;
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2154,7 +2185,7 @@ exports.PopUp = PopUp;
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2186,7 +2217,7 @@ exports.SettingsFrame = SettingsFrame;
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2218,7 +2249,7 @@ exports.UpgradeFrame = UpgradeFrame;
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "../css/index.css";
